@@ -7,12 +7,14 @@
 		<link rel="stylesheet" href="/css/base.css">
 		<link rel="stylesheet" href="/css/index.css">
 		<link rel="stylesheet" href="/css/login.css">
+		<script src="/scripts/app.js"></script>
 	</head>
 	<body>
+	<div id="results" style="margin-top:30px"></div>
 		<section class="prompt">
 			<h3>Story Club</h3>
 			<h1>Sign in</h1>
-			<form action="/login/password" method="post">
+			<form method="post">
 				<section>
 					<label for="username">Username</label>
 					<input id="username" name="username" type="text" autocomplete="username" required autofocus>
@@ -21,7 +23,7 @@
 					<label for="current-password">Password</label>
 					<input id="current-password" name="password" type="password" autocomplete="current-password" required>
 				</section>
-				<button type="submit">Sign in</button>
+				<button type="submit" onclick="login()">Sign in</button>
 			</form>
 			<hr>
 			<p class="help">Don't have an account? <a href="/signup">Sign up</a></p>

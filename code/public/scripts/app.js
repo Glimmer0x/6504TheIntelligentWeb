@@ -75,3 +75,44 @@ function addStory() {
     $('#DialogModal').modal('hide');
     window.location.reload();
 }
+
+function login(){
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+    data = {
+        'username': username,
+        'password': password
+    }
+
+    axios.post('/login', data)
+        .then(function (response){
+                alert(response.toJSON());
+
+            }
+        )
+        .catch(function (response) {
+            console.log('www')
+            console.log(response)
+            alert(response.toJSON());
+        })
+}
+
+function signup(){
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+    data = {
+        'username': username,
+        'password': password
+    }
+
+    axios.post('/signup', data)
+        .then(function (response){
+            alert(response.toJSON());
+            }
+        )
+        .catch(function (response) {
+            console.log('www')
+            console.log(response)
+            alert(response.toJSON());
+        })
+}

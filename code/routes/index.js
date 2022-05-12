@@ -6,8 +6,11 @@ var initDB = require('../controllers/init');
 initDB.init();
 
 router.get('/', function(req, res, next) {
-    if (!req.user) {
-        return res.render('login');
+    if (!req.username) {
+        return res.render('index',{title: 'Story Club', username: req.username});
+    }
+    else{
+        return res.render('index', {title: 'Story Club', username: 'nonuser'});
     }
 });
 

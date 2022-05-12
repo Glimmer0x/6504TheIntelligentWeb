@@ -15,6 +15,16 @@
 
 </head>
 <body>
+<nav class="nav">
+    <ul>
+        <li class="user"><%= username %></li>
+        <li>
+            <form action="/logout" method="post">
+                <button class="logout" type="submit">Sign out</button>
+            </form>
+        </li>
+    </ul>
+</nav>
 <div class="container-fluid" style="width: 100%; overflow:auto">
     <div class="row">
         <div class="col-xs-10"><h1><%= title %></h1></div>

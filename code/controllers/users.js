@@ -1,7 +1,8 @@
 let userModel = require('../models/users');
 
 exports.getSingleUser = function (req, res) {
-    const username = req.params.username;
+    let userData = req.body;
+    const username = userData.username;
     userModel.findOne({username: username})
         .then((singleUser) => {
             res.status(200).json({
@@ -19,6 +20,31 @@ exports.getSingleUser = function (req, res) {
         });
 }
 
+exports.checkUser = function (req, res) {
+    let userData = req.body;
+    const username = userData.username;
+    const password = userData.password;
+    userModel.findOne({username: username})
+        .then((singleUser) => {
+            if(singleUser.password==password) {
+                res.status(200).json({
+                    success: true,
+                    message: `Find ${singleUser.username}`,
+                    user: singleUser,
+                });
+            }else{
+                throw 'password is wrong.';
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: 'The user does not exist or password is wrong.',
+                error: err.message,
+            });
+        });
+}
+
 exports.insert = function (req, res) {
     let userData = req.body;
     if (userData == null) {
@@ -27,7 +53,7 @@ exports.insert = function (req, res) {
 
     let singleUser = new userModel({
         username: userData.username,
-        hashed_password: userData.hashed_password
+        password: userData.password
     });
     console.log('received: ' + singleUser);
 
