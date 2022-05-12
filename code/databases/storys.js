@@ -6,11 +6,11 @@ const mongoDB = 'mongodb://db:27017/storys';
 
 mongoose.Promise = global.Promise;
 
-connection = mongoose.createConnection(mongoDB, {
+connection = mongoose.connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     checkServerIdentity: false,
-}).asPromise()
+})
     .then(() => {
         console.log('connection to mongodb-story worked!');
     })
