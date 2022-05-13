@@ -107,7 +107,8 @@ function signup(){
 
     axios.post('/signup', data)
         .then(function (response){
-            alert(response.toJSON());
+            console.log(response.toJSON());
+            window.location.href = response.toJSON()['redirect_url'];
             }
         )
         .catch(function (response) {

@@ -59,7 +59,7 @@ exports.insert = function (req, res) {
 
     singleUser.save()
         .then ((results) => {
-            res.json(results);
+            res.json({results:results, redirect_url: '/login'});
         })
         .catch ((error) => {
             res.status(500).json('Could not insert - probably incorrect data! ' + JSON.stringify(error));

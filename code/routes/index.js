@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
         return res.render('index',{title: 'Story Club', username: req.username});
     }
     else{
-        return res.render('index', {title: 'Story Club', username: 'nonuser'});
+        return res.render('index', {title: 'Story Club', username: 'test'});
     }
 });
 
