@@ -6,7 +6,7 @@ const Story = new Schema(
     {
         first_name: {type: String, required: true, max: 100},
         family_name: {type: String, required: true, max: 100},
-        story_title: {type: String, required: true},
+        story_title: {type: String, required: true, unique: true},
         story_image: {type: String, required: true},
         story_description: {type: String, required: true}
     }, {timestamp: true}

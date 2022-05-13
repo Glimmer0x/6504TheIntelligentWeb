@@ -1,47 +1,19 @@
 let userModel = require('../models/users');
 
-exports.getSingleUser = function (req, res) {
-    let userData = req.body;
-    const username = userData.username;
-    userModel.findOne({username: username})
-        .then((singleUser) => {
-            res.status(200).json({
-                success: true,
-                message: `Find ${singleUser.username}`,
-                user: singleUser,
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: 'The user does not exist',
-                error: err.message,
-            });
-        });
-}
-
 exports.checkUser = function (req, res) {
     let userData = req.body;
     const username = userData.username;
     const password = userData.password;
     userModel.findOne({username: username})
         .then((singleUser) => {
-            if(singleUser.password==password) {
-                res.status(200).json({
-                    success: true,
-                    message: `Find ${singleUser.username}`,
-                    user: singleUser,
-                });
+            if(singleUser?.password===password) {
+                res.render('index', {title: 'Story Club', username});
             }else{
-                throw 'password is wrong.';
+                res.render('login', {errorMsg: "User not exist"})
             }
         })
         .catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: 'The user does not exist or password is wrong.',
-                error: err.message,
-            });
+            res.render('login', {errorMsg: err.message});
         });
 }
 

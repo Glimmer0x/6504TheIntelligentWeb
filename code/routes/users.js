@@ -3,7 +3,7 @@ var users = require('../controllers/users');
 var router = express.Router();
 
 router.get('/login', function(req, res, next) {
-  res.render('login');
+  res.render('login',{errorMsg: null});
 });
 
 router.post('/login', users.checkUser);
