@@ -26,22 +26,20 @@ exports.checkUser = function (req, res) {
     const password = userData.password;
     userModel.findOne({username: username})
         .then((singleUser) => {
-            if(singleUser.password==password) {
-                res.status(200).json({
-                    success: true,
-                    message: `Find ${singleUser.username}`,
-                    user: singleUser,
-                });
+            if(singleUser?.password===password) {
+                res.render('index', {title: 'Story Club', username});
+
+                // res.status(200).json({
+                //     success: true,
+                //     message: `Find ${singleUser.username}`,
+                //     user: singleUser,
+                // });
             }else{
-                throw 'password is wrong.';
+                res.render('login', {errorMsg: "User not exist"})
             }
         })
         .catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: 'The user does not exist or password is wrong.',
-                error: err.message,
-            });
+            res.render('login', {errorMsg: err.message});
         });
 }
 
