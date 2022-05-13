@@ -100,6 +100,14 @@ function connectToRoom() {
     if (!name) name = 'Unknown-' + Math.random();
     chat.emit('create or join', roomNo, name);
     news.emit('create or join', roomNo, name);
+    data = {'title': roomNo}
+    axios.post('/singleStory', data)
+        .then((response)=>{
+            displayStory(response.data)
+        })
+        .catch((error)=>{
+            alert('Error: '+error)
+        })
 }
 
 /**
@@ -124,6 +132,23 @@ function writeOnNewsHistory(text) {
     paragraph.innerHTML = text;
     history.appendChild(paragraph);
     document.getElementById('news_input').value = '';
+}
+
+/**
+ * it appends the given html text to the history div
+ * @param json: the story to display
+ */
+function displayStory(instance) {
+    let history = document.getElementById('news_history');
+    let title = document.createElement('title');
+    title.innerHTML = instance.story_title;
+    let img = document.createElement('img');
+    img.src =instance.story_image;
+    let description = document.createElement('p');
+    description.innerHTML = instance.story_description;
+    history.appendChild(title);
+    history.appendChild(img);
+    history.appendChild(description);
 }
 
 /**

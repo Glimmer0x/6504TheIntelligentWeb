@@ -1,5 +1,4 @@
 function login(form) {
-    debugger
     const formData = new FormData(form);
     const username = formData.get("username");
     const password = formData.get("password");
@@ -12,7 +11,6 @@ function login(form) {
 }
 
 function signup() {
-    debugger
     let username = document.getElementById('username').value;
     let password = document.getElementById('new-password').value;
     data = {

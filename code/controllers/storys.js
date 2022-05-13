@@ -1,4 +1,5 @@
 let Story = require('../models/storys');
+const userModel = require("../models/users");
 
 exports.getStorys = function (req, res) {
     Story.
@@ -11,7 +12,25 @@ exports.getStorys = function (req, res) {
                 res.json(storys);
             }
     })
+}
 
+exports.getSingleStory = function (req, res){
+    let queryData = req.body;
+    const title = queryData.title;
+    Story.findOne({story_title: title})
+        .then((instance) => {
+            if(instance) {
+                console.log('Get single story success');
+                console.log(instance)
+                res.json(instance);
+            }else{
+                console.log('Error in get single story')
+                res.status(404).json('Error: Story not exist!')
+            }
+        })
+        .catch((err) => {
+            res.status(400).json('Error: Bad Request!')
+        });
 }
 
 

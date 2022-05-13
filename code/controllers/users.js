@@ -1,25 +1,5 @@
 let userModel = require('../models/users');
 
-exports.getSingleUser = function (req, res) {
-    let userData = req.body;
-    const username = userData.username;
-    userModel.findOne({username: username})
-        .then((singleUser) => {
-            res.status(200).json({
-                success: true,
-                message: `Find ${singleUser.username}`,
-                user: singleUser,
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: 'The user does not exist',
-                error: err.message,
-            });
-        });
-}
-
 exports.checkUser = function (req, res) {
     let userData = req.body;
     const username = userData.username;
@@ -28,12 +8,6 @@ exports.checkUser = function (req, res) {
         .then((singleUser) => {
             if(singleUser?.password===password) {
                 res.render('index', {title: 'Story Club', username});
-
-                // res.status(200).json({
-                //     success: true,
-                //     message: `Find ${singleUser.username}`,
-                //     user: singleUser,
-                // });
             }else{
                 res.render('login', {errorMsg: "User not exist"})
             }

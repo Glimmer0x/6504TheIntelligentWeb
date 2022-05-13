@@ -6,12 +6,7 @@ var initDB = require('../controllers/init');
 initDB.init();
 
 router.get('/', function(req, res, next) {
-    if (req.username) {
-        return res.render('index',{title: 'Story Club', username: req.username});
-    }
-    else{
-        return res.render('index', {title: 'Story Club', username: 'test'});
-    }
+    return res.render('login', {errorMsg: 'Please login!'});
 });
 
 router.get('/index', function(req, res, next) {
@@ -25,5 +20,7 @@ router
     })
 
     .post('/insert', story.insert);
+
+router.post('/singleStory', story.getSingleStory)
 
 module.exports = router;
