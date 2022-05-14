@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Story = require('../models/storys');
+const Story = require('../models/stories');
 
 
 exports.init= function() {
