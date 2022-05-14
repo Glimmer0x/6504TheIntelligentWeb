@@ -1,7 +1,6 @@
 let name = null;
 let roomNo = null;
 let chat= io.connect('/chat');
-let news= io.connect('/news');
 
 
 /**
@@ -15,7 +14,6 @@ function init() {
     document.getElementById('chat_interface').style.display = 'none';
 
     initChatSocket();
-    initNewsSocket();
 }
 
 
@@ -43,23 +41,6 @@ function initChatSocket() {
 
 }
 
-/**
- * it initialises the socket for /news
- */
-function initNewsSocket(){
-    news.on('joined', function (room, userId) {
-        if (userId !== name) {
-            // notifies that someone has joined the room
-            writeOnCommentsHistory('<b>'+userId+'</b>' + ' joined news room ' + room);
-        }
-    });
-
-    // called when some news is received (note: only news received by others are received)
-    news.on('news', function (room, userId, newsText) {
-        writeOnCommentsHistory('<b>' + userId + ':</b> ' + newsText);
-    });
-}
-
 
 /**
  * called when the Send button is pressed. It gets the text to send from the interface
@@ -80,11 +61,15 @@ function connectToRoom() {
     name = document.getElementById('name').value;
     if (!name) name = 'Unknown-' + Math.random();
     chat.emit('create or join', roomNo, name);
-    news.emit('create or join', roomNo, name);
     data = {'title': roomNo}
     axios.post('/singleStory', data)
         .then((response)=>{
-            displayStory(response.data)
+            let instance = response.data
+            let title = instance.story_title;
+            let img_url = instance.story_image;
+            let description = instance.story_description;
+            initStory(title, img_url, description);
+            initCanvas(chat, img_url);
         })
         .catch((error)=>{
             alert('Error: '+error)
@@ -107,18 +92,23 @@ function writeOnCommentsHistory(text) {
  * it appends the given html text to the history div
  * @param json: the story to display
  */
-function displayStory(instance) {
-    let history = document.getElementById('news_history');
-    let title = document.createElement('title');
-    title.innerHTML = instance.story_title;
-    let img = document.createElement('img');
-    img.src =instance.story_image;
-    let description = document.createElement('p');
-    description.innerHTML = instance.story_description;
-    history.appendChild(title);
-    history.appendChild(img);
-    history.appendChild(description);
+function initStory(title, img_url, description) {
+    // let history = document.getElementById('news_history');
+    let _title = document.getElementById('story_title');
+    let _img = document.getElementById('img');
+    // let _canvas =  document.getElementById('canvas');
+    let _description = document.getElementById('description');
+    _title.innerHTML = title;
+    _img.src = img_url;
+    _description.innerHTML = description;
+    // _canvas.id = "canvas";
+    // history.appendChild(_title);
+    // history.appendChild(_img);
+    // history.appendChild(_canvas);
+    // history.appendChild(_description);
 }
+
+
 
 /**
  * it hides the initial form and shows the chat
