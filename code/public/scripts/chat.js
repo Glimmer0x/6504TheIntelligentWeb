@@ -20,16 +20,6 @@ function init() {
 
 
 /**
- * called to generate a random room number
- * This is a simplification. A real world implementation would ask the server to generate a unique room number
- * so to make sure that the room number is not accidentally repeated across uses
- */
-function generateRoom() {
-    roomNo = Math.round(Math.random() * 10000);
-    document.getElementById('roomNo').value = 'R' + roomNo;
-}
-
-/**
  * it initialises the socket for /chat
  */
 
@@ -41,14 +31,14 @@ function initChatSocket() {
             hideLoginInterface(room, userId);
         } else {
             // notifies that someone has joined the room
-            writeOnChatHistory('<b>' + userId + '</b>' + ' joined room ' + room);
+            writeOnCommentsHistory('<b>' + userId + '</b>' + ' joined room ' + room);
         }
     });
     // called when a message is received
     chat.on('chat', function (room, userId, chatText) {
         let who = userId
         if (userId === name) who = 'Me';
-        writeOnChatHistory('<b>' + who + ':</b> ' + chatText);
+        writeOnCommentsHistory('<b>' + who + ':</b> ' + chatText);
     });
 
 }
@@ -60,13 +50,13 @@ function initNewsSocket(){
     news.on('joined', function (room, userId) {
         if (userId !== name) {
             // notifies that someone has joined the room
-            writeOnNewsHistory('<b>'+userId+'</b>' + ' joined news room ' + room);
+            writeOnCommentsHistory('<b>'+userId+'</b>' + ' joined news room ' + room);
         }
     });
 
     // called when some news is received (note: only news received by others are received)
     news.on('news', function (room, userId, newsText) {
-        writeOnNewsHistory('<b>' + userId + ':</b> ' + newsText);
+        writeOnCommentsHistory('<b>' + userId + ':</b> ' + newsText);
     });
 }
 
@@ -78,15 +68,6 @@ function initNewsSocket(){
 function sendChatText() {
     let chatText = document.getElementById('chat_input').value;
     chat.emit('chat', roomNo, name, chatText);
-}
-/**
- * called when the Send button is pressed for news. It gets the text to send from the interface
- * and sends the message via  socket
- */
-function sendNewsText() {
-    let newsText = document.getElementById('news_input').value;
-    news.emit('news', roomNo, name, newsText);
-    document.getElementById('news_input').value='';
 }
 
 /**
@@ -114,19 +95,7 @@ function connectToRoom() {
  * it appends the given html text to the history div
  * @param text: teh text to append
  */
-function writeOnChatHistory(text) {
-    let history = document.getElementById('chat_history');
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = text;
-    history.appendChild(paragraph);
-    document.getElementById('chat_input').value = '';
-}
-
-/**
- * it appends the given html text to the history div
- * @param text: teh text to append
- */
-function writeOnNewsHistory(text) {
+function writeOnCommentsHistory(text) {
     let history = document.getElementById('news_history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
