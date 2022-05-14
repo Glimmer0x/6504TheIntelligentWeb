@@ -1,5 +1,4 @@
 body {
-    padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -9,20 +8,18 @@ a {
 
 .boxed {
     width: 100%;
-    padding:10px;
 }
 .bottom {
     position: absolute;
-    bottom: 10px;
-    width: 90%;
+    bottom: 0;
 }
 
-/* Split the screen in half */
-.split {
-    height: 100%;
-    width: 50%;
+/* Split the screen */
+.splitTop {
+    height: 90%;
+    width: 100%;
     position: fixed;
-    z-index: 1;
+    z-index: -1;
     top: 0;
     overflow-x: hidden;
     padding-top: 20px;
@@ -30,15 +27,25 @@ a {
     padding-right: 20px;
 }
 
-/* Control the left side */
-.left {
-    left: 0;
+/* Split the screen */
+.splitBottom {
+    height: 10%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    overflow-x: hidden;
+}
+
+/* Control the top side */
+.top{
+    top: 0;
     background-color: #ffffff;
 }
 
-/* Control the right side */
-.right {
-    right: 0;
+/* Control the bottom side */
+.down {
+    bottom: 0;
     background-color: #228B22;
     color: white;
 }
