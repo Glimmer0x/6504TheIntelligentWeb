@@ -1,7 +1,6 @@
 /**
  * this file contains the functions to control the drawing on the canvas
  */
-let room;
 let userId;
 let color = 'red', thickness = 4;
 
@@ -12,8 +11,8 @@ let color = 'red', thickness = 4;
  * @param imageUrl teh image url to download
  */
 
-function initCanvas(skt) {
-    chat = skt;
+function initCanvas(roomNo, userId) {
+    // chat = skt;
 
     let flag = false,
         prevX, prevY, currX, currY = 0;
@@ -21,6 +20,10 @@ function initCanvas(skt) {
     let cvx = document.getElementById('canvas');
     let img = document.getElementById('img');
     let ctx = cvx.getContext('2d');
+
+    chat.on('draw', function (room, userId, w, h, px, py, cx, cy, c, t) {
+        drawOnCanvas(ctx, w, h, px, py, cx, cy, c, t);
+    });
 
     // event on the canvas when the mouse is on it
     canvas.on('mousemove mousedown mouseup mouseout', function (e) {
@@ -40,6 +43,7 @@ function initCanvas(skt) {
                 drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
                 // @todo if you draw on the canvas, you may want to let everyone know via socket.io (socket.emit...)  by sending them
                 // room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness
+                chat.emit('draw', roomNo, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
             }
         }
     });

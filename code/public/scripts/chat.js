@@ -3,6 +3,7 @@ let roomNo = null;
 let chat= io.connect('/chat');
 
 
+
 /**
  * called by <body onload>
  * it initialises the interface and the expected socket messages
@@ -69,7 +70,7 @@ function connectToRoom() {
             let img_url = instance.story_image;
             let description = instance.story_description;
             initStory(title, img_url, description);
-            initCanvas(chat, img_url);
+            initCanvas(roomNo, img_url);
         })
         .catch((error)=>{
             alert('Error: '+error)
@@ -85,7 +86,7 @@ function writeOnCommentsHistory(text) {
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
     history.appendChild(paragraph);
-    document.getElementById('news_input').value = '';
+    document.getElementById('chat_input').value = '';
 }
 
 /**
