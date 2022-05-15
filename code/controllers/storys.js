@@ -21,7 +21,6 @@ exports.getSingleStory = function (req, res){
         .then((instance) => {
             if(instance) {
                 console.log('Get single story success');
-                console.log(instance)
                 res.json(instance);
             }else{
                 console.log('Error in get single story')

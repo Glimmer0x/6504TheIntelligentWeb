@@ -18,6 +18,10 @@ exports.init = function(io) {
         chat.to(room).emit('chat', room, userId, chatText);
       });
 
+      socket.on('draw', function (room, userId, width,height, prevX, prevY, currX, currY, color, thickness) {
+        socket.broadcast.to(room).emit('draw', room, userId, width, height, prevX, prevY, currX, currY, color, thickness);
+      });
+
       socket.on('disconnect', function(){
         console.log('someone disconnected');
       });
@@ -36,10 +40,6 @@ exports.init = function(io) {
         socket.on('create or join', function (room, userId) {
           socket.join(room);
           socket.broadcast.to(room).emit('joined', room, userId);
-        });
-
-        socket.on('news', function (room, userId, chatText) {
-          socket.broadcast.to(room).emit('news', room, userId, chatText);
         });
 
         socket.on('disconnect', function(){
