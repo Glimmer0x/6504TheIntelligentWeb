@@ -145,7 +145,8 @@ function retrieveAllStoriesData(storyList, forceReload){
  */
 async function loadStoryData(story_title, forceReload){
     let cachedData=await getCachedData(story_title);
-    // console.log(cachedData);
+
+    console.log(cachedData);
     if (!forceReload && cachedData && cachedData.length>0) {
         for (let res of cachedData)
             addToStoryList(res, forceReload);

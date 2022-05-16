@@ -10,6 +10,12 @@ let chat= io.connect('/chat');
  * plus the associated actions
  */
 function init() {
+    if ('indexedDB' in window) {
+        initDatabase();
+    }
+    else {
+        console.log('This browser doesn\'t support IndexedDB');
+    }
     // it sets up the interface so that userId and room are selected
     document.getElementById('initial_form').style.display = 'block';
     document.getElementById('chat_interface').style.display = 'none';
@@ -37,6 +43,17 @@ function initChatSocket() {
     chat.on('chat', function (room, userId, chatText) {
         let who = userId
         if (userId === name) who = 'Me';
+        else {
+            let date = new Date(Date.now()).toISOString()
+            let data = {
+                'name': who,
+                'roomId': room,
+                'pixel_pair':[],
+                'message': chatText,
+                'date': date
+            }
+            storeCachedData(who, room, data)
+        }
         writeOnCommentsHistory('<b>' + who + ':</b> ' + chatText);
     });
 
@@ -49,6 +66,15 @@ function initChatSocket() {
  */
 function sendChatText() {
     let chatText = document.getElementById('chat_input').value;
+    let date = new Date(Date.now()).toISOString()
+    let data = {
+        'name': name,
+        'roomId': roomNo,
+        'pixel_pair':[],
+        'message': chatText,
+        'date': date
+    }
+    storeCachedData(name, roomNo, data)
     chat.emit('chat', roomNo, name, chatText);
 }
 
@@ -64,14 +90,15 @@ function connectToRoom() {
     if (!name) name = 'Unknown-' + Math.random();
     chat.emit('create or join', roomNo, name);
     let data = {'story_title': story_title}
+    console.log(roomNo)
     axios.post('/singleStory', data)
-        .then((response)=>{
+        .then((response) => {
             let instance = response.data
             let title = instance.story_title;
             let img_url = instance.story_image;
             let description = instance.story_description;
             initStory(title, img_url, description);
-            initCanvas(roomNo, img_url);
+            initCanvas(roomNo, img_url, name);
         })
         .catch((error)=>{
             alert('Error: '+error)

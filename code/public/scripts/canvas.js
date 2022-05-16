@@ -11,9 +11,7 @@ let color = 'red', thickness = 4;
  * @param imageUrl teh image url to download
  */
 
-function initCanvas(roomNo, userId) {
-    // chat = skt;
-
+function initCanvas(roomNo, img_url, name) {
     let flag = false,
         prevX, prevY, currX, currY = 0;
     let canvas = $('#canvas');
@@ -21,8 +19,18 @@ function initCanvas(roomNo, userId) {
     let img = document.getElementById('img');
     let ctx = cvx.getContext('2d');
 
-    chat.on('draw', function (room, userId, w, h, px, py, cx, cy, c, t) {
-        // console.log('sss')
+
+
+    chat.on('draw', function (room, name, w, h, px, py, cx, cy, c, t) {
+        let date = new Date(Date.now()).toISOString()
+        let data = {
+            'name': name,
+            'roomId': room,
+            'pixel_pair': [px, py, cx, cy],
+            'message': '',
+            'date': date
+        }
+        storeCachedData(name, roomNo, data)
         drawOnCanvas(ctx, w, h, px, py, cx, cy, c, t);
     });
 
@@ -41,12 +49,19 @@ function initCanvas(roomNo, userId) {
         // if the flag is up, the movement of the mouse draws on the canvas
         if (e.type === 'mousemove') {
             if (flag) {
-                // console.log(prevX)
-                console.log([prevX, prevY, currX, currY])
+                let date = new Date(Date.now()).toISOString()
+                let data = {
+                    'name': name,
+                    'roomId': roomNo,
+                    'pixel_pair': [prevX, prevY, currX, currY],
+                    'message': '',
+                    'date': date
+                }
+                storeCachedData(name, roomNo, data)
                 drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
                 // @todo if you draw on the canvas, you may want to let everyone know via socket.io (socket.emit...)  by sending them
                 // room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness
-                chat.emit('draw', roomNo, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
+                chat.emit('draw', roomNo, name, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
             }
         }
 
@@ -76,21 +91,43 @@ function initCanvas(roomNo, userId) {
             if (img.naturalHeight) {
                 clearInterval(poll);
                 // resize the canvas
-                let ratioX=1;
-                let ratioY=1;
+                let ratioX = 1;
+                let ratioY = 1;
                 // if the screen is smaller than the img size we have to reduce the image to fit
-                if (img.clientWidth>window.innerWidth)
-                    ratioX=window.innerWidth/img.clientWidth;
-                if (img.clientHeight> window.innerHeight)
-                    ratioY= img.clientHeight/window.innerHeight;
-                let ratio= Math.min(ratioX, ratioY);
+                if (img.clientWidth > window.innerWidth)
+                    ratioX = window.innerWidth / img.clientWidth;
+                if (img.clientHeight > window.innerHeight)
+                    ratioY = img.clientHeight / window.innerHeight;
+                let ratio = Math.min(ratioX, ratioY);
                 // resize the canvas to fit the screen and the image
-                cvx.width = canvas.width = img.clientWidth*ratio;
-                cvx.height = canvas.height = img.clientHeight*ratio;
+                cvx.width = canvas.width = img.clientWidth * ratio;
+                cvx.height = canvas.height = img.clientHeight * ratio;
                 // draw the image onto the canvas
                 drawImageScaled(img, cvx, ctx);
                 // hide the image element as it is not needed
                 img.style.display = 'none';
+
+                // get cached data
+                getCachedData(name, roomNo)
+                    .then((dataR) => {
+                        let annotationList = dataR
+                        for (let index in dataR) {
+                            let annotation = annotationList[index]
+                            if (get_message(annotation) !== '' && get_pixel_pair(annotation).length ===0) {
+                                let message = get_message(annotation)
+                                let who = get_name(annotation)
+                                if (who === name) who = 'Me';
+                                writeOnCommentsHistory('<b>' + who + ':</b> ' + message);
+                            } else if (get_message(annotation) === '' && get_pixel_pair(annotation).length !==0) {
+                                let pixel_pair = get_pixel_pair(annotation)
+                                drawOnCanvas(ctx, canvas.width, canvas.height,
+                                    pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], color, thickness);
+                            }
+                        }
+                    })
+                    .catch(() => {
+                        console.log('get cached data error')
+                    })
             }
         }, 10);
     });

@@ -18,9 +18,9 @@ exports.init = function(io) {
             chat.to(room).emit('chat', room, userId, chatText);
           });
 
-          socket.on('draw', function (room, userId, width,height, prevX, prevY, currX, currY, color, thickness) {
+          socket.on('draw', function (room, name, width,height, prevX, prevY, currX, currY, color, thickness) {
               // console.log('ssss')
-            socket.broadcast.to(room).emit('draw', room, userId, width, height, prevX, prevY, currX, currY, color, thickness);
+            socket.broadcast.to(room).emit('draw', room, name, width, height, prevX, prevY, currX, currY, color, thickness);
           });
 
           socket.on('disconnect', function(){
