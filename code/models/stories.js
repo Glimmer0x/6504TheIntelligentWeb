@@ -10,7 +10,7 @@ const Story = new Schema(
         story_image: {type: String, required: true},
         story_description: {type: String, required: true},
         date: {type: Date, required: true}
-    }, {timestamp: true}
+    }
 );
 
 

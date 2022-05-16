@@ -6,11 +6,11 @@ exports.getStories = function (req, res) {
         find().
         sort({createdAt: -1}).
         exec(function (err, stories) {
-            console.log(stories)
+            // console.log(stories)
             if (err) return handleError(err);
             else {
-                console.log('getStories success');
                 res.json(stories);
+                console.log('get all stories success');
             }
     })
 }
@@ -21,11 +21,11 @@ exports.getSingleStory = function (req, res){
     Story.findOne({story_title: title})
         .then((instance) => {
             if(instance) {
-                console.log('Get single story success');
                 res.json(instance);
+                console.log('get single story success');
             }else{
-                console.log('Error in get single story')
                 res.status(404).json('Error: Story not exist!')
+                console.log('Error in get single story')
             }
         })
         .catch((err) => {
@@ -48,12 +48,13 @@ exports.insert = function (req, res) {
         story_description: userData.story_description,
         date: userData.date
     });
-    console.log('received: ' + story);
+    // console.log('received: ' + story);
 
     story.save()
         .then ((results) => {
             // res.json(results);
             res.json('Add Story Successfully');
+            console.log('Add Story Successfully');
         })
         .catch ((error) => {
             res.status(500).json('Could not insert - probably incorrect data! ' + JSON.stringify(error));
@@ -67,15 +68,14 @@ exports.update = function (req, res) {
     if (data == null) {
         res.status(403).send('No data sent!')
     }
-    console.log(data)
     Story.findOne({story_title: data.story_title})
         .then((instance) => {
             if(instance) {
-                let info = data.story_title + 'already exists in mongoDB'
-                // console.log(data.story_title + 'already exists in mongoDB');
+                let info = data.story_title + ' already exists in mongoDB'
+                console.log(data.story_title + ' already exists in mongoDB');
                 res.json(info);
             }else{
-                console.log(data)
+                // console.log(data)
                 let story = new Story({
                     first_name: data.first_name,
                     family_name: data.family_name,
@@ -88,6 +88,7 @@ exports.update = function (req, res) {
                     .then ((results) => {
                         // res.json(results);
                         res.json('Add Story Successfully');
+                        console.log('Add Story Successfully')
                     })
                     .catch ((error) => {
                         res.status(500).json('Could not insert - probably incorrect data! ' + JSON.stringify(error));

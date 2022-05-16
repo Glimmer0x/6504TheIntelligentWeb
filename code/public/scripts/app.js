@@ -1,3 +1,6 @@
+/**
+ * this Event listener is listening for base64 images
+ */
 var base64;
 function encodeImageFileAsURL(element) {
     var file = element.files[0];
@@ -9,63 +12,40 @@ function encodeImageFileAsURL(element) {
     reader.readAsDataURL(file);
 }
 
-function sendAxiosQuery(url, data) {
-    axios.post(url, data)
-        .then((dataR) => {// no need to JSON parse the result, as we are using
-            // we need to JSON stringify the object
-            console.log(dataR)
-            // alert(dataR.data)
-            // document.getElementById('results').innerHTML = JSON.stringify(dataR.data);
-        })
-        .catch(function (response) {
-            console.log('www')
-            console.log(response)
-            // alert(response.toJSON());
-        })
-}
-
-function formatDateT(dataTime) {
-    var timestamp = dataTime;
-    var newDate = new Date(dataTime)
-    return newDate.toISOString()
-}
-
+/**
+ * if offline, it will only add the story to database,
+ * if online, it will also add the story to server.
+ * @returns {Promise<void>}
+ */
 async function addStory() {
-    // console.log(document.getElementById('offline_div').style.display === 'block')
     let firstname = document.getElementById('first_name').value;
     let lastname = document.getElementById('last_name').value;
     let storytitle = document.getElementById('story_title').value;
     let description = document.getElementById('description').value;
+    let date = new Date(Date.now()).toISOString()
     var data = {
         'first_name': firstname,
         'family_name': lastname,
         'story_title': storytitle,
         'story_description': description,
         'story_image': base64,
-        'date': Date.now()
+        'date': date
     }
     let storyList = JSON.parse(localStorage.getItem('stories'));
     if (storyList==null) storyList=[];
-    storyList.push(storytitle);
     storyList = removeDuplicates(storyList);
+    storyList.push(storytitle);
     localStorage.setItem('stories', JSON.stringify(storyList));
-    console.log(document.getElementById('offline_div').style.display === 'block')
+    await storeCachedData(data.story_title, data)
+    // console.log(document.getElementById('offline_div').style.display === 'block')
     if (document.getElementById('offline_div').style.display === 'block') {
-        data.date = formatDateT(data.date)
-        console.log(data.date)
-        console.log(data)
-        await storeCachedData(data.story_title, data)
-        addToStoryList(data, false)
         loadData(false);
     } else {
         axios.post('/insertStory', data)
             .then((dataR) => {
-                console.log(dataR)
                 loadData(true)
             })
             .catch(function (response) {
-                storeCachedData(data.story_title, data)
-                addToStoryList(data, false)
                 loadData(false)
             })
     }
@@ -78,7 +58,6 @@ async function addStory() {
     document.getElementById('description').value = '';
     document.getElementById('formFile').value = '';
     $('#DialogModal').modal('hide');
-
 
     // window.location.reload();
 }
@@ -95,20 +74,38 @@ function initStories() {
     else {
         console.log('This browser doesn\'t support IndexedDB');
     }
-    loadData(false);
+    loadData(true);
 }
 
 /**
- * given the list of stories created by the user, it will retrieve all the data from
- * the server (or failing that) from the database
+ * if forceReload is true, load stories from server and store the stories to database
+ * if forceReload is false, load stories from database
  * @param forceReload true if the data is to be loaded from the server
  */
-function loadData(forceReload){
+function loadData(forceReload) {
+    refreshStoryList();
     let storyList = JSON.parse(localStorage.getItem('stories'));
-    console.log(storyList)
-    storyList=removeDuplicates(storyList);
-    if (storyList.length !== 0) {
-        retrieveAllStoriesData(storyList, forceReload);
+    storyList = removeDuplicates(storyList);
+    if (forceReload) {
+        if (storyList == null) storyList = [];
+        axios.get('/allStories')
+            .then(async (dataR) => {
+                    let stylist = dataR.data
+                    for (let index in stylist) {
+                        storyList.push(stylist[index].story_title)
+                        addToStoryList(stylist[index], forceReload)
+                        await storeCachedData(stylist[index].story_title, stylist[index])
+                    }
+                }
+            ).then(() => {
+            localStorage.setItem('stories', JSON.stringify(storyList));
+            })
+            .catch(() => {
+                console.log('get all stories error')
+            })
+    } else {
+        for (let index in storyList)
+            loadStoryData(storyList[index], forceReload);
     }
 }
 
@@ -120,46 +117,40 @@ function loadData(forceReload){
  */
 function retrieveAllStoriesData(storyList, forceReload){
     refreshStoryList();
-    // console.log(storyList)
-    for (let index in storyList)
-        loadStoryData(storyList[index], forceReload);
+    if (forceReload) {
+        axios.get('/allStories')
+            .then((dataR) => {
+                let storyList = dataR.data
+                for (let index in storyList) {
+                    addToStoryList(storyList[index], forceReload)
+                    storeCachedData(storyList[index].story_title, storyList[index])
+                }
+                }
+            )
+            .catch(()=> {
+                console.log('get all stories error')
+            })
+    } else {
+        for (let index in storyList)
+            loadStoryData(storyList[index], forceReload);
+    }
+
 }
 
 /**
- * given one story_title it queries the server via Ajax to get the latest
- * story information for that city
- * if the request to the server fails, it shows the data stored in the database
+ * given one story_title it queries the indexDB to get the
+ * story information
  * @param story_title
- * @param forceReload true if the data is to be retrieved from the server
+ * @param forceReload false if the data is to be retrieved from the database
  */
 async function loadStoryData(story_title, forceReload){
-    // there is no point in retrieving the data from the db if force reload is true:
-    // we should not do the following operation if forceReload is true
-    // there is room for improvement in this code
     let cachedData=await getCachedData(story_title);
     // console.log(cachedData);
     if (!forceReload && cachedData && cachedData.length>0) {
         for (let res of cachedData)
             addToStoryList(res, forceReload);
     } else {
-        axios.post('/singleStory', {
-            "story_title": story_title
-        })
-            .then((dataR) => {
-                let data = dataR.data
-                addToStoryList(data, forceReload);
-                storeCachedData(data.story_title, data);
-                if (document.getElementById('offline_div') != null)
-                    document.getElementById('offline_div').style.display = 'none';
-            })
-            .catch(function (response) {
-                console.log('bad response ssssssss')
-                showOfflineWarning();
-                getCachedData(story_title);
-                const dvv = document.getElementById('offline_div');
-                if (dvv != null)
-                    dvv.style.display = 'block';
-            });
+        console.log('nothing in cached data')
     }
 }
 
@@ -169,7 +160,7 @@ async function loadStoryData(story_title, forceReload){
 
 /**
  * if forceReload is true, using the story data returned by the server,
- * if forceReload is false, using the story data returned by indexdb
+ * if forceReload is false, using the story data returned by indexDB
  * given the story data,
  * it adds a row of weather forecasts to the story-list div
  * @param dataR the data returned by the server:
@@ -199,7 +190,7 @@ function addToStoryList(dataR, forceReload) {
             "<h4 className=\"card-title\">" + get_story_title(dataR) + "</h4>" +
             "<h5>by " + get_first_name(dataR) + " " + get_family_name(dataR) + " on " + get_date(dataR) + "</h5>" +
             "<p className=\"card-text\">" + get_story_description(dataR) + "</p>" +
-            "<a href='" + '/chat' + "' className=\"btn btn-primary\">Chat</a>" +
+            "<a href='" + '/chat/story/' + dataR.story_title  + "' className=\"btn btn-primary\">Chat</a>" +
             "</div>" +
             "<img className=\"card-img-bottom\" src='" + get_story_image(dataR) + "' alt=\"Card image\" style=\"width:100%\">" +
             "</div>"
@@ -209,7 +200,7 @@ function addToStoryList(dataR, forceReload) {
             "<h4 className=\"card-title\">" + dataR.story_title + "</h4>" +
             "<h5>by " + dataR.first_name + " " + dataR.family_name + " on " + dataR.date + "</h5>" +
             "<p className=\"card-text\">" + dataR.story_description + "</p>" +
-            "<a href='" + '/chat' + "' className=\"btn btn-primary\">Chat</a>" +
+            "<a href='" + '/chat/story/' + dataR.story_title + "' className=\"btn btn-primary\">Chat</a>" +
             "</div>" +
             "<img className=\"card-img-bottom\" src='" + dataR.story_image + "' alt=\"Card image\" style=\"width:100%\">" +
             "</div>"
@@ -232,8 +223,6 @@ window.addEventListener('offline', function(e) {
     // Queue up events for server.
     console.log("You are offline");
     showOfflineWarning();
-    // hideOffRefreshButton();
-    // loadData(false);
 }, false);
 
 /**
@@ -243,30 +232,26 @@ window.addEventListener('online', async function(e) {
     // Resync data with server.
     console.log("You are online");
     hideOfflineWarning();
+    // loadData(true)
     let storyList = JSON.parse(localStorage.getItem('stories'));
-    console.log(storyList)
+    storyList = removeDuplicates(storyList);
+    let promiseList = []
     for (let i = 0; i < storyList.length; i++) {
         let cachedData=await getCachedData(storyList[i]);
-        console.log(cachedData)
         let data = {
             "story_title": storyList[i],
-            'first_name': cachedData[0].first_name,
-            'family_name': cachedData[0].family_name,
-            'story_description': cachedData[0].story_description,
-            'story_image': cachedData[0].story_image,
-            'date': cachedData[0].date
+            'first_name': get_first_name(cachedData[0]),
+            'family_name': get_family_name(cachedData[0]),
+            'story_description': get_story_description(cachedData[0]),
+            'story_image': get_story_image(cachedData[0]),
+            'date': get_date(cachedData[0])
         }
-        console.log(storyList[i])
-        console.log(data)
-        axios.post('/updateStory', data)
-            .then((dataR) => {
-                console.log(dataR)
-                console.log(storyList[i] + 'update')
-            })
-            .catch((res) => {
-                console.log(res)
-            })
+        promiseList.push(axios.post('/updateStory', data))
     }
+    Promise.all(promiseList)
+        .then(()=> {
+            loadData(true)
+        })
 }, false);
 
 
@@ -281,15 +266,6 @@ function hideOfflineWarning(){
         document.getElementById('offline_div').style.display='none';
 }
 
-function hideOffRefreshButton() {
-    if (document.getElementById('swap_button')!=null)
-        document.getElementById('swap_button').style.display='none';
-}
-
-function showRefreshButton() {
-    if (document.getElementById('swap_button')!=null)
-        document.getElementById('swap_button').style.display='block';
-}
 /**
  * Given a list of stories, it removes any duplicates
  * @param storyList

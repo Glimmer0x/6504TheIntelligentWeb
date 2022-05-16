@@ -1,7 +1,7 @@
 let name = null;
 let roomNo = null;
 let chat= io.connect('/chat');
-let news= io.connect('/news');
+
 
 
 /**
@@ -15,19 +15,8 @@ function init() {
     document.getElementById('chat_interface').style.display = 'none';
 
     initChatSocket();
-    initNewsSocket();
 }
 
-
-/**
- * called to generate a random room number
- * This is a simplification. A real world implementation would ask the server to generate a unique room number
- * so to make sure that the room number is not accidentally repeated across uses
- */
-function generateRoom() {
-    roomNo = Math.round(Math.random() * 10000);
-    document.getElementById('roomNo').value = 'R' + roomNo;
-}
 
 /**
  * it initialises the socket for /chat
@@ -41,33 +30,16 @@ function initChatSocket() {
             hideLoginInterface(room, userId);
         } else {
             // notifies that someone has joined the room
-            writeOnChatHistory('<b>' + userId + '</b>' + ' joined room ' + room);
+            writeOnCommentsHistory('<b>' + userId + '</b>' + ' joined room ' + room);
         }
     });
     // called when a message is received
     chat.on('chat', function (room, userId, chatText) {
         let who = userId
         if (userId === name) who = 'Me';
-        writeOnChatHistory('<b>' + who + ':</b> ' + chatText);
+        writeOnCommentsHistory('<b>' + who + ':</b> ' + chatText);
     });
 
-}
-
-/**
- * it initialises the socket for /news
- */
-function initNewsSocket(){
-    news.on('joined', function (room, userId) {
-        if (userId !== name) {
-            // notifies that someone has joined the room
-            writeOnNewsHistory('<b>'+userId+'</b>' + ' joined news room ' + room);
-        }
-    });
-
-    // called when some news is received (note: only news received by others are received)
-    news.on('news', function (room, userId, newsText) {
-        writeOnNewsHistory('<b>' + userId + ':</b> ' + newsText);
-    });
 }
 
 
@@ -79,15 +51,6 @@ function sendChatText() {
     let chatText = document.getElementById('chat_input').value;
     chat.emit('chat', roomNo, name, chatText);
 }
-/**
- * called when the Send button is pressed for news. It gets the text to send from the interface
- * and sends the message via  socket
- */
-function sendNewsText() {
-    let newsText = document.getElementById('news_input').value;
-    news.emit('news', roomNo, name, newsText);
-    document.getElementById('news_input').value='';
-}
 
 /**
  * used to connect to a room. It gets the user name and room number from the
@@ -95,15 +58,20 @@ function sendNewsText() {
  * It connects both chat and news at the same time
  */
 function connectToRoom() {
+    let story_title = document.getElementById('story_title').innerText;
     roomNo = document.getElementById('roomNo').value;
     name = document.getElementById('name').value;
     if (!name) name = 'Unknown-' + Math.random();
     chat.emit('create or join', roomNo, name);
-    news.emit('create or join', roomNo, name);
-    data = {'title': roomNo}
+    let data = {'story_title': story_title}
     axios.post('/singleStory', data)
         .then((response)=>{
-            displayStory(response.data)
+            let instance = response.data
+            let title = instance.story_title;
+            let img_url = instance.story_image;
+            let description = instance.story_description;
+            initStory(title, img_url, description);
+            initCanvas(roomNo, img_url);
         })
         .catch((error)=>{
             alert('Error: '+error)
@@ -114,8 +82,8 @@ function connectToRoom() {
  * it appends the given html text to the history div
  * @param text: teh text to append
  */
-function writeOnChatHistory(text) {
-    let history = document.getElementById('chat_history');
+function writeOnCommentsHistory(text) {
+    let history = document.getElementById('news_history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
     history.appendChild(paragraph);
@@ -124,32 +92,25 @@ function writeOnChatHistory(text) {
 
 /**
  * it appends the given html text to the history div
- * @param text: teh text to append
- */
-function writeOnNewsHistory(text) {
-    let history = document.getElementById('news_history');
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = text;
-    history.appendChild(paragraph);
-    document.getElementById('news_input').value = '';
-}
-
-/**
- * it appends the given html text to the history div
  * @param json: the story to display
  */
-function displayStory(instance) {
-    let history = document.getElementById('news_history');
-    let title = document.createElement('title');
-    title.innerHTML = instance.story_title;
-    let img = document.createElement('img');
-    img.src =instance.story_image;
-    let description = document.createElement('p');
-    description.innerHTML = instance.story_description;
-    history.appendChild(title);
-    history.appendChild(img);
-    history.appendChild(description);
+function initStory(title, img_url, description) {
+    // let history = document.getElementById('news_history');
+    let _title = document.getElementById('story_title');
+    let _img = document.getElementById('img');
+    // let _canvas =  document.getElementById('canvas');
+    let _description = document.getElementById('description');
+    _title.innerHTML = title;
+    _img.src = img_url;
+    _description.innerHTML = description;
+    // _canvas.id = "canvas";
+    // history.appendChild(_title);
+    // history.appendChild(_img);
+    // history.appendChild(_canvas);
+    // history.appendChild(_description);
 }
+
+
 
 /**
  * it hides the initial form and shows the chat

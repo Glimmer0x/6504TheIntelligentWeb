@@ -35,7 +35,7 @@ async function initDatabase(){
                 }
             }
         });
-        console.log('db created');
+        // console.log('db created');
     }
 }
 window.initDatabase= initDatabase;
@@ -51,15 +51,17 @@ async function storeCachedData(story_title, storyObject) {
         await initDatabase();
     if (db) {
         try{
-            let tx = await db.transaction(STORY_STORE_NAME, 'readwrite');
-            let store = await tx.objectStore(STORY_STORE_NAME);
-            console.log(storyObject)
-            console.log(typeof storyObject.date)
-            // console.log(storyObject.da)
-            await store.put(storyObject);
-            await  tx.complete;
-            // console.log('add item to the IndexDB')
-            console.log('added item to the IndexDB! '+ JSON.stringify(storyObject));
+            let result = await getCachedData(story_title)
+            let arr = Object.keys(result)
+            if (arr.length !== 0) {
+            } else {
+                let tx = await db.transaction(STORY_STORE_NAME, 'readwrite');
+                let store = await tx.objectStore(STORY_STORE_NAME);
+                await store.put(storyObject);
+                await  tx.complete;
+                console.log('add ' + story_title + ' to the IndexDB! ');
+            }
+
         } catch(error) {
             localStorage.setItem(story_title, JSON.stringify(storyObject));
         };
@@ -79,7 +81,7 @@ async function getCachedData(story_title) {
         await initDatabase();
     if (db) {
         try {
-            console.log('fetching: ' + story_title);
+            // console.log('fetching: ' + story_title);
             let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
             let store = await tx.objectStore(STORY_STORE_NAME);
             let index = await store.index('story_title');
