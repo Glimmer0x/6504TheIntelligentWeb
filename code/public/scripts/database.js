@@ -3,14 +3,14 @@
 import * as idb from './idb/index.js';
 
 
-/** class WeatherForecast{
- *  constructor (location, date, forecast, temperature, wind, precipitations) {
- *    this.location= location;
- *    this.date= date,
- *    this.forecast=forecast;
- *    this.temperature= temperature;
- *    this.wind= wind;
- *    this.precipitations= precipitations;
+/** class Story{
+ *  constructor (first_name, family_name, story_title, story_image, story_description, date) {
+ *    this.first_name= first_name;
+ *    this.family_name= family_name,
+ *    this.story_title=story_title;
+ *    this.story_image= story_image;
+ *    this.story_description= story_description;
+ *    this.date= date;
  *  }
  *}
  */
@@ -31,58 +31,61 @@ async function initDatabase(){
                         keyPath: 'id',
                         autoIncrement: true
                     });
-                    storyDB.createIndex('author', 'author', {unique: false, multiEntry: true});
-                    storyDB.createIndex('description', 'description', {unique: false, multiEntry: true});
-                    storyDB.createIndex('time', 'time', {unique: false, multiEntry: true});
+                    storyDB.createIndex('story_title', 'story_title', {unique: false, multiEntry: true});
                 }
             }
         });
-        console.log('db created');
+        // console.log('db created');
     }
 }
 window.initDatabase= initDatabase;
 
 /**
- * it saves the forecasts for a city in localStorage
- * @param city
- * @param forecastObject
+ * it saves the stories in localStorage
+ * @param story_title
+ * @param storyObject
  */
-async function storeCachedData(city, forecastObject) {
-    console.log('inserting: '+JSON.stringify(forecastObject));
+async function storeCachedData(story_title, storyObject) {
+    // console.log('inserting: '+JSON.stringify(storyObject));
     if (!db)
         await initDatabase();
     if (db) {
         try{
-            let tx = await db.transaction(FORECAST_STORE_NAME, 'readwrite');
-            let store = await tx.objectStore(FORECAST_STORE_NAME);
-            await store.put(forecastObject);
-            await  tx.complete;
-            console.log('added item to the store! '+ JSON.stringify(forecastObject));
+            let result = await getCachedData(story_title)
+            let arr = Object.keys(result)
+            if (arr.length !== 0) {
+            } else {
+                let tx = await db.transaction(STORY_STORE_NAME, 'readwrite');
+                let store = await tx.objectStore(STORY_STORE_NAME);
+                await store.put(storyObject);
+                await  tx.complete;
+                console.log('add ' + story_title + ' to the IndexDB! ');
+            }
+
         } catch(error) {
-            localStorage.setItem(city, JSON.stringify(forecastObject));
+            localStorage.setItem(story_title, JSON.stringify(storyObject));
         };
     }
-    else localStorage.setItem(city, JSON.stringify(forecastObject));
+    else localStorage.setItem(story_title, JSON.stringify(storyObject));
 }
 
 window.storeCachedData=storeCachedData;
 
 /**
- * it retrieves the forecasts data for a city from the database
- * @param city
- * @param date
+ * it retrieves the story for a story_title from the database
+ * @param story_title
  * @returns {*}
  */
-async function getCachedData(city, date) {
+async function getCachedData(story_title) {
     if (!db)
         await initDatabase();
     if (db) {
         try {
-            console.log('fetching: ' + city);
-            let tx = await db.transaction(FORECAST_STORE_NAME, 'readonly');
-            let store = await tx.objectStore(FORECAST_STORE_NAME);
-            let index = await store.index('location');
-            let readingsList = await index.getAll(IDBKeyRange.only(city));
+            // console.log('fetching: ' + story_title);
+            let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
+            let store = await tx.objectStore(STORY_STORE_NAME);
+            let index = await store.index('story_title');
+            let readingsList = await index.getAll(IDBKeyRange.only(story_title));
             await tx.complete;
             let finalResults=[];
             if (readingsList && readingsList.length > 0) {
@@ -94,7 +97,7 @@ async function getCachedData(city, date) {
                     finalResults.push(max);
                 return finalResults;
             } else {
-                const value = localStorage.getItem(city);
+                const value = localStorage.getItem(story_title);
                 if (value == null)
                     return finalResults;
                 else finalResults.push(value);
@@ -104,7 +107,7 @@ async function getCachedData(city, date) {
             console.log(error);
         }
     } else {
-        const value = localStorage.getItem(city);
+        const value = localStorage.getItem(story_title);
         let finalResults=[];
         if (value == null)
             return finalResults;
@@ -116,64 +119,75 @@ window.getCachedData= getCachedData;
 
 
 /**
- * given the server data, it returns the value of the field precipitations
+ * given the server data, it returns the value of the field first_name
  * @param dataR the data returned by the server
  * @returns {*}
  */
-function getPrecipitations(dataR) {
-    if (dataR.precipitations == null && dataR.precipitations === undefined)
+function get_first_name(dataR) {
+    if (dataR.first_name == null && dataR.first_name === undefined)
         return "unavailable";
-    return dataR.precipitations
+    return dataR.first_name
 }
-window.getPrecipitations=getPrecipitations;
+window.get_first_name=get_first_name;
 
 /**
  * given the server data, it returns the value of the field wind
  * @param dataR the data returned by the server
  * @returns {*}
  */
-function getWind(dataR) {
-    if (dataR.wind == null && dataR.wind === undefined)
+function get_family_name(dataR) {
+    if (dataR.family_name == null && dataR.family_name === undefined)
         return "unavailable";
-    else return dataR.wind;
+    else return dataR.family_name;
 }
-window.getWind=getWind;
+window.get_family_name=get_family_name;
 
 /**
- * given the server data, it returns the value of the field temperature
+ * given the server data, it returns the value of the field story_title
  * @param dataR the data returned by the server
  * @returns {*}
  */
-function getTemperature(dataR) {
-    if (dataR.temperature == null && dataR.temperature === undefined)
+function get_story_title(dataR) {
+    if (dataR.story_title == null && dataR.story_title === undefined)
         return "unavailable";
-    else return dataR.temperature;
+    else return dataR.story_title;
 }
-window.getTemperature=getTemperature;
+window.get_story_title=get_story_title;
 
 
 /**
- * the server returns the forecast as a n integer. Here we find out the
- * string so to display it to the user
- * @param forecast
- * @returns {string}
+ * given the server data, it returns the value of the field date
+ * @param dataR the data returned by the server
+ * @returns {*}
  */
-function getForecast(forecast) {
-    if (forecast == null && forecast === undefined)
+function get_date(dataR) {
+    if (dataR.date == null && dataR.date === undefined)
         return "unavailable";
-    switch (forecast) {
-        case CLOUDY:
-            return 'Cloudy';
-        case CLEAR:
-            return 'Clear';
-        case RAINY:
-            return 'Rainy';
-        case OVERCAST:
-            return 'Overcast';
-        case SNOWY:
-            return 'Snowy';
-    }
+    else return dataR.date;
 }
-window.getForecast=getForecast;
+window.get_date=get_date;
 
+/**
+ * given the server data, it returns the value of the field image
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_story_image(dataR) {
+    if (dataR.story_title == null && dataR.story_title === undefined)
+        return "unavailable";
+    else return dataR.story_image;
+}
+window.get_story_image=get_story_image;
+
+/**
+ * given the server data, it returns the value of the field description
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_story_description(dataR) {
+    if (dataR.story_description == null && dataR.story_description === undefined)
+        return "unavailable";
+    else return dataR.story_description;
+}
+window.get_story_description=get_story_description;
 

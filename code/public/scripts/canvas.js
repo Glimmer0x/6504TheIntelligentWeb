@@ -22,6 +22,10 @@ function initCanvas(roomNo, userId) {
     let ctx = cvx.getContext('2d');
 
     chat.on('draw', function (room, userId, w, h, px, py, cx, cy, c, t) {
+<<<<<<< HEAD
+=======
+        // console.log('sss')
+>>>>>>> feature/work-offline
         drawOnCanvas(ctx, w, h, px, py, cx, cy, c, t);
     });
 
@@ -33,19 +37,37 @@ function initCanvas(roomNo, userId) {
         currY = e.clientY - canvas.position().top;
         if (e.type === 'mousedown') {
             flag = true;
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/work-offline
         }
         if (e.type === 'mouseup' || e.type === 'mouseout') {
             flag = false;
         }
         // if the flag is up, the movement of the mouse draws on the canvas
         if (e.type === 'mousemove') {
+<<<<<<< HEAD
             if (flag) {
+=======
+
+            if (flag) {
+                // console.log(prevX)
+                console.log([prevX, prevY, currX, currY])
+                // console.log(prevX, prevY, currX, currY)
+>>>>>>> feature/work-offline
                 drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
                 // @todo if you draw on the canvas, you may want to let everyone know via socket.io (socket.emit...)  by sending them
                 // room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness
                 chat.emit('draw', roomNo, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
             }
+<<<<<<< HEAD
         }
+=======
+
+        }
+
+>>>>>>> feature/work-offline
     });
 
     // this is code left in case you need to  provide a button clearing the canvas (it is suggested that you implement it)

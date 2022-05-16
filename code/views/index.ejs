@@ -11,10 +11,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/scripts/bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/scripts/database.js" type="module"></script>
     <script src="/scripts/app.js"></script>
 
 </head>
-<body>
+<body onload="initStories()">
 <nav class="nav">
     <ul>
         <li class="user"><%= username %></li>
@@ -25,8 +26,7 @@
         </li>
     </ul>
 </nav>
-<div class="container-fluid" style="width: 100%; overflow:auto">
-    <div class="row">
+<div class="row">
         <div class="col-xs-10"><h1><%= title %></h1></div>
         <div class="col-xs-2">
             <div class="form-group">
@@ -36,15 +36,20 @@
                         data-bs-target="#DialogModal" id="addStory">
                     Add Story
                 </button>
+<!--                 <button class="btn btn-primary btn-lg buttonField roundishShape " id="swap_button" -->
+<!--                                             onclick="loadData(true)"> -->
+<!--                     Refresh -->
+<!--                 </button> -->
             </h1>
             </div>
         </div>
+        <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
     </div>
+<div class="container-fluid" style="width: 100%; overflow:auto">
+
     <div class="list-group" id="story-list" >
 
     </div>
-    <div id="results" style="margin-top:30px"></div>
-    <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
 </div>
 
 

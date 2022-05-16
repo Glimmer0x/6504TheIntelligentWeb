@@ -58,11 +58,16 @@ function sendChatText() {
  * It connects both chat and news at the same time
  */
 function connectToRoom() {
+    let story_title = document.getElementById('story_title').innerText;
     roomNo = document.getElementById('roomNo').value;
     name = document.getElementById('name').value;
     if (!name) name = 'Unknown-' + Math.random();
     chat.emit('create or join', roomNo, name);
+<<<<<<< HEAD
     data = {'title': roomNo}
+=======
+    let data = {'story_title': story_title}
+>>>>>>> feature/work-offline
     axios.post('/singleStory', data)
         .then((response)=>{
             let instance = response.data

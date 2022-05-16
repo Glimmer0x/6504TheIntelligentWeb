@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var story = require('../controllers/storys');
+var story = require('../controllers/stories');
 var initDB = require('../controllers/init');
 initDB.init();
 
@@ -12,15 +12,10 @@ router.get('/', function(req, res, next) {
 router.get('/index', function(req, res, next) {
   res.render('index', { title: 'Story Club' });
 })
-    .post('/index', story.getStorys);
 
-router
-    .get('/insert', function(req, res, next) {
-      res.render('insert', {title: 'Insertion'});
-    })
-
-    .post('/insert', story.insert);
-
-router.post('/singleStory', story.getSingleStory)
+router.get('/allStories', story.getStories);
+router.post('/singleStory', story.getSingleStory);
+router.post('/insertStory', story.insert);
+router.post('/updateStory', story.update)
 
 module.exports = router;
