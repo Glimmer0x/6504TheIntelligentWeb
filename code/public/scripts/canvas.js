@@ -20,7 +20,6 @@ function initCanvas(roomNo, img_url, name) {
     let ctx = cvx.getContext('2d');
 
 
-
     chat.on('draw', function (room, name, w, h, px, py, cx, cy, c, t) {
         let date = new Date(Date.now()).toISOString()
         let data = {
@@ -38,8 +37,9 @@ function initCanvas(roomNo, img_url, name) {
     canvas.on('mousemove mousedown mouseup mouseout', function (e) {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.position().left;
-        currY = e.clientY - canvas.position().top;
+        currX = e.clientX - canvas.position().left - cvx.offsetParent.offsetLeft;
+        currY = e.clientY - canvas.position().top - cvx.offsetParent.offsetTop;
+
         if (e.type === 'mousedown') {
             flag = true;
         }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/chat.css'/>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <script src="/scripts/bootstrap.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/scripts/jquery.min.js"></script>
@@ -12,47 +12,72 @@
     <script src="/scripts/annotationDatabase.js" type="module"></script>
 </head>
 <body onload="init()">
-<h1><%= title %></h1>
-<h1 id="story_title" style="display: none"><%= storyTitle %></h1>
-<div id="initial_form" style="display: block">
-    <p>Please insert the id of the Room you want to Join, if you do not have a room id, click Generate Room</p>
-    <form onsubmit="return false;">
-        <p><label for="name"> Your name </label>
-            <input type="text" id="name" name="name">
-        </p>
-        <p>
-            <label for="roomNo"> Your room </label>
-            <input type="text" id="roomNo" name="roomNo">
-        </p>
-        <button id="connect" onclick="connectToRoom()">Connect</button>
-    </form>
-</div>
-<div id="chat_interface" style="display: none">
-    <div id="chat_container" class="splitBottom down">
-        <h1>Comment</h1>
-        <div>
-            <div id="who_you_are" style="display: inline"></div>
-            , you are commenting in the story:
-            <div id="in_room" style="display: inline"></div>
+<div id="initial_form" class="form-group px-md-3 pb-md-3" style="display: block">
+    <label class="form-label mt-4">Join Discussion</label>
+    <div class="row g-3">
+        <div class="col">
+            <input id="name" type="text" class="form-control" placeholder="User ID">
         </div>
-        <div id="chat_history" class="boxed"></div>
-        <div id="chat_box" class="bottom boxed">
-            <form onsubmit="return false;" style="width: 100%">
-                <p>
-                    <label for="name"> chat: </label>
-                    <input type="text" id="chat_input" name="chat_input" style="width: 80%">
-                    <button id="chat_send" onclick="sendChatText()">Send</button>
-                </p>
-            </form>
+        <div class="col">
+            <input id="roomNo" type="text" class="form-control" placeholder="Room ID">
+        </div>
+        <div class="col">
+            <button id="connect" onclick="connectToRoom()" class="btn btn-lg btn-primary form-control" type="button">Join</button>
         </div>
     </div>
-    <div id="news_container" class="splitTop top">
-        <h1>Story</h1>
-        <div id="news_history" class="boxed">
-            <title id="story_title"></title>
-            <img id="img">
-            <canvas  id="canvas" ></canvas>
-            <p id="description"></p>
+</div>
+<div id="KG-tool" class="container pb-md-3" style="display: none">
+    <div class="row">
+        <div class="col" id="typeForm">
+            <label for="myType">Type: </label>
+            <div class="input-group">
+                <input class="form-control me-sm-2" type="text" id="myType">
+                <button class="btn btn-secondary my-2 my-sm-0">Set</button>
+            </div>
+        </div>
+        <div class="col" id='widget' style="display: block">
+            <label for="myInput">Search for: </label>
+            <input class="form-control me-sm-2" type="text" id="myInput">
+        </div>
+    </div>
+
+</div>
+
+<div id="story_panel_container" class="container" style="display: none">
+    <div class="row">
+        <div id="story_container" class="card col">
+            <div class="card-body">
+                <img class="card-img-top" alt="Card image cap" id="img">
+                <canvas id="canvas" ></canvas>
+                <h5 class="card-title" id="story_title"><%= storyTitle %></h5>
+                <h6 id="story_author"></h6>
+                <p class="card-text" id="description"></p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted" id="story_time"></small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col resultPanel" id="resultPanel" style="display: none">
+                <h3 id="resultName"></h3>
+                <h4 id="resultId"></h4>
+                <div id="resultDescription"></div>
+                <div>
+                    <a id="resultUrl" target="_blank">
+                        Link to Webpage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="chat_interface" class="px-md-3 pt-md-3" style="display: block">
+    <div id="chat_history" class="pb-md-5">
+    </div>
+    <div id="chat_container" class="fixed-bottom">
+        <div class="input-group bg-dark bg-opacity-75">
+            <input id="chat_input" type="text" class="form-control" placeholder="Write commetns here." aria-describedby="button-addon2">
+            <button id="chat_send" onsubmit="return false;" onclick="sendChatText()" class="btn btn-info" type="button" id="chat_input">Comment</button>
         </div>
     </div>
 </div>

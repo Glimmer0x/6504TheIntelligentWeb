@@ -97,7 +97,9 @@ function connectToRoom() {
             let title = instance.story_title;
             let img_url = instance.story_image;
             let description = instance.story_description;
-            initStory(title, img_url, description);
+            let author = instance.family_name + " " + instance.first_name;
+            let createTime = instance.date;
+            initStory(title, author, createTime, img_url, description);
             initCanvas(roomNo, img_url, name);
         })
         .catch((error)=>{
@@ -110,7 +112,7 @@ function connectToRoom() {
  * @param text: teh text to append
  */
 function writeOnCommentsHistory(text) {
-    let history = document.getElementById('news_history');
+    let history = document.getElementById('chat_history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
     history.appendChild(paragraph);
@@ -121,15 +123,19 @@ function writeOnCommentsHistory(text) {
  * it appends the given html text to the history div
  * @param json: the story to display
  */
-function initStory(title, img_url, description) {
+function initStory(title,author, createTime, img_url, description) {
     // let history = document.getElementById('news_history');
     let _title = document.getElementById('story_title');
     let _img = document.getElementById('img');
+    let _author = document.getElementById('story_author');
     // let _canvas =  document.getElementById('canvas');
+    let _createTime = document.getElementById('story_time');
     let _description = document.getElementById('description');
-    _title.innerHTML = title;
+    _title.innerText = title;
     _img.src = img_url;
-    _description.innerHTML = description;
+    _author.innerText = author;
+    _description.innerText = description;
+    _createTime.innerText = "Created At " + createTime;
     // _canvas.id = "canvas";
     // history.appendChild(_title);
     // history.appendChild(_img);
@@ -147,7 +153,8 @@ function initStory(title, img_url, description) {
 function hideLoginInterface(room, userId) {
     document.getElementById('initial_form').style.display = 'none';
     document.getElementById('chat_interface').style.display = 'block';
-    document.getElementById('who_you_are').innerHTML= userId;
-    document.getElementById('in_room').innerHTML= ' '+room;
+    document.getElementById('KG-tool').style.display = 'block';
+    document.getElementById('story_panel_container').style.display = 'block';
+
 }
 

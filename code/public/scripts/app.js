@@ -178,34 +178,42 @@ async function loadStoryData(story_title, forceReload){
  *
  */
 function addToStoryList(dataR, forceReload) {
-    const row = document.createElement('div');
-    // appending a new row
-    document.getElementById('story-list').appendChild(row);
+    let cardElement = document.createElement('div');
+    document.getElementById('story-list').appendChild(cardElement);
+    // appending a new column
     // formatting the row by applying css classes
-    row.classList.add('card');
+    cardElement.classList.add('col');
     // the following is far from ideal. we should really create divs using javascript
     // rather than assigning innerHTML
+    let _story_title, _first_name, _family_name, _date, _story_description, _story_image;
     if (!forceReload) {
-        row.innerHTML = "<div className=\"card\" style=\"width:400px\">" +
-            "<div className=\"card-body\">" +
-            "<h4 className=\"card-title\">" + get_story_title(dataR) + "</h4>" +
-            "<h5>by " + get_first_name(dataR) + " " + get_family_name(dataR) + " on " + get_date(dataR) + "</h5>" +
-            "<p className=\"card-text\">" + get_story_description(dataR) + "</p>" +
-            "<a href='" + '/chat/story/' + dataR.story_title  + "' className=\"btn btn-primary\">Chat</a>" +
-            "</div>" +
-            "<img className=\"card-img-bottom\" src='" + get_story_image(dataR) + "' alt=\"Card image\" style=\"width:100%\">" +
-            "</div>"
+        _story_title = get_story_title(dataR);
+        _first_name = get_first_name(dataR);
+        _family_name = get_family_name(dataR);
+        _date = get_date(dataR);
+        _story_description = get_story_description(dataR);
+        _story_image = get_story_image(dataR);
     } else {
-        row.innerHTML = "<div className=\"card\" style=\"width:400px\">" +
-            "<div className=\"card-body\">" +
-            "<h4 className=\"card-title\">" + dataR.story_title + "</h4>" +
-            "<h5>by " + dataR.first_name + " " + dataR.family_name + " on " + dataR.date + "</h5>" +
-            "<p className=\"card-text\">" + dataR.story_description + "</p>" +
-            "<a href='" + '/chat/story/' + dataR.story_title + "' className=\"btn btn-primary\">Chat</a>" +
-            "</div>" +
-            "<img className=\"card-img-bottom\" src='" + dataR.story_image + "' alt=\"Card image\" style=\"width:100%\">" +
-            "</div>"
+        _story_title = dataR.story_title;
+        _first_name = dataR.first_name;
+        _family_name = dataR.family_name;
+        _date = dataR.date;
+        _story_description = dataR.story_description;
+        _story_image = dataR.story_image;
     }
+
+    cardElement.innerHTML = "<div class=\"card h-100\">" +
+        "<img class=\"card-img-top\" src='" + _story_image + "' alt=\"Card image\">" +
+        "<div class=\"card-body\">" +
+        "<h5 class=\"card-title\">" + _story_title + "</h5>" +
+        "<h6>By " + _first_name + " " + _family_name + "</h6>" +
+        "<p class=\"card-text\">" + _story_description + "</p>" +
+        "<a href='" + '/chat/story/' + _story_title + "' class=\"btn btn-primary\">Discussion</a>" +
+        "</div>" +
+        "<div class=\"card-footer\">" +
+        "<small class=\"text-muted\"> Created At " + _date + "</small>" +
+        "</div>" +
+        "</div>";
 }
 
 /**
