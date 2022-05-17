@@ -10,6 +10,10 @@
     <script src="/scripts/chat.js"></script>
     <script src="/scripts/canvas.js"></script>
     <script src="/scripts/annotationDatabase.js" type="module"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/knowledge/kgsearch/widget/1.0/widget.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/knowledge/kgsearch/widget/1.0/widget.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/scripts/knowledgeGraph.js"></script>
 </head>
 <body onload="init()">
 <div id="initial_form" class="form-group px-md-3 pb-md-3" style="display: block">
@@ -32,11 +36,11 @@
             <label for="myType">Type: </label>
             <div class="input-group">
                 <input class="form-control me-sm-2" type="text" id="myType">
-                <button class="btn btn-secondary my-2 my-sm-0">Set</button>
+                <button class="btn btn-secondary my-2 my-sm-0" onclick="widgetInit()">Set</button>
             </div>
         </div>
-        <div class="col" id='widget' style="display: block">
-            <label for="myInput">Search for: </label>
+        <div class="col" id='widget' style="display: none">
+            <label id="searchHint" for="myInput"></label>
             <input class="form-control me-sm-2" type="text" id="myInput">
         </div>
     </div>
@@ -46,9 +50,9 @@
 <div id="story_panel_container" class="container" style="display: none">
     <div class="row">
         <div id="story_container" class="card col">
+            <img class="card-img-top" alt="Card image cap" id="img">
+            <canvas id="canvas" ></canvas>
             <div class="card-body">
-                <img class="card-img-top" alt="Card image cap" id="img">
-                <canvas id="canvas" ></canvas>
                 <h5 class="card-title" id="story_title"><%= storyTitle %></h5>
                 <h6 id="story_author"></h6>
                 <p class="card-text" id="description"></p>

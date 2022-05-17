@@ -37,8 +37,8 @@ function initCanvas(roomNo, img_url, name) {
     canvas.on('mousemove mousedown mouseup mouseout', function (e) {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.position().left - cvx.offsetParent.offsetLeft;
-        currY = e.clientY - canvas.position().top - cvx.offsetParent.offsetTop;
+        currX = e.clientX - canvas.position().left - cvx.offsetParent.offsetLeft/2;
+        currY = e.clientY - canvas.position().top - cvx.offsetParent.offsetTop/2;
 
         if (e.type === 'mousedown') {
             flag = true;
