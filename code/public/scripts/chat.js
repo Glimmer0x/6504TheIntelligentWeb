@@ -41,19 +41,16 @@ function initChatSocket() {
     });
     // called when a message is received
     chat.on('chat', function (room, userId, chatText) {
-        let who = userId
-        if (userId === name) who = 'Me';
-        else {
-            let date = new Date(Date.now()).toISOString()
-            let data = {
-                'name': who,
-                'roomId': room,
-                'pixel_pair':[],
-                'message': chatText,
-                'date': date
-            }
-            storeCachedData(who, room, data)
+        let who = userId;
+        let date = new Date(Date.now()).toISOString()
+        let data = {
+            'name': who,
+            'roomId': room,
+            'pixel_pair':[],
+            'message': chatText,
+            'date': date
         }
+        storeCachedData(who, room, data)
         writeOnCommentsHistory('<b>' + who + ':</b> ' + chatText);
     });
 
@@ -75,6 +72,7 @@ function sendChatText() {
         'date': date
     }
     storeCachedData(name, roomNo, data)
+    writeOnCommentsHistory('<b>' + 'Me' + ':</b> ' + chatText);
     chat.emit('chat', roomNo, name, chatText);
 }
 
@@ -101,6 +99,7 @@ function connectToRoom() {
             let createTime = instance.date;
             initStory(title, author, createTime, img_url, description);
             initCanvas(roomNo, img_url, name);
+            initKG(chat);
         })
         .catch((error)=>{
             alert('Error: '+error)
@@ -124,23 +123,16 @@ function writeOnCommentsHistory(text) {
  * @param json: the story to display
  */
 function initStory(title,author, createTime, img_url, description) {
-    // let history = document.getElementById('news_history');
-    let _title = document.getElementById('story_title');
-    let _img = document.getElementById('img');
-    let _author = document.getElementById('story_author');
-    // let _canvas =  document.getElementById('canvas');
-    let _createTime = document.getElementById('story_time');
-    let _description = document.getElementById('description');
-    _title.innerText = title;
-    _img.src = img_url;
-    _author.innerText = author;
-    _description.innerText = description;
-    _createTime.innerText = "Created At " + createTime;
-    // _canvas.id = "canvas";
-    // history.appendChild(_title);
-    // history.appendChild(_img);
-    // history.appendChild(_canvas);
-    // history.appendChild(_description);
+    let title_element = document.getElementById('story_title');
+    let img_element = document.getElementById('img');
+    let author_element = document.getElementById('story_author');
+    let createTime_element = document.getElementById('story_time');
+    let description_element = document.getElementById('description');
+    title_element.innerText = title;
+    img_element.src = img_url;
+    author_element.innerText = author;
+    description_element.innerText = description;
+    createTime_element.innerText = "Created At " + createTime;
 }
 
 

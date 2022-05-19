@@ -8,10 +8,12 @@ function getRndColor() {
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
-// capture the event on the socket when someone else is drawing on their canvas
-chat.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor) {
-    putItem(itemId, itemName, itemRc, itemGc, borderColor);
-});
+function initKG(skt){
+    // capture the event on the socket when someone else is putting results of knowledge graph
+    skt.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor) {
+        putItem(itemId, itemName, itemRc, itemGc, borderColor);
+    });
+}
 
 /**
  * it inits the widget by selecting the type from the field myType

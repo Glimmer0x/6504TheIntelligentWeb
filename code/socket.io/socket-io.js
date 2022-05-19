@@ -15,7 +15,7 @@ exports.init = function(io) {
           });
 
           socket.on('chat', function (room, userId, chatText) {
-            chat.to(room).emit('chat', room, userId, chatText);
+              socket.broadcast.to(room).emit('chat', room, userId, chatText);
           });
 
           socket.on('draw', function (room, name, width,height, prevX, prevY, currX, currY, color, thickness) {
