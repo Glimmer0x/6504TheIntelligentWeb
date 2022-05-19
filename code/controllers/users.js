@@ -18,6 +18,8 @@ exports.checkUser = function (req, res) {
 }
 
 exports.insert = function (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para obter um usuário.'
     let userData = req.body;
     if (userData == null) {
         res.status(403).send('No data sent!')

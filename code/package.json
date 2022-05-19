@@ -3,24 +3,30 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "swagger-autogen": "node ./swagger.js"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
+    "csurf": "^1.11.0",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "fs-extra": "~5.0.0",
     "idb": "^5.0.8",
-    "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5",
-    "serve-static": "^1.13.2",
     "mongoose": "^6.2.4",
+    "morgan": "~1.9.0",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
-    "csurf": "^1.11.0",
-    "express-session": "^1.17.2",
-    "socket.io": "^4.4.1"
+    "serve-favicon": "~2.4.5",
+    "serve-static": "^1.13.2",
+    "socket.io": "^4.4.1",
+    "swagger-autogen": "^2.21.1",
+    "swagger-ui-express": "^4.4.0"
+  },
+  "devDependencies": {
+    "express-swagger-generator": "^1.1.17"
   }
 }
