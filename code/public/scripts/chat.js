@@ -41,19 +41,16 @@ function initChatSocket() {
     });
     // called when a message is received
     chat.on('chat', function (room, userId, chatText) {
-        let who = userId
-        if (userId === name) who = 'Me';
-        else {
-            let date = new Date(Date.now()).toISOString()
-            let data = {
-                'name': who,
-                'roomId': room,
-                'pixel_pair':[],
-                'message': chatText,
-                'date': date
-            }
-            storeCachedData(who, room, data)
+        let who = userId;
+        let date = new Date(Date.now()).toISOString()
+        let data = {
+            'name': who,
+            'roomId': room,
+            'pixel_pair':[],
+            'message': chatText,
+            'date': date
         }
+        storeCachedData(who, room, data)
         writeOnCommentsHistory('<b>' + who + ':</b> ' + chatText);
     });
 
@@ -75,6 +72,7 @@ function sendChatText() {
         'date': date
     }
     storeCachedData(name, roomNo, data)
+    writeOnCommentsHistory('<b>' + 'Me' + ':</b> ' + chatText);
     chat.emit('chat', roomNo, name, chatText);
 }
 
@@ -97,8 +95,11 @@ function connectToRoom() {
             let title = instance.story_title;
             let img_url = instance.story_image;
             let description = instance.story_description;
-            initStory(title, img_url, description);
+            let author = instance.family_name + " " + instance.first_name;
+            let createTime = instance.date;
+            initStory(title, author, createTime, img_url, description);
             initCanvas(roomNo, img_url, name);
+            initKG(chat);
         })
         .catch((error)=>{
             alert('Error: '+error)
@@ -110,7 +111,7 @@ function connectToRoom() {
  * @param text: teh text to append
  */
 function writeOnCommentsHistory(text) {
-    let history = document.getElementById('news_history');
+    let history = document.getElementById('chat_history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
     history.appendChild(paragraph);
@@ -121,20 +122,17 @@ function writeOnCommentsHistory(text) {
  * it appends the given html text to the history div
  * @param json: the story to display
  */
-function initStory(title, img_url, description) {
-    // let history = document.getElementById('news_history');
-    let _title = document.getElementById('story_title');
-    let _img = document.getElementById('img');
-    // let _canvas =  document.getElementById('canvas');
-    let _description = document.getElementById('description');
-    _title.innerHTML = title;
-    _img.src = img_url;
-    _description.innerHTML = description;
-    // _canvas.id = "canvas";
-    // history.appendChild(_title);
-    // history.appendChild(_img);
-    // history.appendChild(_canvas);
-    // history.appendChild(_description);
+function initStory(title,author, createTime, img_url, description) {
+    let title_element = document.getElementById('story_title');
+    let img_element = document.getElementById('img');
+    let author_element = document.getElementById('story_author');
+    let createTime_element = document.getElementById('story_time');
+    let description_element = document.getElementById('description');
+    title_element.innerText = title;
+    img_element.src = img_url;
+    author_element.innerText = author;
+    description_element.innerText = description;
+    createTime_element.innerText = "Created At " + createTime;
 }
 
 
@@ -147,7 +145,8 @@ function initStory(title, img_url, description) {
 function hideLoginInterface(room, userId) {
     document.getElementById('initial_form').style.display = 'none';
     document.getElementById('chat_interface').style.display = 'block';
-    document.getElementById('who_you_are').innerHTML= userId;
-    document.getElementById('in_room').innerHTML= ' '+room;
+    document.getElementById('KG-tool').style.display = 'block';
+    document.getElementById('story_panel_container').style.display = 'block';
+
 }
 

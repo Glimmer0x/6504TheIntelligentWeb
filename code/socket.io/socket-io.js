@@ -15,12 +15,17 @@ exports.init = function(io) {
           });
 
           socket.on('chat', function (room, userId, chatText) {
-            chat.to(room).emit('chat', room, userId, chatText);
+              socket.broadcast.to(room).emit('chat', room, userId, chatText);
           });
 
           socket.on('draw', function (room, name, width,height, prevX, prevY, currX, currY, color, thickness) {
               // console.log('ssss')
             socket.broadcast.to(room).emit('draw', room, name, width, height, prevX, prevY, currX, currY, color, thickness);
+          });
+
+          socket.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor) {
+             // console.log('ssss')
+             socket.broadcast.to(room).emit('KG', room, itemId, itemName, itemRc, itemGc, borderColor);
           });
 
           socket.on('disconnect', function(){
