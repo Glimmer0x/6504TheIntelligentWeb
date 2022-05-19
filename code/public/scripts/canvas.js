@@ -67,12 +67,25 @@ function initCanvas(roomNo, img_url, name) {
     });
 
     // this is code left in case you need to  provide a button clearing the canvas (it is suggested that you implement it)
-    $('.canvas-clear').on('click', function (e) {
-        let c_width = canvas.width();
-        let c_height = canvas.height();
+    $('#canvas-clear').on('click', function (e) {
+        let c_width = canvas.width;
+        let c_height = canvas.height;
         ctx.clearRect(0, 0, c_width, c_height);
+        console.log("clear trace!");
         // @todo if you clear the canvas, you want to let everyone know via socket.io (socket.emit...)
 
+    });
+
+    $('#red-pen').on('click', function (e) {
+        color = 'red';
+    });
+
+    $('#green-pen').on('click', function (e) {
+        color = 'green';
+    });
+
+    $('#blue-pen').on('click', function (e) {
+        color = 'blue';
     });
 
 

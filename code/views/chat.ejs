@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-<div id="KG-tool" class="container pb-md-3" style="display: none">
+<div id="KG-tool" class="container fixed-top bg-dark opacity-100" style="display: none">
     <div class="row">
         <div class="col" id="typeForm">
             <label for="myType">Type: </label>
@@ -47,9 +47,16 @@
 
 </div>
 
-<div id="story_panel_container" class="container" style="display: none">
+<div id="story_panel_container" class="container pt-md-5" style="display: none">
     <div class="row">
         <div id="story_container" class="card col">
+            <div class="input-group w-75">
+                <button id="red-pen" type="button" class="btn btn-secondary"> Red</button>
+                <button id="green-pen" type="button" class="btn btn-secondary"> Green</button>
+                <button id="blue-pen" type="button" class="btn btn-secondary"> Blue</button>
+                <button id="canvas-clear" type="button" class="btn btn-secondary"> Clear trace</button>
+            </div>
+
             <div class="card-body">
                 <img class="w-100" alt="Card image cap" id="img">
                 <canvas id="canvas" ></canvas>
@@ -60,10 +67,9 @@
             <div class="card-footer">
                 <small class="text-muted" id="story_time"></small>
             </div>
-            <button id="canvas-clear" class="btn-secondary"> Clear trace</button>
         </div>
         <div class="col">
-            <div class="col list-group" id="resultPanel" style="display: none">
+            <div class="col list-group" id="resultPanel" style="display: block">
             </div>
         </div>
     </div>

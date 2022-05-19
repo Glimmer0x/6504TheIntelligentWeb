@@ -23,6 +23,11 @@ exports.init = function(io) {
             socket.broadcast.to(room).emit('draw', room, name, width, height, prevX, prevY, currX, currY, color, thickness);
           });
 
+          socket.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor) {
+             // console.log('ssss')
+             socket.broadcast.to(room).emit('KG', room, itemId, itemName, itemRc, itemGc, borderColor);
+          });
+
           socket.on('disconnect', function(){
             console.log('someone disconnected');
           });
