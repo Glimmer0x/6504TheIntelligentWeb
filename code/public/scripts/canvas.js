@@ -72,7 +72,7 @@ function initCanvas(roomNo, img_url, name) {
         let c_height = canvas.height;
         ctx.clearRect(0, 0, c_width, c_height);
         console.log("clear trace!");
-        // @todo if you clear the canvas, you want to let everyone know via socket.io (socket.emit...)
+        drawImageScaled(img, canvas, ctx);
 
     });
 

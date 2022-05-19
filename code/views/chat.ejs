@@ -30,18 +30,18 @@
         </div>
     </div>
 </div>
-<div id="KG-tool" class="container fixed-top bg-dark opacity-100" style="display: none">
+<div id="KG-tool" class="container fixed-top" style="display: none">
     <div class="row">
         <div class="col" id="typeForm">
             <label for="myType">Type: </label>
             <div class="input-group">
-                <input class="form-control me-sm-2" type="text" id="myType">
+                <input class="form-control me-sm-2 bg-black bg-opacity-75 opacity-75" type="text" id="myType">
                 <button class="btn btn-secondary my-2 my-sm-0" onclick="widgetInit()">Set</button>
             </div>
         </div>
         <div class="col" id='widget' style="display: none">
             <label id="searchHint" for="myInput"></label>
-            <input class="form-control me-sm-2" type="text" id="myInput">
+            <input class="form-control me-sm-2 bg-black bg-opacity-75 opacity-75" type="text" id="myInput">
         </div>
     </div>
 
@@ -78,8 +78,8 @@
     <div id="chat_history" class="pb-md-5">
     </div>
     <div id="chat_container" class="fixed-bottom">
-        <div class="input-group bg-dark bg-opacity-75">
-            <input id="chat_input" type="text" class="form-control" placeholder="Write commetns here." aria-describedby="button-addon2">
+        <div class="input-group">
+            <input id="chat_input" type="text" class="form-control bg-dark bg-opacity-75" placeholder="Write commetns here." aria-describedby="button-addon2">
             <button id="chat_send" onsubmit="return false;" onclick="sendChatText()" class="btn btn-info" type="button" id="chat_input">Comment</button>
         </div>
     </div>
