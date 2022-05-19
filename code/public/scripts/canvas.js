@@ -19,7 +19,7 @@ function initCanvas(roomNo, img_url, name) {
     let img = document.getElementById('img');
     let ctx = cvx.getContext('2d');
 
-
+    // capture the event on the socket when someone else is drawing on their canvas
     chat.on('draw', function (room, name, w, h, px, py, cx, cy, c, t) {
         let date = new Date(Date.now()).toISOString()
         let data = {
@@ -37,8 +37,8 @@ function initCanvas(roomNo, img_url, name) {
     canvas.on('mousemove mousedown mouseup mouseout', function (e) {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.position().left - cvx.offsetParent.offsetLeft/2;
-        currY = e.clientY - canvas.position().top - cvx.offsetParent.offsetTop/2;
+        currX = e.clientX - canvas.position().left - cvx.offsetParent.offsetLeft;
+        currY = e.clientY - canvas.position().top -cvx.offsetParent.offsetTop;
 
         if (e.type === 'mousedown') {
             flag = true;
@@ -59,8 +59,7 @@ function initCanvas(roomNo, img_url, name) {
                 }
                 storeCachedData(name, roomNo, data)
                 drawOnCanvas(ctx, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
-                // @todo if you draw on the canvas, you may want to let everyone know via socket.io (socket.emit...)  by sending them
-                // room, userId, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness
+                // let everyone know via socket.io (socket.emit...)  by sending them
                 chat.emit('draw', roomNo, name, canvas.width, canvas.height, prevX, prevY, currX, currY, color, thickness);
             }
         }
@@ -76,11 +75,6 @@ function initCanvas(roomNo, img_url, name) {
 
     });
 
-    // @todo here you want to capture the event on the socket when someone else is drawing on their canvas (socket.on...)
-    // I suggest that you receive userId, canvasWidth, canvasHeight, x1, y21, x2, y2, color, thickness
-    // and then you call
-    //     let ctx = canvas[0].getContext('2d');
-    //     drawOnCanvas(ctx, canvasWidth, canvasHeight, x1, y21, x2, y2, color, thickness)
 
     // this is called when the src of the image is loaded
     // this is an async operation as it may take time

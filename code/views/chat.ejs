@@ -50,9 +50,9 @@
 <div id="story_panel_container" class="container" style="display: none">
     <div class="row">
         <div id="story_container" class="card col">
-            <img class="card-img-top" alt="Card image cap" id="img">
-            <canvas id="canvas" ></canvas>
             <div class="card-body">
+                <img class="w-100" alt="Card image cap" id="img">
+                <canvas id="canvas" ></canvas>
                 <h5 class="card-title" id="story_title"><%= storyTitle %></h5>
                 <h6 id="story_author"></h6>
                 <p class="card-text" id="description"></p>
@@ -60,17 +60,10 @@
             <div class="card-footer">
                 <small class="text-muted" id="story_time"></small>
             </div>
+            <button id="canvas-clear" class="btn-secondary"> Clear trace</button>
         </div>
         <div class="col">
-            <div class="col resultPanel" id="resultPanel" style="display: none">
-                <h3 id="resultName"></h3>
-                <h4 id="resultId"></h4>
-                <div id="resultDescription"></div>
-                <div>
-                    <a id="resultUrl" target="_blank">
-                        Link to Webpage
-                    </a>
-                </div>
+            <div class="col list-group" id="resultPanel" style="display: none">
             </div>
         </div>
     </div>

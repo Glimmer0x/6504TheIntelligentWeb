@@ -36,11 +36,27 @@ function widgetInit(){
 function selectItem(event){
     let row= event.row;
     // document.getElementById('resultImage').src= row.json.image.url;
-    document.getElementById('resultId').innerText= 'id: '+row.id;
-    document.getElementById('resultName').innerText= row.name;
-    document.getElementById('resultDescription').innerText= row.rc;
-    document.getElementById("resultUrl").href= row.qc;
-    document.getElementById('resultPanel').style.display= 'block';
+    let resultPanel =  document.getElementById('resultPanel');
+    resultPanel.style.display= 'block';
+    let showItem = document.createElement('div');
+    showItem.className = 'list-group-item';
+    let resultName = document.createElement('h3');
+    let resultId = document.createElement('h4');
+    let resultDescription = document.createElement('p');
+    let urlDiv =  document.createElement('div');
+    let resultURL = document.createElement('a');
+    resultId.innerText= 'id: '+row.id;
+    resultName.innerText= row.name;
+    resultDescription.innerText= row.rc;
+    resultURL.innerText = 'Link to Webpage';
+    resultURL.href= row.qc;
+    resultURL.target = '_blank';
+
+    showItem.appendChild(resultName);
+    showItem.appendChild(resultId);
+    showItem.appendChild(resultDescription);
+    showItem.appendChild(resultURL);
+    resultPanel.appendChild(showItem);
 }
 
 /**
