@@ -64,7 +64,7 @@ async function addStory() {
     storyList = removeDuplicates(storyList);
     storyList.push(storytitle);
     localStorage.setItem('stories', JSON.stringify(storyList));
-    await storeCachedData(data.story_title, data)
+    await storeStoryToCachedData(data.story_title, data)
     // console.log(document.getElementById('offline_div').style.display === 'block')
     if (document.getElementById('offline_div').style.display === 'block') {
         loadData(false);
@@ -122,7 +122,7 @@ function loadData(forceReload) {
                     for (let index in stylist) {
                         storyList.push(stylist[index].story_title)
                         addToStoryList(stylist[index], forceReload)
-                        await storeCachedData(stylist[index].story_title, stylist[index])
+                        await storeStoryToCachedData(stylist[index].story_title, stylist[index])
                     }
                 }
             ).then(() => {

@@ -24,6 +24,7 @@ function initCanvas(roomNo, name) {
             'name': name,
             'roomId': room,
             'pixel_pair': [px, py, cx, cy],
+            'canvas': [w, h, c, t],
             'message': '',
             'date': date
         }
@@ -52,6 +53,7 @@ function initCanvas(roomNo, name) {
                     'name': name,
                     'roomId': roomNo,
                     'pixel_pair': [prevX, prevY, currX, currY],
+                    'canvas': [canvas.width, canvas.height, color, thickness],
                     'message': '',
                     'date': date
                 }
@@ -125,14 +127,33 @@ function initCanvas(roomNo, name) {
                                 if (who === name) who = 'Me';
                                 writeOnChatHistory('<b>' + who + ':</b> ' + message);
                             } else if (get_message(annotation) === '' && get_pixel_pair(annotation).length !==0) {
+<<<<<<< HEAD
                                 let pixel_pair = get_pixel_pair(annotation);
                                 drawOnCanvas(ctx, canvas.width, canvas.height,
                                     pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], color, thickness);
+=======
+                                let pixel_pair = get_pixel_pair(annotation)
+                                let canvas = get_canvas(annotation)
+                                drawOnCanvas(ctx, canvas[0], canvas[1],
+                                    pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], canvas[2], canvas[3]);
+>>>>>>> origin/develop
                             }
                         }
                     })
                     .catch(() => {
                         console.log('get cached data error')
+                    })
+
+                getKnowledgeGraphFromCachedData()
+                    .then((dataR)=> {
+                        let knowledgeList = dataR
+                        let borderColor = getRndColor();
+                        for (let i of knowledgeList) {
+                            putItem(i.id, i.name, i.rc, i.qc, borderColor)
+                        }
+                    })
+                    .then(() => {
+                        console.log('get cached knowledge graph error')
                     })
             }
         }, 10);

@@ -46,13 +46,13 @@ window.initDatabase= initDatabase;
  * @param {string} story_title title of a story
  * @param {object} storyObject a story object
  */
-async function storeCachedData(story_title, storyObject) {
+async function storeStoryToCachedData(story_title, storyObject) {
     // console.log('inserting: '+JSON.stringify(storyObject));
     if (!db)
         await initDatabase();
     if (db) {
         try{
-            let result = await getCachedData(story_title)
+            let result = await getStoryFromCachedData(story_title)
             let arr = Object.keys(result)
             if (arr.length !== 0) {
             } else {
@@ -70,14 +70,14 @@ async function storeCachedData(story_title, storyObject) {
     else localStorage.setItem(story_title, JSON.stringify(storyObject));
 }
 
-window.storeCachedData=storeCachedData;
+window.storeStoryToCachedData=storeStoryToCachedData;
 
 /**
  * it retrieves the story for a story_title from the database
  * @param {string} story_title title of a story
  * @return {array} list of stories
  */
-async function getCachedData(story_title) {
+async function getStoryFromCachedData(story_title) {
     if (!db)
         await initDatabase();
     if (db) {
@@ -116,7 +116,7 @@ async function getCachedData(story_title) {
         return finalResults;
     }
 }
-window.getCachedData= getCachedData;
+window.getStoryFromCachedData= getStoryFromCachedData;
 
 
 /**

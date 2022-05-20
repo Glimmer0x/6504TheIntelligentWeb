@@ -19,7 +19,9 @@ function getRndColor() {
  */
 function initKG(skt){
     // capture the event on the socket when someone else is putting results of knowledge graph
-    skt.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor) {
+    skt.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor, row) {
+        // console.log(row)
+        storeKnowledgeGraphToCachedData(row)
         putItem(itemId, itemName, itemRc, itemGc, borderColor);
     });
 }
@@ -58,12 +60,23 @@ function widgetInit(){
  */
 function selectItem(event){
     let row= event.row;
+    // console.log(row)
+    storeKnowledgeGraphToCachedData(row);
     // document.getElementById('resultImage').src= row.json.image.url;
     let borderColor = getRndColor();
     color = borderColor;
     putItem(row.id, row.name, row.rc, row.gc, borderColor);
-    chat.emit('KG', roomNo, row.id, row.name, row.rc, row.gc, borderColor);
+    chat.emit('KG', roomNo, row.id, row.name, row.rc, row.gc, borderColor, row);
     chat.emit('chat', roomNo, name, 'Put a knowledge graph item -'+row.id);
+    let date = new Date(Date.now()).toISOString()
+    let data = {
+        'name': name,
+        'roomId': roomNo,
+        'pixel_pair': [],
+        'message': 'Put a knowledge graph item -'+row.id,
+        'date': date
+    }
+    storeCachedData(name, roomNo, data)
 }
 
 /**

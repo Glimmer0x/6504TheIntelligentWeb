@@ -1,15 +1,28 @@
-let dataCacheName = 'weatherData-v1';
-let cacheName = 'weatherPWA-step-8-1';
+
+let dataCacheName = 'storyData-v1';
+let cacheName = 'storyPWA-step-8-1';
 let filesToCache = [
     '/',
     '/scripts/app.js',
+    '/scripts/users.js',
+    '/scripts/database.js',
+    '/scripts/annotationDatabase.js',
+    '/scripts/chat.js',
+    '/scripts/canvas.js',
+    '/scripts/knowledgeGraph.js',
     '/styles/inline.css',
     '/styles/bootstrap.css',
+    '/styles/bootstrap.min.css',
     '/scripts/bootstrap.js',
     '/scripts/jquery.min.js',
-    '/scripts/database.js',
+    '/scripts/axios.min.js',
     '/scripts/idb/index.js',
-    '/favicon.ico'
+    '/scripts/idb/wrap-idb-value.js',
+    '/favicon.ico',
+    '/css/base.css',
+    '/css/index.css',
+    '/css/login.css',
+    '/css/bootstrap.css'
 ];
 
 
@@ -17,6 +30,9 @@ let filesToCache = [
  * installation event: it adds all the files to be cached
  */
 self.addEventListener('install', function (e) {
+    // if (ENV === 'development') {
+    //     self.skipWaiting()
+    // }
     console.log('[ServiceWorker] Install');
     e.waitUntil(
         caches.open(cacheName).then(function (cache) {
@@ -67,9 +83,10 @@ self.addEventListener('activate', function (e) {
  */
 self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
-    var dataUrl = '/weather_data';
+    var dataUrl = '/allStories';
+    let urlList = ['/allStories', '/singleStory', '/insertStory']
     //if the request is '/weather_data', post to the server - do nit try to cache it
-    if (e.request.url.indexOf(dataUrl) > -1) {
+    if (e.request.url.indexOf('/allStories') > -1 || e.request.url.indexOf('/insertStory') > -1 || e.request.url.indexOf('/updateStory') > -1){
         /*
          * When the request URL contains dataUrl, the app is asking for fresh
          * weather data. In this case, the service worker always goes to the
@@ -79,12 +96,14 @@ self.addEventListener('fetch', function (e) {
          */
         return fetch(e.request)
             .then( (response) => {
+                console.log(response)
                 // note: it the network is down, response will contain the error
                 // that will be passed to Ajax
                 return response;
             })
             // the error will be passed to Ajax
             .catch((error) => {
+                console.log(error)
                 return error;
             })
     } else {
@@ -104,7 +123,8 @@ self.addEventListener('fetch', function (e) {
                             if (!response.ok ||  response.statusCode>299) {
                                 console.log("error: " + response.error());
                             } else {
-                                caches.add(response.clone());
+                                console.log(response)
+                                // caches.add(response.clone());
                                 return response;
                             }
                         })
@@ -114,4 +134,5 @@ self.addEventListener('fetch', function (e) {
             })
         );
     }
+
 });

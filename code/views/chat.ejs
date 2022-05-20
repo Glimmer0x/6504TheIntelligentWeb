@@ -3,20 +3,22 @@
 <head>
     <link rel='stylesheet' href='/css/bootstrap.css'/>
     <script src="/scripts/bootstrap.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/axios.min.js"></script>
     <script src="/scripts/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/chat.js"></script>
     <script src="/scripts/canvas.js"></script>
     <script src="/scripts/annotationDatabase.js" type="module"></script>
+    <script src="/scripts/database.js" type="module"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/knowledge/kgsearch/widget/1.0/widget.min.css">
     <script type="text/javascript" src="https://www.gstatic.com/knowledge/kgsearch/widget/1.0/widget.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
     <script type="application/javascript" src="/scripts/knowledgeGraph.js"></script>
 </head>
 <body onload="init()">
 <div id="initial_form" class="form-group px-md-3 pb-md-3" style="display: block">
+    <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
     <label class="form-label mt-4">Join Discussion</label>
     <div class="row g-3">
         <div class="col">

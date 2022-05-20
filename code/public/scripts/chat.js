@@ -102,7 +102,19 @@ function connectToRoom() {
             initKG(chat);
         })
         .catch((error)=>{
-            alert('Error: '+error)
+            // alert('Error: '+error)
+            let result = getStoryFromCachedData(story_title);
+            let instance = result[0];
+            // console.log(result)
+            // console.log(instance)
+            let title = get_story_title(instance);
+            let img_url = get_story_image(instance);
+            let description = get_story_description(instance);
+            let author = get_family_name(instance) + " " + get_first_name(instance);
+            let createTime = get_date(instance);
+            initStory(title, author, createTime, img_url, description);
+            initCanvas(roomNo, img_url, name);
+            initKG(chat);
         })
 }
 
@@ -153,3 +165,34 @@ function hideLoginInterface(room, userId) {
 
 }
 
+/**
+ * When the client gets off-line, it shows an off line warning to the user
+ * so that it is clear that the data is stale
+ */
+window.addEventListener('offline', function(e) {
+    // Queue up events for server.
+    console.log("You are offline");
+    showOfflineWarning();
+    alert('you are offline')
+}, false);
+
+/**
+ * When the client gets online, it hides the off line warning
+ */
+window.addEventListener('online', async function(e) {
+    // Resync data with server.
+    console.log("You are online");
+    hideOfflineWarning();
+}, false);
+
+
+function showOfflineWarning(){
+    if (document.getElementById('offline_div')!=null)
+        document.getElementById('offline_div').style.display='block';
+
+}
+
+function hideOfflineWarning(){
+    if (document.getElementById('offline_div')!=null)
+        document.getElementById('offline_div').style.display='none';
+}
