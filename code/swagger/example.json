@@ -1,0 +1,190 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "version": "1.0.0",
+    "title": "com3504",
+    "description": "User management API",
+    "termsOfService": "http://api_url/terms/",
+    "contact": {
+      "name": "COM3504/6504",
+      "email": "f.ciravegna@shef.ac.uk",
+      "url": "http://shef.ac.uk"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "the only Local server"
+    }
+  ],
+  "paths": {
+    "/child": {
+      "post": {
+        "tags": [
+          "silly operations"
+        ],
+        "description": "add some pointless information about a child's age and the name of a parent",
+        "operationId": "child",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Child"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Correct input of Child structure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Child"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "age is not a number",
+                  "internal_code": "missing_parameters"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adult": {
+         "post": {
+           "tags": [
+             "silly operations"
+           ],
+           "description": "add some pointless information about an adult like age, weight and height",
+           "operationId": "adult",
+           "requestBody": {
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Adult"
+                 }
+               }
+             },
+             "required": true
+           },
+           "responses": {
+             "200": {
+               "description": "Correct input of Adult",
+               "content": {
+                 "application/json": {
+                   "schema": {
+                     "$ref": "#/components/schemas/Adult"
+                   }
+                 }
+               }
+             },
+             "401": {
+               "description": "Missing parameters",
+               "content": {
+                 "application/json": {
+                   "schema": {
+                     "$ref": "#/components/schemas/Error"
+                   },
+                   "example": {
+                     "message": "age is not a number",
+                     "internal_code": "missing_parameters"
+                   }
+                 }
+               }
+             }
+           }
+         }
+       }
+  },
+  "components": {
+      "schemas": {
+        "age": {
+          "type": "integer",
+          "description": "age of a person",
+          "example": 9
+        },
+        "height": {
+          "type": "integer",
+          "description": "height in cm",
+          "example": 185
+        },
+        "weight": {
+          "type": "integer",
+          "description": "weight in kg",
+          "example": 65
+        },
+        "name": {
+          "type": "string",
+          "example": "John"
+        },
+        "surname": {
+          "type": "string",
+          "example": "White"
+        },
+        "Adult": {
+          "type": "object",
+          "properties": {
+            "age": {
+              "$ref": "#/components/schemas/age"
+            },
+            "height": {
+              "$ref": "#/components/schemas/height"
+            },
+            "weight": {
+              "$ref": "#/components/schemas/weight"
+            }
+          }
+        },
+        "Child": {
+          "type": "object",
+          "properties": {
+            "age": {
+              "$ref": "#/components/schemas/age"
+            },
+            "parent": {
+              "$ref": "#/components/schemas/Parent"
+            }
+          }
+        },
+        "Parent": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "#/components/schemas/name"
+            },
+            "surname": {
+              "$ref": "#/components/schemas/surname"
+            }
+          }
+        },
+        "Error": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "internal_code": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+}

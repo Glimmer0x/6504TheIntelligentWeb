@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Users = new Schema(
+const User = new Schema(
     {
         username: {type: String, required: true, max: 100, unique: true},
         password: {type: String, required: true, max: 100},
@@ -11,6 +11,6 @@ const Users = new Schema(
 );
 
 
-Users.set('toObject', {getters: true});
+User.set('toObject', {getters: true});
 
-module.exports = mongoose.model('Users', Users);
+module.exports = mongoose.model('Users', User);

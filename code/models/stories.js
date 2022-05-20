@@ -14,7 +14,7 @@ const Story = new Schema(
 );
 
 
-// Virtual for a character's age
+// Virtual for a name of author
 Story.virtual('name')
     .get(function () {
         return this.first_name + ' ' + this.family_name;

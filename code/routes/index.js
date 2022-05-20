@@ -6,11 +6,17 @@ var initDB = require('../controllers/init');
 initDB.init();
 
 router.get('/', function(req, res, next) {
+    /*
+    #swagger.description = 'Redirect to login page to verify user at first.'
+    */
     return res.render('login', {errorMsg: 'Please login!'});
 });
 
 router.get('/index', function(req, res, next) {
-  res.render('index', { title: 'Story Club' });
+    /*
+    #swagger.description = 'Home page. Display all stories.'
+    */
+    res.render('index', { title: 'Story Club' });
 })
 
 router.get('/allStories', story.getStories);

@@ -1,26 +1,66 @@
 let userModel = require('../models/users');
 
 exports.checkUser = function (req, res) {
+    /* #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Verify a user',
+            schema: { $ref: '#/components/schemas/User' }
+    }
+    */
+
     let userData = req.body;
+    if (userData == null) {
+        /* #swagger.responses[400] = {
+            description: 'Bad request. Data received is null.'
+        }
+        */
+        res.status(400).send('Bad request. Data received is null.')
+    }
     const username = userData.username;
     const password = userData.password;
     userModel.findOne({username: username})
         .then((singleUser) => {
             if(singleUser?.password===password) {
+                /* #swagger.responses[200] = {
+                description: 'Verify a user successfully.'
+                }
+                */
+                res.status(200);
                 res.render('index', {title: 'Story Club', username});
             }else{
-                res.render('login', {errorMsg: "User not exist"})
+                /* #swagger.responses[403] = {
+                description: 'User not exist or password incorrect.'
+                }
+                */
+                res.status(403);
+                res.render('login', {errorMsg: "User not exist or password incorrect"})
             }
         })
-        .catch((err) => {
-            res.render('login', {errorMsg: err.message});
+        .catch((error) => {
+            /* #swagger.responses[500] = {
+                description: 'Internal Server Error. Could not verify a user - probably incorrect data.'
+            }
+            */
+            res.status(500);
+            res.render('login', {errorMsg: error.message});
         });
 }
 
 exports.insert = function (req, res) {
+    /* #swagger.parameters['body'] = {
+                in: 'body',
+                description: 'Adding new user',
+                schema: { $ref: '#/components/schemas/User' }
+    }
+    */
+
     let userData = req.body;
     if (userData == null) {
-        res.status(403).send('No data sent!')
+        /* #swagger.responses[400] = {
+            description: 'Bad request. Data received is null.'
+        }
+        */
+        res.status(400).send('Bad request. Data received is null.')
     }
 
     let singleUser = new userModel({
@@ -31,13 +71,17 @@ exports.insert = function (req, res) {
 
     singleUser.save()
         .then ((results) => {
-            res.json({results:results, redirect_url: '/login'});
+            /* #swagger.responses[201] = {
+            description: 'Add a user successfully.'
+            }
+            */
+            res.status(201).send('Add a user successfully');
         })
         .catch ((error) => {
-            res.status(500).json('Could not insert - probably incorrect data! ' + JSON.stringify(error));
+        /* #swagger.responses[500] = {
+            description: 'Internal Server Error. Could not add a user - probably incorrect data.'
+        }
+        */
+        res.status(500).send('Could not insert - probably incorrect data! ' + JSON.stringify(error));
         })
-
-
 }
-
-// Moongose 5.8.11 doesn't support arrow functions with getters (and presumably setters).

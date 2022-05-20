@@ -1,0 +1,434 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "version": "1.0.0",
+    "title": "StoryClub",
+    "description": "User management API",
+    "contact": {
+      "name": "COM6504",
+      "email": "lliu74@shef.ac.uk",
+      "url": "https://github.com/Kity2023"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "the only Local server of StoryClub"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Redirect to login page to verify user at first.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/index": {
+      "get": {
+        "description": "Home page. Display all stories.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/allStories": {
+      "get": {
+        "description": "Get all stories.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get all stories successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Story"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Story"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/singleStory": {
+      "post": {
+        "description": "Get a single story with given title.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get a single story by title successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Story"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Story"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Title received is null."
+          },
+          "404": {
+            "description": "Did not find a story by given title."
+          },
+          "500": {
+            "description": "Internal Server Error."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "story_title": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/insertStory": {
+      "post": {
+        "description": "Add a new story.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Add a story successfully."
+          },
+          "400": {
+            "description": "Bad request. Story data received is null."
+          },
+          "500": {
+            "description": "Internal Server Error. Could not insert - probably incorrect data!"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "example": "any"
+                  },
+                  "family_name": {
+                    "example": "any"
+                  },
+                  "story_title": {
+                    "example": "any"
+                  },
+                  "story_image": {
+                    "example": "any"
+                  },
+                  "story_description": {
+                    "example": "any"
+                  },
+                  "date": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updateStory": {
+      "post": {
+        "description": "@todo.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Add a story successfully."
+          },
+          "400": {
+            "description": "Bad request. Story data received is null."
+          },
+          "500": {
+            "description": "Internal Server Error. Could not insert - probably incorrect data!"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "story_title": {
+                    "example": "any"
+                  },
+                  "first_name": {
+                    "example": "any"
+                  },
+                  "family_name": {
+                    "example": "any"
+                  },
+                  "story_image": {
+                    "example": "any"
+                  },
+                  "story_description": {
+                    "example": "any"
+                  },
+                  "date": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "description": "Login page.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Verify a user successfully."
+          },
+          "400": {
+            "description": "Bad request. Data received is null."
+          },
+          "403": {
+            "description": "User not exist or password incorrect."
+          },
+          "500": {
+            "description": "Internal Server Error. Could not verify a user - probably incorrect data."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "Logout. Simply go back to login page.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/signup": {
+      "get": {
+        "description": "Sign page.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Add a user successfully."
+          },
+          "400": {
+            "description": "Bad request. Data received is null."
+          },
+          "500": {
+            "description": "Internal Server Error. Could not add a user - probably incorrect data."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat/story/{title}": {
+      "get": {
+        "description": "Enter a chat room.",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            },
+            "description": "Title of a selected story for discussion"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request. Title received is null."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Story": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "Tom"
+                  }
+                }
+              },
+              "family_name": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "John"
+                  }
+                }
+              },
+              "story_title": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "Visiting the UK."
+                  }
+                }
+              },
+              "story_image": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "picture coded in base64"
+                  }
+                }
+              },
+              "story_description": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "A good trip to the UK."
+                  }
+                }
+              },
+              "date": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "2022-05-17T22:57:02.637Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "Story"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "Glimmer"
+                  }
+                }
+              },
+              "password": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      }
+    }
+  }
+}
