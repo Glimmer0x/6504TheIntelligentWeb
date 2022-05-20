@@ -110,7 +110,7 @@ exports.insert = function (req, res) {
 
 exports.update = function (req, res) {
     /*
-    #swagger.description = '@update story. when system goes online from offline, it will check if the story in indexDB exists in mongoDB, if not, insert the story into mongoDB'
+    #swagger.description = 'update story. when system goes online from offline, it will check if the story in indexDB exists in mongoDB, if not, insert the story into mongoDB'
     */
     let data = req.body;
     if (data == null) {

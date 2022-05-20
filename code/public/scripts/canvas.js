@@ -1,17 +1,15 @@
 /**
  * this file contains the functions to control the drawing on the canvas
  */
-let userId;
 let color = 'red', thickness = 4;
 
 /**
  * it inits the image canvas to draw on. It sets up the events to respond to (click, mouse on, etc.)
- * it is also the place where the data should be sent  via socket.io
- * @param skt the open socket to register events on
- * @param imageUrl teh image url to download
+ * it is also the place where the data should be sent via socket.io
+ * @param {number} roomNo the number of chat room
+ * @param {string} name the id of user
  */
-
-function initCanvas(roomNo, img_url, name) {
+function initCanvas(roomNo, name) {
     let flag = false,
         prevX, prevY, currX, currY = 0;
     let canvas = $('#canvas');
@@ -77,15 +75,15 @@ function initCanvas(roomNo, img_url, name) {
         drawImageScaled(img, canvas, ctx);
 
     });
-
+    // set color of pen to red
     $('#red-pen').on('click', function (e) {
         color = 'red';
     });
-
+    // set color of pen to green
     $('#green-pen').on('click', function (e) {
         color = 'green';
     });
-
+    // set color of pen to blue
     $('#blue-pen').on('click', function (e) {
         color = 'blue';
     });
@@ -119,14 +117,15 @@ function initCanvas(roomNo, img_url, name) {
                 // get cached data
                 getCachedData(name, roomNo)
                     .then((dataR) => {
-                        let annotationList = dataR
+                        // load history annotations
+                        let annotationList = dataR;
                         for (let index in dataR) {
-                            let annotation = annotationList[index]
+                            let annotation = annotationList[index];
                             if (get_message(annotation) !== '' && get_pixel_pair(annotation).length ===0) {
-                                let message = get_message(annotation)
-                                let who = get_name(annotation)
+                                let message = get_message(annotation);
+                                let who = get_name(annotation);
                                 if (who === name) who = 'Me';
-                                writeOnCommentsHistory('<b>' + who + ':</b> ' + message);
+                                writeOnChatHistory('<b>' + who + ':</b> ' + message);
                             } else if (get_message(annotation) === '' && get_pixel_pair(annotation).length !==0) {
                                 let pixel_pair = get_pixel_pair(annotation)
                                 let canvas = get_canvas(annotation)
@@ -158,9 +157,9 @@ function initCanvas(roomNo, img_url, name) {
 /**
  * called when it is required to draw the image on the canvas. We have resized the canvas to the same image size
  * so ti is simpler to draw later
- * @param img
- * @param canvas
- * @param ctx
+ * @param {HTMLElement} img image html element in the html page
+ * @param canvas the canvas element obtained by jquery
+ * @param {HTMLElement} ctx the canvas context
  */
 function drawImageScaled(img, canvas, ctx) {
     // get the scale
@@ -179,15 +178,15 @@ function drawImageScaled(img, canvas, ctx) {
  * this is called when we want to display what we (or any other connected via socket.io) draws on the canvas
  * note that as the remote provider can have a different canvas size (e.g. their browser window is larger)
  * we have to know what their canvas size is so to map the coordinates
- * @param ctx the canvas context
- * @param canvasWidth the originating canvas width
- * @param canvasHeight the originating canvas height
- * @param prevX the starting X coordinate
- * @param prevY the starting Y coordinate
- * @param currX the ending X coordinate
- * @param currY the ending Y coordinate
- * @param color of the line
- * @param thickness of the line
+ * @param {HTMLElement} ctx the canvas context
+ * @param {number} canvasWidth the originating canvas width
+ * @param {number} canvasHeight the originating canvas height
+ * @param {number} prevX the starting X coordinate
+ * @param {number} prevY the starting Y coordinate
+ * @param {number} currX the ending X coordinate
+ * @param {number} currY the ending Y coordinate
+ * @param {string} color color of the line
+ * @param {number} thickness thickness of the line
  */
 function drawOnCanvas(ctx, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness) {
     //get the ration between the current canvas and the one it has been used to draw on the other comuter

@@ -1,6 +1,11 @@
+// URL of knowledge graph service
 const service_url = 'https://kgsearch.googleapis.com/v1/entities:search';
+// api key of knowledge graph service
 const apiKey= 'AIzaSyAG7w627q-djB4gTTahssufwNOImRqdYKM';
 
+/**
+ * obtain a random color when a knowledge graph result is selected
+ */
 function getRndColor() {
     let r = 255*Math.random()|0,
         g = 255*Math.random()|0,
@@ -8,6 +13,10 @@ function getRndColor() {
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
+/**
+ * it inits socket to listen event of selecting a knowledge graph result
+ * @param skt socket object, using chat here
+ */
 function initKG(skt){
     // capture the event on the socket when someone else is putting results of knowledge graph
     skt.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor, row) {
@@ -46,6 +55,7 @@ function widgetInit(){
 
 /**
  * callback called when an element in the widget is selected
+ * tell others the selected result
  * @param event the Google Graph widget event {@link https://developers.google.com/knowledge-graph/how-tos/search-widget}
  */
 function selectItem(event){
@@ -69,6 +79,14 @@ function selectItem(event){
     storeCachedData(name, roomNo, data)
 }
 
+/**
+ * append a knowledge graph result into result panel div
+ * @param {string} itemId id of a knowledge graph result
+ * @param {string} itemName name of a knowledge graph result
+ * @param {string} itemRc description of a knowledge graph result
+ * @param {string} itemGc URL link to website
+ * @param {string} borderColor color of border
+ */
 function putItem(itemId, itemName, itemRc, itemGc, borderColor){
     let resultPanel =  document.getElementById('resultPanel');
     resultPanel.style.display= 'block';

@@ -26,9 +26,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const service_url = 'https://kgsearch.googleapis.com/v1/entities:search';
+            <pre class="prettyprint source linenums"><code>// URL of knowledge graph service
+const service_url = 'https://kgsearch.googleapis.com/v1/entities:search';
+// api key of knowledge graph service
 const apiKey= 'AIzaSyAG7w627q-djB4gTTahssufwNOImRqdYKM';
 
+/**
+ * obtain a random color when a knowledge graph result is selected
+ */
 function getRndColor() {
     let r = 255*Math.random()|0,
         g = 255*Math.random()|0,
@@ -36,9 +41,15 @@ function getRndColor() {
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
+/**
+ * it inits socket to listen event of selecting a knowledge graph result
+ * @param skt socket object, using chat here
+ */
 function initKG(skt){
     // capture the event on the socket when someone else is putting results of knowledge graph
-    skt.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor) {
+    skt.on('KG', function (room, itemId, itemName, itemRc, itemGc, borderColor, row) {
+        // console.log(row)
+        storeKnowledgeGraphToCachedData(row)
         putItem(itemId, itemName, itemRc, itemGc, borderColor);
     });
 }
@@ -72,18 +83,38 @@ function widgetInit(){
 
 /**
  * callback called when an element in the widget is selected
+ * tell others the selected result
  * @param event the Google Graph widget event {@link https://developers.google.com/knowledge-graph/how-tos/search-widget}
  */
 function selectItem(event){
     let row= event.row;
+    // console.log(row)
+    storeKnowledgeGraphToCachedData(row);
     // document.getElementById('resultImage').src= row.json.image.url;
     let borderColor = getRndColor();
     color = borderColor;
     putItem(row.id, row.name, row.rc, row.gc, borderColor);
-    chat.emit('KG', roomNo, row.id, row.name, row.rc, row.gc, borderColor);
+    chat.emit('KG', roomNo, row.id, row.name, row.rc, row.gc, borderColor, row);
     chat.emit('chat', roomNo, name, 'Put a knowledge graph item -'+row.id);
+    let date = new Date(Date.now()).toISOString()
+    let data = {
+        'name': name,
+        'roomId': roomNo,
+        'pixel_pair': [],
+        'message': 'Put a knowledge graph item -'+row.id,
+        'date': date
+    }
+    storeCachedData(name, roomNo, data)
 }
 
+/**
+ * append a knowledge graph result into result panel div
+ * @param {string} itemId id of a knowledge graph result
+ * @param {string} itemName name of a knowledge graph result
+ * @param {string} itemRc description of a knowledge graph result
+ * @param {string} itemGc URL link to website
+ * @param {string} borderColor color of border
+ */
 function putItem(itemId, itemName, itemRc, itemGc, borderColor){
     let resultPanel =  document.getElementById('resultPanel');
     resultPanel.style.display= 'block';
@@ -138,13 +169,13 @@ function queryMainEntity(id, type){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnCommentsHistory">writeOnCommentsHistory</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#getKnowledgeGraphFromCachedData">getKnowledgeGraphFromCachedData</a></li><li><a href="global.html#getRndColor">getRndColor</a></li><li><a href="global.html#getStoryFromCachedData">getStoryFromCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#hideOfflineWarning">hideOfflineWarning</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initKG">initKG</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#onLoadLoginPage">onLoadLoginPage</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#putItem">putItem</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#showOfflineWarning">showOfflineWarning</a></li><li><a href="global.html#signup">signup</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#storeKnowledgeGraphToCachedData">storeKnowledgeGraphToCachedData</a></li><li><a href="global.html#storeStoryToCachedData">storeStoryToCachedData</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnChatHistory">writeOnChatHistory</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 03:45:37 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 13:28:30 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

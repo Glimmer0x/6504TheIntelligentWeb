@@ -27,7 +27,6 @@ function init() {
 /**
  * it initialises the socket for /chat
  */
-
 function initChatSocket() {
     // called when someone joins the room. If it is someone else it notifies the joining of the room
     chat.on('joined', function (room, userId) {
@@ -36,7 +35,7 @@ function initChatSocket() {
             hideLoginInterface(room, userId);
         } else {
             // notifies that someone has joined the room
-            writeOnCommentsHistory('<b>' + userId + '</b>' + ' joined room ' + room);
+            writeOnChatHistory('<b>' + userId + '</b>' + ' joined room ' + room);
         }
     });
     // called when a message is received
@@ -51,7 +50,7 @@ function initChatSocket() {
             'date': date
         }
         storeCachedData(who, room, data)
-        writeOnCommentsHistory('<b>' + who + ':</b> ' + chatText);
+        writeOnChatHistory('<b>' + who + ':</b> ' + chatText);
     });
 
 }
@@ -72,14 +71,15 @@ function sendChatText() {
         'date': date
     }
     storeCachedData(name, roomNo, data)
-    writeOnCommentsHistory('<b>' + 'Me' + ':</b> ' + chatText);
+    writeOnChatHistory('<b>' + 'Me' + ':</b> ' + chatText);
     chat.emit('chat', roomNo, name, chatText);
 }
 
 /**
  * used to connect to a room. It gets the user name and room number from the
- * interface
- * It connects both chat and news at the same time
+ * interface.
+ * It connects chat and load story in room and initialize canvas and knowledge
+ * graph.
  */
 function connectToRoom() {
     let story_title = document.getElementById('story_title').innerText;
@@ -98,7 +98,7 @@ function connectToRoom() {
             let author = instance.family_name + " " + instance.first_name;
             let createTime = instance.date;
             initStory(title, author, createTime, img_url, description);
-            initCanvas(roomNo, img_url, name);
+            initCanvas(roomNo, name);
             initKG(chat);
         })
         .catch((error)=>{
@@ -120,9 +120,9 @@ function connectToRoom() {
 
 /**
  * it appends the given html text to the history div
- * @param text: teh text to append
+ * @param text the text to append
  */
-function writeOnCommentsHistory(text) {
+function writeOnChatHistory(text) {
     let history = document.getElementById('chat_history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
@@ -131,8 +131,11 @@ function writeOnCommentsHistory(text) {
 }
 
 /**
- * it appends the given html text to the history div
- * @param json: the story to display
+ * load story to the story container div
+ * @param {string} title the story title to display
+ * @param {string} author the story author to display
+ * @param {string} img_url the URL of story image to display
+ * @param {string} description the story description to display
  */
 function initStory(title,author, createTime, img_url, description) {
     let title_element = document.getElementById('story_title');
@@ -150,7 +153,7 @@ function initStory(title,author, createTime, img_url, description) {
 
 
 /**
- * it hides the initial form and shows the chat
+ * it hides the initial form and shows the chat, story and knowledge graph
  * @param room the selected room
  * @param userId the user name
  */
