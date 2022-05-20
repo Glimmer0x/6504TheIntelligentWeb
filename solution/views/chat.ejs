@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <script src="/scripts/bootstrap.js"></script>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/axios.min.js"></script>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/chat.js"></script>
+    <script src="/scripts/canvas.js"></script>
+    <script src="/scripts/annotationDatabase.js" type="module"></script>
+    <script src="/scripts/database.js" type="module"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/knowledge/kgsearch/widget/1.0/widget.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/knowledge/kgsearch/widget/1.0/widget.min.js"></script>
+<!--     <script src="/styles/bootstrap.min.js"></script> -->
+    <script type="application/javascript" src="/scripts/knowledgeGraph.js"></script>
+</head>
+<body onload="init()">
+<div id="initial_form" class="form-group px-md-3 pb-md-3" style="display: block">
+    <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
+    <label class="form-label mt-4">Join Discussion</label>
+    <div class="row g-3">
+        <div class="col">
+            <input id="name" type="text" class="form-control" placeholder="User ID">
+        </div>
+        <div class="col">
+            <input id="roomNo" type="text" class="form-control" placeholder="Room ID">
+        </div>
+        <div class="col">
+            <button id="connect" onclick="connectToRoom()" class="btn btn-lg btn-primary form-control" type="button">Join</button>
+        </div>
+    </div>
+</div>
+<div id="KG-tool" class="container fixed-top" style="display: none">
+    <div class="row">
+        <div class="col" id="typeForm">
+            <label for="myType">Type: </label>
+            <div class="input-group">
+                <input class="form-control me-sm-2 bg-black bg-opacity-75 opacity-75" type="text" id="myType">
+                <button class="btn btn-secondary my-2 my-sm-0" onclick="widgetInit()">Set</button>
+            </div>
+        </div>
+        <div class="col" id='widget' style="display: none">
+            <label id="searchHint" for="myInput"></label>
+            <input class="form-control me-sm-2 bg-black bg-opacity-75 opacity-75" type="text" id="myInput">
+        </div>
+    </div>
+
+</div>
+
+<div id="story_panel_container" class="container pt-md-5" style="display: none">
+    <div class="row">
+        <div id="story_container" class="card col">
+            <div class="input-group w-75">
+                <button id="red-pen" type="button" class="btn btn-secondary"> Red</button>
+                <button id="green-pen" type="button" class="btn btn-secondary"> Green</button>
+                <button id="blue-pen" type="button" class="btn btn-secondary"> Blue</button>
+                <button id="canvas-clear" type="button" class="btn btn-secondary"> Clear trace</button>
+            </div>
+
+            <div class="card-body">
+                <img class="w-100" alt="Card image cap" id="img">
+                <canvas id="canvas" ></canvas>
+                <h5 class="card-title" id="story_title"><%= storyTitle %></h5>
+                <h6 id="story_author"></h6>
+                <p class="card-text" id="description"></p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted" id="story_time"></small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col list-group" id="resultPanel" style="display: block">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="chat_interface" class="px-md-3 pt-md-3" style="display: block">
+    <div id="chat_history" class="pb-md-5">
+    </div>
+    <div id="chat_container" class="fixed-bottom">
+        <div class="input-group">
+            <input id="chat_input" type="text" class="form-control bg-dark bg-opacity-75" placeholder="Write commetns here." aria-describedby="button-addon2">
+            <button id="chat_send" onsubmit="return false;" onclick="sendChatText()" class="btn btn-info" type="button" id="chat_input">Comment</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Story Club</title>
+		<link rel="stylesheet" href="/css/base.css">
+		<link rel="stylesheet" href="/css/index.css">
+		<link rel="stylesheet" href="/css/login.css">
+	</head>
+	<body>
+	<div id="results" style="margin-top:30px"></div>
+		<section class="prompt">
+			<h3>Story Club</h3>
+			<h1>Sign up</h1>
+			<form>
+				<section>
+					<label for="username">Username</label>
+					<input id="username" name="username" type="text" autocomplete="username" required>
+				</section>
+				<section>
+					<label for="new-password">Password</label>
+					<input id="new-password" name="password" type="password" autocomplete="new-password" required>
+				</section>
+				<button type="button" onclick="signup()">Sign up</button>
+			</form>
+			<hr>
+			<p class="help">Already have an account? <a href="/login">Sign in</a></p>
+		</section>
+	<script src="/scripts/axios.min.js"></script>
+	<script src="/scripts/users.js"></script>
+	</body>
+</html>

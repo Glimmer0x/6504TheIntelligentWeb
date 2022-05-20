@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <script src="/scripts/bootstrap.js"></script>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/axios.min.js"></script>
+    <script src="/scripts/database.js" type="module"></script>
+    <script src="/scripts/annotationDatabase.js" type="module"></script>
+    <script src="/scripts/history.js"></script>
+</head>
+<body onload="initHistory()">
+<nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">StoryClub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/index">Home
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/history">History</a>
+                </li>
+            </ul>
+            <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
+        </div>
+    </div>
+</nav>
+<div class="row row-cols-1 row-cols-md-3 g-4 px-md-3 pt-md-5" id="story-list">
+
+</div>
+<!-- Modal -->
+<form method="post">
+    <div class="modal fade" id="DialogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Story</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="story_title" class="col-sm-3 control-label">Story Title</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="story_title" id="story_title">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="first_name" class="col-sm-3 control-label">First Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="first_name" id="first_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last_name" class="col-sm-3 control-label">Last Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="last_name" id="last_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="description" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formFile" class="form-label">Image</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="file" id="formFile" onchange="encodeImageFileAsURL(this)" >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addStory()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form>
+
+</body>
+</html>
