@@ -3,7 +3,8 @@
 import * as idb from './idb/index.js';
 
 
-/** class Story{
+/** using a data model:
+ * class Story{
  *  constructor (first_name, family_name, story_title, story_image, story_description, date) {
  *    this.first_name= first_name;
  *    this.family_name= family_name,
@@ -42,8 +43,8 @@ window.initDatabase= initDatabase;
 
 /**
  * it saves the stories in localStorage
- * @param story_title
- * @param storyObject
+ * @param {string} story_title title of a story
+ * @param {object} storyObject a story object
  */
 async function storeCachedData(story_title, storyObject) {
     // console.log('inserting: '+JSON.stringify(storyObject));
@@ -73,8 +74,8 @@ window.storeCachedData=storeCachedData;
 
 /**
  * it retrieves the story for a story_title from the database
- * @param story_title
- * @returns {*}
+ * @param {string} story_title title of a story
+ * @return {array} list of stories
  */
 async function getCachedData(story_title) {
     if (!db)
@@ -120,8 +121,8 @@ window.getCachedData= getCachedData;
 
 /**
  * given the server data, it returns the value of the field first_name
- * @param dataR the data returned by the server
- * @returns {*}
+ * @param {object} dataR the story object returned by the server
+ * @returns {string} first name of the author
  */
 function get_first_name(dataR) {
     if (dataR.first_name == null && dataR.first_name === undefined)
@@ -131,9 +132,9 @@ function get_first_name(dataR) {
 window.get_first_name=get_first_name;
 
 /**
- * given the server data, it returns the value of the field wind
- * @param dataR the data returned by the server
- * @returns {*}
+ * given the server data, it returns the value of the field family_name
+ * @param {object} dataR the story object returned by the server
+ * @returns {string} family name of the author
  */
 function get_family_name(dataR) {
     if (dataR.family_name == null && dataR.family_name === undefined)
@@ -144,8 +145,8 @@ window.get_family_name=get_family_name;
 
 /**
  * given the server data, it returns the value of the field story_title
- * @param dataR the data returned by the server
- * @returns {*}
+ * @param {object} dataR the story object returned by the server
+ * @returns {string} title of the story
  */
 function get_story_title(dataR) {
     if (dataR.story_title == null && dataR.story_title === undefined)
@@ -157,8 +158,9 @@ window.get_story_title=get_story_title;
 
 /**
  * given the server data, it returns the value of the field date
- * @param dataR the data returned by the server
- * @returns {*}
+ * @param {object} dataR the story object returned by the server
+ * @returns {string} return 'unavailable' if dataR is null else
+ * return the date of the story
  */
 function get_date(dataR) {
     if (dataR.date == null && dataR.date === undefined)
@@ -169,8 +171,8 @@ window.get_date=get_date;
 
 /**
  * given the server data, it returns the value of the field image
- * @param dataR the data returned by the server
- * @returns {*}
+ * @param {object} dataR the story object returned by the server
+ * @returns {string} image data coded in base64
  */
 function get_story_image(dataR) {
     if (dataR.story_title == null && dataR.story_title === undefined)
@@ -181,8 +183,8 @@ window.get_story_image=get_story_image;
 
 /**
  * given the server data, it returns the value of the field description
- * @param dataR the data returned by the server
- * @returns {*}
+ * @param {object} dataR the story object returned by the server
+ * @returns {string} description of the story
  */
 function get_story_description(dataR) {
     if (dataR.story_description == null && dataR.story_description === undefined)

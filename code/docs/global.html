@@ -160,6 +160,68 @@
 
         
             
+<h4 class="name" id="color"><span class="type-signature"></span>color<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    this file contains the functions to control the drawing on the canvas
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line4">line 4</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="db"><span class="type-signature"></span>db<span class="type-signature"></span></h4>
 
 
@@ -236,7 +298,8 @@
 
 
 <div class="description">
-    class Story{
+    using a data model:
+class Story{
  constructor (first_name, family_name, story_title, story_image, story_description, date) {
    this.first_name= first_name;
    this.family_name= family_name,
@@ -283,69 +346,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line17">line 17</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="userId"><span class="type-signature"></span>userId<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    this file contains the functions to control the drawing on the canvas
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line4">line 4</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -532,13 +533,18 @@ it adds a row of weather forecasts to the story-list div
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">the data returned by the server, a Story object</td>
         </tr>
 
     
@@ -579,7 +585,7 @@ it adds a row of weather forecasts to the story-list div
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="app.js.html">app.js</a>, <a href="app.js.html#line180">line 180</a>
+        <a href="app.js.html">app.js</a>, <a href="app.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -615,6 +621,165 @@ it adds a row of weather forecasts to the story-list div
     
 
     
+    <h4 class="name" id="checkLoginData"><span class="type-signature"></span>checkLoginData<span class="signature">(form)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    check login data is not null
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>form</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">form</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a login form including two string: username and password</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="users.js.html">users.js</a>, <a href="users.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    return false if login data is null else return ture
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="connectToRoom"><span class="type-signature"></span>connectToRoom<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -624,8 +789,9 @@ it adds a row of weather forecasts to the story-list div
 
 <div class="description">
     used to connect to a room. It gets the user name and room number from the
-interface
-It connects both chat and news at the same time
+interface.
+It connects chat and load story in room and initialize canvas and knowledge
+graph.
 </div>
 
 
@@ -887,13 +1053,18 @@ so ti is simpler to draw later
 
             <td class="type">
             
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">image html element in the html page</td>
         </tr>
 
     
@@ -911,7 +1082,7 @@ so ti is simpler to draw later
 
             
 
-            <td class="description last"></td>
+            <td class="description last">the canvas element obtained by jquery</td>
         </tr>
 
     
@@ -923,13 +1094,18 @@ so ti is simpler to draw later
 
             <td class="type">
             
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">the canvas context</td>
         </tr>
 
     
@@ -970,7 +1146,7 @@ so ti is simpler to draw later
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line150">line 150</a>
+        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -1057,6 +1233,11 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
             </td>
 
             
@@ -1074,6 +1255,11 @@ we have to know what their canvas size is so to map the coordinates
             
 
             <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
             
             </td>
 
@@ -1093,6 +1279,11 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">number</span>
+
+
+            
             </td>
 
             
@@ -1110,6 +1301,11 @@ we have to know what their canvas size is so to map the coordinates
             
 
             <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
             
             </td>
 
@@ -1129,6 +1325,11 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">number</span>
+
+
+            
             </td>
 
             
@@ -1146,6 +1347,11 @@ we have to know what their canvas size is so to map the coordinates
             
 
             <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
             
             </td>
 
@@ -1165,6 +1371,11 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">number</span>
+
+
+            
             </td>
 
             
@@ -1183,13 +1394,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">of the line</td>
+            <td class="description last">color of the line</td>
         </tr>
 
     
@@ -1201,13 +1417,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">of the line</td>
+            <td class="description last">thickness of the line</td>
         </tr>
 
     
@@ -1248,7 +1469,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line177">line 177</a>
+        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -1284,7 +1505,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_date"><span class="type-signature"></span>get_date<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_date"><span class="type-signature"></span>get_date<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -1292,7 +1513,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    given the server data, it returns the value of the field date
+    given the local cached annotation data, it returns the value of the field date
 </div>
 
 
@@ -1333,13 +1554,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the cached annotation object</td>
         </tr>
 
     
@@ -1408,6 +1634,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return 'unavailable' if dataR is null else return the value of the field date
+</div>
+
 
 
 <dl>
@@ -1416,7 +1646,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -1434,7 +1664,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_date"><span class="type-signature"></span>get_date<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_date"><span class="type-signature"></span>get_date<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -1483,13 +1713,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the story object returned by the server</td>
         </tr>
 
     
@@ -1530,7 +1765,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line163">line 163</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -1558,6 +1793,11 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return 'unavailable' if dataR is null else
+return the date of the story
+</div>
+
 
 
 <dl>
@@ -1566,7 +1806,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -1584,7 +1824,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_family_name"><span class="type-signature"></span>get_family_name<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_family_name"><span class="type-signature"></span>get_family_name<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -1592,7 +1832,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    given the server data, it returns the value of the field wind
+    given the server data, it returns the value of the field family_name
 </div>
 
 
@@ -1633,13 +1873,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the story object returned by the server</td>
         </tr>
 
     
@@ -1680,7 +1925,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line138">line 138</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line139">line 139</a>
     </li></ul></dd>
     
 
@@ -1708,6 +1953,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    family name of the author
+</div>
+
 
 
 <dl>
@@ -1716,7 +1965,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -1734,7 +1983,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_first_name"><span class="type-signature"></span>get_first_name<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_first_name"><span class="type-signature"></span>get_first_name<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -1783,13 +2032,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the story object returned by the server</td>
         </tr>
 
     
@@ -1830,7 +2084,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line126">line 126</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -1858,6 +2112,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    first name of the author
+</div>
+
 
 
 <dl>
@@ -1866,7 +2124,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -1884,7 +2142,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_message"><span class="type-signature"></span>get_message<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_message"><span class="type-signature"></span>get_message<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -1892,7 +2150,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    given the server data, it returns the value of the field message
+    given the local cached annotation data, it returns the value of the field message
 </div>
 
 
@@ -1933,13 +2191,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the cached annotation object</td>
         </tr>
 
     
@@ -2008,6 +2271,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return 'unavailable' if dataR is null else return the message of the object
+</div>
+
 
 
 <dl>
@@ -2016,7 +2283,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2034,7 +2301,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_name"><span class="type-signature"></span>get_name<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_name"><span class="type-signature"></span>get_name<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -2042,7 +2309,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    given the server data, it returns the value of the field name
+    given the local cached annotation data, it returns the value of the field name
 </div>
 
 
@@ -2083,13 +2350,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the cached annotation object</td>
         </tr>
 
     
@@ -2158,6 +2430,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return 'unavailable' if dataR is null else return the value of the field name
+</div>
+
 
 
 <dl>
@@ -2166,7 +2442,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2184,7 +2460,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_pixel_pair"><span class="type-signature"></span>get_pixel_pair<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_pixel_pair"><span class="type-signature"></span>get_pixel_pair<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {array}</span></h4>
     
 
     
@@ -2192,7 +2468,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    given the server data, it returns the value of the field pixel_pair
+    given the local cached annotation data, it returns the value of the field pixel_pair
 </div>
 
 
@@ -2233,13 +2509,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the cached annotation object</td>
         </tr>
 
     
@@ -2308,6 +2589,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return 'unavailable' if dataR is null else return pixel_pair
+</div>
+
 
 
 <dl>
@@ -2316,7 +2601,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">array</span>
 
 
     </dd>
@@ -2334,7 +2619,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_roomId"><span class="type-signature"></span>get_roomId<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_roomId"><span class="type-signature"></span>get_roomId<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -2342,7 +2627,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    given the server data, it returns the value of the field roomId
+    given the local cached annotation data, it returns the value of the field roomId
 </div>
 
 
@@ -2383,13 +2668,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the cached annotation object</td>
         </tr>
 
     
@@ -2458,6 +2748,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return 'unavailable' if dataR is null else return the value of the field roomId
+</div>
+
 
 
 <dl>
@@ -2466,7 +2760,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2484,7 +2778,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_story_description"><span class="type-signature"></span>get_story_description<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_story_description"><span class="type-signature"></span>get_story_description<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -2533,13 +2827,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the story object returned by the server</td>
         </tr>
 
     
@@ -2580,7 +2879,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line187">line 187</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -2608,6 +2907,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    description of the story
+</div>
+
 
 
 <dl>
@@ -2616,7 +2919,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2634,7 +2937,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_story_image"><span class="type-signature"></span>get_story_image<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_story_image"><span class="type-signature"></span>get_story_image<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -2683,13 +2986,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the story object returned by the server</td>
         </tr>
 
     
@@ -2730,7 +3038,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line175">line 175</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -2758,6 +3066,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    image data coded in base64
+</div>
+
 
 
 <dl>
@@ -2766,7 +3078,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2784,7 +3096,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="get_story_title"><span class="type-signature"></span>get_story_title<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="get_story_title"><span class="type-signature"></span>get_story_title<span class="signature">(dataR)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -2833,13 +3145,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">the data returned by the server</td>
+            <td class="description last">the story object returned by the server</td>
         </tr>
 
     
@@ -2880,7 +3197,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line150">line 150</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -2908,6 +3225,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    title of the story
+</div>
+
 
 
 <dl>
@@ -2916,7 +3237,7 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2983,13 +3304,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">user id in a chat room</td>
         </tr>
 
     
@@ -3001,13 +3327,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">id of a chat room</td>
         </tr>
 
     
@@ -3090,7 +3421,7 @@ we have to know what their canvas size is so to map the coordinates
     
 
     
-    <h4 class="name" id="getCachedData"><span class="type-signature">(async) </span>getCachedData<span class="signature">(story_title)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="getCachedData"><span class="type-signature">(async) </span>getCachedData<span class="signature">(story_title)</span><span class="type-signature"> &rarr; {array}</span></h4>
     
 
     
@@ -3139,13 +3470,18 @@ we have to know what their canvas size is so to map the coordinates
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">title of a story</td>
         </tr>
 
     
@@ -3186,7 +3522,7 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line79">line 79</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -3214,6 +3550,10 @@ we have to know what their canvas size is so to map the coordinates
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    list of stories
+</div>
+
 
 
 <dl>
@@ -3222,13 +3562,101 @@ we have to know what their canvas size is so to map the coordinates
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">array</span>
 
 
     </dd>
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getRndColor"><span class="type-signature"></span>getRndColor<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    obtain a random color when a knowledge graph result is selected
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3248,7 +3676,7 @@ we have to know what their canvas size is so to map the coordinates
 
 
 <div class="description">
-    it hides the initial form and shows the chat
+    it hides the initial form and shows the chat, story and knowledge graph
 </div>
 
 
@@ -3354,7 +3782,95 @@ we have to know what their canvas size is so to map the coordinates
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line145">line 145</a>
+        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line148">line 148</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hideOfflineWarning"><span class="type-signature"></span>hideOfflineWarning<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    hide offline warning
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="app.js.html">app.js</a>, <a href="app.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -3480,7 +3996,7 @@ plus the associated actions
     
 
     
-    <h4 class="name" id="initCanvas"><span class="type-signature"></span>initCanvas<span class="signature">(skt, imageUrl)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="initCanvas"><span class="type-signature"></span>initCanvas<span class="signature">(roomNo, name)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3489,7 +4005,7 @@ plus the associated actions
 
 <div class="description">
     it inits the image canvas to draw on. It sets up the events to respond to (click, mouse on, etc.)
-it is also the place where the data should be sent  via socket.io
+it is also the place where the data should be sent via socket.io
 </div>
 
 
@@ -3525,10 +4041,15 @@ it is also the place where the data should be sent  via socket.io
 
         <tr>
             
-                <td class="name"><code>skt</code></td>
+                <td class="name"><code>roomNo</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
             
             </td>
 
@@ -3536,17 +4057,22 @@ it is also the place where the data should be sent  via socket.io
 
             
 
-            <td class="description last">the open socket to register events on</td>
+            <td class="description last">the number of chat room</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>imageUrl</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
             
             </td>
 
@@ -3554,7 +4080,7 @@ it is also the place where the data should be sent  via socket.io
 
             
 
-            <td class="description last">teh image url to download</td>
+            <td class="description last">the id of user</td>
         </tr>
 
     
@@ -3595,7 +4121,7 @@ it is also the place where the data should be sent  via socket.io
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line14">line 14</a>
+        <a href="canvas.js.html">canvas.js</a>, <a href="canvas.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -3683,7 +4209,7 @@ it is also the place where the data should be sent  via socket.io
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line31">line 31</a>
+        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -3859,7 +4385,139 @@ it is also the place where the data should be sent  via socket.io
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line25">line 25</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="initKG"><span class="type-signature"></span>initKG<span class="signature">(skt)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    it inits socket to listen event of selecting a knowledge graph result
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>skt</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">socket object, using chat here</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -3984,7 +4642,7 @@ showing any cached story data and declaring the service worker
     
 
     
-    <h4 class="name" id="initStory"><span class="type-signature"></span>initStory<span class="signature">(json:)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="initStory"><span class="type-signature"></span>initStory<span class="signature">(title, author, img_url, description)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3992,7 +4650,7 @@ showing any cached story data and declaring the service worker
 
 
 <div class="description">
-    it appends the given html text to the history div
+    load story to the story container div
 </div>
 
 
@@ -4028,10 +4686,15 @@ showing any cached story data and declaring the service worker
 
         <tr>
             
-                <td class="name"><code>json:</code></td>
+                <td class="name"><code>title</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
             
             </td>
 
@@ -4039,7 +4702,76 @@ showing any cached story data and declaring the service worker
 
             
 
-            <td class="description last">the story to display</td>
+            <td class="description last">the story title to display</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>author</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the story author to display</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>img_url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the URL of story image to display</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the story description to display</td>
         </tr>
 
     
@@ -4080,7 +4812,7 @@ showing any cached story data and declaring the service worker
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line125">line 125</a>
+        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line128">line 128</a>
     </li></ul></dd>
     
 
@@ -4165,6 +4897,11 @@ if forceReload is false, load stories from database
             
 
             <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
             
             </td>
 
@@ -4299,13 +5036,18 @@ story information
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">title of a story</td>
         </tr>
 
     
@@ -4316,6 +5058,11 @@ story information
             
 
             <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
             
             </td>
 
@@ -4365,6 +5112,94 @@ story information
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="app.js.html">app.js</a>, <a href="app.js.html#line146">line 146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="onLoadLoginPage"><span class="type-signature"></span>onLoadLoginPage<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    load message in login page
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="users.js.html">users.js</a>, <a href="users.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -4568,6 +5403,235 @@ story information
     
 
     
+    <h4 class="name" id="putItem"><span class="type-signature"></span>putItem<span class="signature">(itemId, itemName, itemRc, itemGc, borderColor)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    append a knowledge graph result into result panel div
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>itemId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">id of a knowledge graph result</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>itemName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">name of a knowledge graph result</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>itemRc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">description of a knowledge graph result</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>itemGc</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL link to website</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>borderColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">color of border</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line77">line 77</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="queryMainEntity"><span class="type-signature"></span>queryMainEntity<span class="signature">(id, type)</span><span class="type-signature"></span></h4>
     
 
@@ -4682,7 +5746,7 @@ story information
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line88">line 88</a>
+        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -4770,7 +5834,7 @@ story information
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="app.js.html">app.js</a>, <a href="app.js.html#line222">line 222</a>
+        <a href="app.js.html">app.js</a>, <a href="app.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -4855,13 +5919,18 @@ story information
 
             <td class="type">
             
+                
+<span class="param-type">Array</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">a list of stories</td>
         </tr>
 
     
@@ -4902,7 +5971,7 @@ story information
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="app.js.html">app.js</a>, <a href="app.js.html#line283">line 283</a>
+        <a href="app.js.html">app.js</a>, <a href="app.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -4930,6 +5999,10 @@ story information
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    return unique stories
+</div>
+
 
 
 <dl>
@@ -5024,6 +6097,11 @@ story
 
             <td class="type">
             
+                
+<span class="param-type">boolean</span>
+
+
+            
             </td>
 
             
@@ -5116,6 +6194,7 @@ story
 
 <div class="description">
     callback called when an element in the widget is selected
+tell others the selected result
 </div>
 
 
@@ -5203,7 +6282,7 @@ story
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line49">line 49</a>
+        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -5292,7 +6371,184 @@ and sends the message via  socket
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line64">line 64</a>
+        <a href="chat.js.html">chat.js</a>, <a href="chat.js.html#line63">line 63</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="showOfflineWarning"><span class="type-signature"></span>showOfflineWarning<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    show offline warning
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="app.js.html">app.js</a>, <a href="app.js.html#line258">line 258</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="signup"><span class="type-signature"></span>signup<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    post signup data to add a new user
+redirect to login page after signup successfully
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="users.js.html">users.js</a>, <a href="users.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -5377,13 +6633,18 @@ and sends the message via  socket
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">user id in a chat room</td>
         </tr>
 
     
@@ -5395,13 +6656,18 @@ and sends the message via  socket
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">id of a chat room</td>
         </tr>
 
     
@@ -5413,13 +6679,18 @@ and sends the message via  socket
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">object of annotation</td>
         </tr>
 
     
@@ -5488,6 +6759,10 @@ and sends the message via  socket
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    set item
+</div>
+
 
 
 <dl>
@@ -5563,13 +6838,18 @@ and sends the message via  socket
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">title of a story</td>
         </tr>
 
     
@@ -5581,13 +6861,18 @@ and sends the message via  socket
 
             <td class="type">
             
+                
+<span class="param-type">object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">a story object</td>
         </tr>
 
     
@@ -5628,7 +6913,7 @@ and sends the message via  socket
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="database.js.html">database.js</a>, <a href="database.js.html#line48">line 48</a>
+        <a href="database.js.html">database.js</a>, <a href="database.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -5718,7 +7003,7 @@ it also hides the form to get the type
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line23">line 23</a>
+        <a href="knowledgeGraph.js.html">knowledgeGraph.js</a>, <a href="knowledgeGraph.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -5754,7 +7039,7 @@ it also hides the form to get the type
     
 
     
-    <h4 class="name" id="writeOnCommentsHistory"><span class="type-signature"></span>writeOnCommentsHistory<span class="signature">(text:)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="writeOnChatHistory"><span class="type-signature"></span>writeOnChatHistory<span class="signature">(text)</span><span class="type-signature"></span></h4>
     
 
     
@@ -5798,7 +7083,7 @@ it also hides the form to get the type
 
         <tr>
             
-                <td class="name"><code>text:</code></td>
+                <td class="name"><code>text</code></td>
             
 
             <td class="type">
@@ -5809,7 +7094,7 @@ it also hides the form to get the type
 
             
 
-            <td class="description last">teh text to append</td>
+            <td class="description last">the text to append</td>
         </tr>
 
     
@@ -5896,13 +7181,13 @@ it also hides the form to get the type
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnCommentsHistory">writeOnCommentsHistory</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#getRndColor">getRndColor</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#hideOfflineWarning">hideOfflineWarning</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initKG">initKG</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#onLoadLoginPage">onLoadLoginPage</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#putItem">putItem</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#showOfflineWarning">showOfflineWarning</a></li><li><a href="global.html#signup">signup</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnChatHistory">writeOnChatHistory</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 03:45:37 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 12:56:33 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

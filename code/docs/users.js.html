@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Modal</title>
+    <title>JSDoc: Source: users.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,139 +17,70 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Modal</h1>
+    <h1 class="page-title">Source: users.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Modal<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">------------------------------------------------------------------------
-Class Definition
-------------------------------------------------------------------------</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="Modal"><span class="type-signature"></span>new Modal<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="bootstrap.js.html">bootstrap.js</a>, <a href="bootstrap.js.html#line2794">line 2794</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * check login data is not null
+ * @param {form} form a login form including two string: username and password
+ * @return {boolean} return false if login data is null else return ture
+ */
+function checkLoginData(form) {
+    const formData = new FormData(form);
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    if (username || password) {
+        return true;
+    }
+    alert("Please input username or password first!");
+    return false;
+}
+
+/**
+ * post signup data to add a new user
+ * redirect to login page after signup successfully
+ */
+function signup() {
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('new-password').value;
+    data = {
+        'username': username,
+        'password': password
+    }
+
+    axios.post('/signup', data)
+        .then(function (response) {
+                console.log(response);
+                window.location.replace("/login");
+            }
+        )
+        .catch(function (response) {
+            console.log(response)
+            alert(response.error);
+        })
+}
+
+/**
+ * load message in login page
+ */
+function onLoadLoginPage() {
+    const element = document.getElementById('results');
+    const message = element.textContent;
+    if (message) {
+        element.style.display = 'block';
+    }else {
+        element.style.display = 'none';
+    }
+}</code></pre>
+        </article>
+    </section>
 
 
 

@@ -108,7 +108,7 @@ function initStories() {
 /**
  * if forceReload is true, load stories from server and store the stories to database
  * if forceReload is false, load stories from database
- * @param forceReload true if the data is to be loaded from the server
+ * @param {boolean} forceReload true if the data is to be loaded from the server
  */
 function loadData(forceReload) {
     refreshStoryList();
@@ -141,7 +141,7 @@ function loadData(forceReload) {
  * it cycles through the list of stories and requests the data from the server for each
  * story
  * @param storyList the list of the cities the user has requested
- * @param forceReload true if the data is to be retrieved from the server
+ * @param {boolean} forceReload true if the data is to be retrieved from the server
  */
 function retrieveAllStoriesData(storyList, forceReload){
     refreshStoryList();
@@ -168,8 +168,8 @@ function retrieveAllStoriesData(storyList, forceReload){
 /**
  * given one story_title it queries the indexDB to get the
  * story information
- * @param story_title
- * @param forceReload false if the data is to be retrieved from the database
+ * @param {string} story_title title of a story
+ * @param {boolean} forceReload false if the data is to be retrieved from the database
  */
 async function loadStoryData(story_title, forceReload){
     let cachedData=await getCachedData(story_title);
@@ -192,18 +192,7 @@ async function loadStoryData(story_title, forceReload){
  * if forceReload is false, using the story data returned by indexDB
  * given the story data,
  * it adds a row of weather forecasts to the story-list div
- * @param dataR the data returned by the server:
-  * class Story{
- *  constructor (first_name, family_name, story_title, story_image, story_description, date) {
- *    this.first_name= first_name;
- *    this.family_name= family_name,
- *    this.story_title=story_title;
- *    this.story_image= story_image;
- *    this.story_description= story_description;
- *    this.date= date;
- *  }
- *}
- *
+ * @param {object} dataR the data returned by the server, a Story object
  */
 function addToStoryList(dataR, forceReload) {
     let cardElement = document.createElement('div');
@@ -253,7 +242,7 @@ function refreshStoryList(){
 }
 
 /**
- * When the client gets off-line, it shows an off line warning to the user
+ * When the client gets off-line, it shows an offline warning to the user
  * so that it is clear that the data is stale
  */
 window.addEventListener('offline', function(e) {
@@ -263,7 +252,7 @@ window.addEventListener('offline', function(e) {
 }, false);
 
 /**
- * When the client gets online, it hides the off line warning
+ * When the client gets online, it hides the offline warning
  */
 window.addEventListener('online', async function(e) {
     // Resync data with server.
@@ -291,13 +280,18 @@ window.addEventListener('online', async function(e) {
         })
 }, false);
 
-
+/**
+ * show offline warning
+ */
 function showOfflineWarning(){
     if (document.getElementById('offline_div')!=null)
         document.getElementById('offline_div').style.display='block';
 
 }
 
+/**
+ * hide offline warning
+ */
 function hideOfflineWarning(){
     if (document.getElementById('offline_div')!=null)
         document.getElementById('offline_div').style.display='none';
@@ -305,8 +299,8 @@ function hideOfflineWarning(){
 
 /**
  * Given a list of stories, it removes any duplicates
- * @param storyList
- * @returns {Array}
+ * @param {Array} storyList a list of stories
+ * @return {Array} return unique stories
  */
 function removeDuplicates(storyList) {
     // remove any duplicate
@@ -326,13 +320,13 @@ function removeDuplicates(storyList) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnCommentsHistory">writeOnCommentsHistory</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#getRndColor">getRndColor</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#hideOfflineWarning">hideOfflineWarning</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initKG">initKG</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#onLoadLoginPage">onLoadLoginPage</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#putItem">putItem</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#showOfflineWarning">showOfflineWarning</a></li><li><a href="global.html#signup">signup</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnChatHistory">writeOnChatHistory</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 03:45:37 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 12:56:33 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

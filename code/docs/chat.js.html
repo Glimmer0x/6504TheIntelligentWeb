@@ -55,7 +55,6 @@ function init() {
 /**
  * it initialises the socket for /chat
  */
-
 function initChatSocket() {
     // called when someone joins the room. If it is someone else it notifies the joining of the room
     chat.on('joined', function (room, userId) {
@@ -64,7 +63,7 @@ function initChatSocket() {
             hideLoginInterface(room, userId);
         } else {
             // notifies that someone has joined the room
-            writeOnCommentsHistory('&lt;b>' + userId + '&lt;/b>' + ' joined room ' + room);
+            writeOnChatHistory('&lt;b>' + userId + '&lt;/b>' + ' joined room ' + room);
         }
     });
     // called when a message is received
@@ -79,7 +78,7 @@ function initChatSocket() {
             'date': date
         }
         storeCachedData(who, room, data)
-        writeOnCommentsHistory('&lt;b>' + who + ':&lt;/b> ' + chatText);
+        writeOnChatHistory('&lt;b>' + who + ':&lt;/b> ' + chatText);
     });
 
 }
@@ -100,14 +99,15 @@ function sendChatText() {
         'date': date
     }
     storeCachedData(name, roomNo, data)
-    writeOnCommentsHistory('&lt;b>' + 'Me' + ':&lt;/b> ' + chatText);
+    writeOnChatHistory('&lt;b>' + 'Me' + ':&lt;/b> ' + chatText);
     chat.emit('chat', roomNo, name, chatText);
 }
 
 /**
  * used to connect to a room. It gets the user name and room number from the
- * interface
- * It connects both chat and news at the same time
+ * interface.
+ * It connects chat and load story in room and initialize canvas and knowledge
+ * graph.
  */
 function connectToRoom() {
     let story_title = document.getElementById('story_title').innerText;
@@ -126,7 +126,7 @@ function connectToRoom() {
             let author = instance.family_name + " " + instance.first_name;
             let createTime = instance.date;
             initStory(title, author, createTime, img_url, description);
-            initCanvas(roomNo, img_url, name);
+            initCanvas(roomNo, name);
             initKG(chat);
         })
         .catch((error)=>{
@@ -136,9 +136,9 @@ function connectToRoom() {
 
 /**
  * it appends the given html text to the history div
- * @param text: teh text to append
+ * @param text the text to append
  */
-function writeOnCommentsHistory(text) {
+function writeOnChatHistory(text) {
     let history = document.getElementById('chat_history');
     let paragraph = document.createElement('p');
     paragraph.innerHTML = text;
@@ -147,8 +147,11 @@ function writeOnCommentsHistory(text) {
 }
 
 /**
- * it appends the given html text to the history div
- * @param json: the story to display
+ * load story to the story container div
+ * @param {string} title the story title to display
+ * @param {string} author the story author to display
+ * @param {string} img_url the URL of story image to display
+ * @param {string} description the story description to display
  */
 function initStory(title,author, createTime, img_url, description) {
     let title_element = document.getElementById('story_title');
@@ -166,7 +169,7 @@ function initStory(title,author, createTime, img_url, description) {
 
 
 /**
- * it hides the initial form and shows the chat
+ * it hides the initial form and shows the chat, story and knowledge graph
  * @param room the selected room
  * @param userId the user name
  */
@@ -188,13 +191,13 @@ function hideLoginInterface(room, userId) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnCommentsHistory">writeOnCommentsHistory</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#getRndColor">getRndColor</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#hideOfflineWarning">hideOfflineWarning</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initKG">initKG</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#onLoadLoginPage">onLoadLoginPage</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#putItem">putItem</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#showOfflineWarning">showOfflineWarning</a></li><li><a href="global.html#signup">signup</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnChatHistory">writeOnChatHistory</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 03:45:37 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 12:56:33 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

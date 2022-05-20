@@ -80,7 +80,7 @@ function initStories() {
 /**
  * if forceReload is true, load stories from server and store the stories to database
  * if forceReload is false, load stories from database
- * @param forceReload true if the data is to be loaded from the server
+ * @param {boolean} forceReload true if the data is to be loaded from the server
  */
 function loadData(forceReload) {
     refreshStoryList();
@@ -113,7 +113,7 @@ function loadData(forceReload) {
  * it cycles through the list of stories and requests the data from the server for each
  * story
  * @param storyList the list of the cities the user has requested
- * @param forceReload true if the data is to be retrieved from the server
+ * @param {boolean} forceReload true if the data is to be retrieved from the server
  */
 function retrieveAllStoriesData(storyList, forceReload){
     refreshStoryList();
@@ -140,8 +140,8 @@ function retrieveAllStoriesData(storyList, forceReload){
 /**
  * given one story_title it queries the indexDB to get the
  * story information
- * @param story_title
- * @param forceReload false if the data is to be retrieved from the database
+ * @param {string} story_title title of a story
+ * @param {boolean} forceReload false if the data is to be retrieved from the database
  */
 async function loadStoryData(story_title, forceReload){
     let cachedData=await getCachedData(story_title);
@@ -164,18 +164,7 @@ async function loadStoryData(story_title, forceReload){
  * if forceReload is false, using the story data returned by indexDB
  * given the story data,
  * it adds a row of weather forecasts to the story-list div
- * @param dataR the data returned by the server:
-  * class Story{
- *  constructor (first_name, family_name, story_title, story_image, story_description, date) {
- *    this.first_name= first_name;
- *    this.family_name= family_name,
- *    this.story_title=story_title;
- *    this.story_image= story_image;
- *    this.story_description= story_description;
- *    this.date= date;
- *  }
- *}
- *
+ * @param {object} dataR the data returned by the server, a Story object
  */
 function addToStoryList(dataR, forceReload) {
     let cardElement = document.createElement('div');
@@ -225,7 +214,7 @@ function refreshStoryList(){
 }
 
 /**
- * When the client gets off-line, it shows an off line warning to the user
+ * When the client gets off-line, it shows an offline warning to the user
  * so that it is clear that the data is stale
  */
 window.addEventListener('offline', function(e) {
@@ -235,7 +224,7 @@ window.addEventListener('offline', function(e) {
 }, false);
 
 /**
- * When the client gets online, it hides the off line warning
+ * When the client gets online, it hides the offline warning
  */
 window.addEventListener('online', async function(e) {
     // Resync data with server.
@@ -263,13 +252,18 @@ window.addEventListener('online', async function(e) {
         })
 }, false);
 
-
+/**
+ * show offline warning
+ */
 function showOfflineWarning(){
     if (document.getElementById('offline_div')!=null)
         document.getElementById('offline_div').style.display='block';
 
 }
 
+/**
+ * hide offline warning
+ */
 function hideOfflineWarning(){
     if (document.getElementById('offline_div')!=null)
         document.getElementById('offline_div').style.display='none';
@@ -277,8 +271,8 @@ function hideOfflineWarning(){
 
 /**
  * Given a list of stories, it removes any duplicates
- * @param storyList
- * @returns {Array}
+ * @param {Array} storyList a list of stories
+ * @return {Array} return unique stories
  */
 function removeDuplicates(storyList) {
     // remove any duplicate
