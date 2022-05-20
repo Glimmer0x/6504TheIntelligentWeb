@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "swagger-autogen": "node ./swagger.js",
-    "docs": "./node_modules/jsdoc/jsdoc.js -c ./.jsdoc.conf.json"
+    "docs": "./node_modules/jsdoc/jsdoc.js -c .jsdoc.conf.json"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

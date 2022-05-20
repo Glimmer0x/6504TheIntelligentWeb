@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: database.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: database.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>////////////////// DATABASE //////////////////
+// the database receives from the server the following structure
+import * as idb from './idb/index.js';
+
+
+/** class Story{
+ *  constructor (first_name, family_name, story_title, story_image, story_description, date) {
+ *    this.first_name= first_name;
+ *    this.family_name= family_name,
+ *    this.story_title=story_title;
+ *    this.story_image= story_image;
+ *    this.story_description= story_description;
+ *    this.date= date;
+ *  }
+ *}
+ */
+let db;
+
+const STORY_DB_NAME= 'db_story';
+const STORY_STORE_NAME= 'store_story';
+
+/**
+ * it inits the database
+ */
+async function initDatabase(){
+    if (!db) {
+        db = await idb.openDB(STORY_DB_NAME, 2, {
+            upgrade(upgradeDb, oldVersion, newVersion) {
+                if (!upgradeDb.objectStoreNames.contains(STORY_STORE_NAME)) {
+                    let storyDB = upgradeDb.createObjectStore(STORY_STORE_NAME, {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    });
+                    storyDB.createIndex('story_title', 'story_title', {unique: false, multiEntry: true});
+                }
+            }
+        });
+        // console.log('db created');
+    }
+}
+window.initDatabase= initDatabase;
+
+/**
+ * it saves the stories in localStorage
+ * @param story_title
+ * @param storyObject
+ */
+async function storeCachedData(story_title, storyObject) {
+    // console.log('inserting: '+JSON.stringify(storyObject));
+    if (!db)
+        await initDatabase();
+    if (db) {
+        try{
+            let result = await getCachedData(story_title)
+            let arr = Object.keys(result)
+            if (arr.length !== 0) {
+            } else {
+                let tx = await db.transaction(STORY_STORE_NAME, 'readwrite');
+                let store = await tx.objectStore(STORY_STORE_NAME);
+                await store.put(storyObject);
+                await  tx.complete;
+                console.log('add ' + story_title + ' to the IndexDB! ');
+            }
+
+        } catch(error) {
+            localStorage.setItem(story_title, JSON.stringify(storyObject));
+        };
+    }
+    else localStorage.setItem(story_title, JSON.stringify(storyObject));
+}
+
+window.storeCachedData=storeCachedData;
+
+/**
+ * it retrieves the story for a story_title from the database
+ * @param story_title
+ * @returns {*}
+ */
+async function getCachedData(story_title) {
+    if (!db)
+        await initDatabase();
+    if (db) {
+        try {
+            // console.log('fetching: ' + story_title);
+            let tx = await db.transaction(STORY_STORE_NAME, 'readonly');
+            let store = await tx.objectStore(STORY_STORE_NAME);
+            let index = await store.index('story_title');
+            let readingsList = await index.getAll(IDBKeyRange.only(story_title));
+            await tx.complete;
+            let finalResults=[];
+            if (readingsList &amp;&amp; readingsList.length > 0) {
+                let max;
+                for (let elem of readingsList)
+                    if (!max || elem.date > max.date)
+                        max = elem;
+                if (max)
+                    finalResults.push(max);
+                return finalResults;
+            } else {
+                const value = localStorage.getItem(story_title);
+                if (value == null)
+                    return finalResults;
+                else finalResults.push(value);
+                return finalResults;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        const value = localStorage.getItem(story_title);
+        let finalResults=[];
+        if (value == null)
+            return finalResults;
+        else finalResults.push(value);
+        return finalResults;
+    }
+}
+window.getCachedData= getCachedData;
+
+
+/**
+ * given the server data, it returns the value of the field first_name
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_first_name(dataR) {
+    if (dataR.first_name == null &amp;&amp; dataR.first_name === undefined)
+        return "unavailable";
+    return dataR.first_name
+}
+window.get_first_name=get_first_name;
+
+/**
+ * given the server data, it returns the value of the field wind
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_family_name(dataR) {
+    if (dataR.family_name == null &amp;&amp; dataR.family_name === undefined)
+        return "unavailable";
+    else return dataR.family_name;
+}
+window.get_family_name=get_family_name;
+
+/**
+ * given the server data, it returns the value of the field story_title
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_story_title(dataR) {
+    if (dataR.story_title == null &amp;&amp; dataR.story_title === undefined)
+        return "unavailable";
+    else return dataR.story_title;
+}
+window.get_story_title=get_story_title;
+
+
+/**
+ * given the server data, it returns the value of the field date
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_date(dataR) {
+    if (dataR.date == null &amp;&amp; dataR.date === undefined)
+        return "unavailable";
+    else return dataR.date;
+}
+window.get_date=get_date;
+
+/**
+ * given the server data, it returns the value of the field image
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_story_image(dataR) {
+    if (dataR.story_title == null &amp;&amp; dataR.story_title === undefined)
+        return "unavailable";
+    else return dataR.story_image;
+}
+window.get_story_image=get_story_image;
+
+/**
+ * given the server data, it returns the value of the field description
+ * @param dataR the data returned by the server
+ * @returns {*}
+ */
+function get_story_description(dataR) {
+    if (dataR.story_description == null &amp;&amp; dataR.story_description === undefined)
+        return "unavailable";
+    else return dataR.story_description;
+}
+window.get_story_description=get_story_description;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnCommentsHistory">writeOnCommentsHistory</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 03:45:37 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
