@@ -1,4 +1,4 @@
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen')({openapi: '3.0.2'});
 
 const doc = {
     info: {
@@ -28,36 +28,36 @@ const doc = {
     components: {
         schemas: {
             Story: {
-                "type": "object",
-                "properties": {
-                    "first_name": {
-                        "example": "any"
+                type: "object",
+                properties: {
+                    first_name: {
+                        "example": "Tom"
                     },
-                    "family_name": {
-                        "example": "any"
+                    family_name: {
+                        "example": "John"
                     },
-                    "story_title": {
-                        "example": "any"
+                    story_title: {
+                        "example": "Visiting the UK."
                     },
-                    "story_image": {
-                        "example": "any"
+                    story_image: {
+                        "example": "picture coded in base64"
                     },
-                    "story_description": {
-                        "example": "any"
+                    story_description: {
+                        "example": "A good trip to the UK."
                     },
-                    "date": {
-                        "example": "any"
+                    date: {
+                        "example": "2022-05-17T22:57:02.637Z"
                     }
                 }
             },
-            "User": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "example": "any"
+            User: {
+                type: "object",
+                properties: {
+                    username: {
+                        "example": "Glimmer"
                     },
-                    "password": {
-                        "example": "any"
+                    password: {
+                        "example": "123456"
                     }
                 }
             }

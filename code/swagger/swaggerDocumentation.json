@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.2",
   "info": {
     "version": "1.0.0",
     "title": "StoryClub",
@@ -14,22 +14,11 @@
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:3000",
   "servers": [
     {
       "url": "http://localhost:3000/",
       "description": "the only Local server of StoryClub"
     }
-  ],
-  "basePath": "/",
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
   ],
   "paths": {
     "/": {
@@ -53,13 +42,28 @@
         "responses": {
           "200": {
             "description": "Get all stories successfully.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/Story"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Story"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               },
-              "xml": {
-                "name": "main"
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Story"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
               }
             }
           }
@@ -69,25 +73,21 @@
     "/singleStory": {
       "post": {
         "description": "Get a single story with given title.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "story_title": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Get a single story by title successfully.",
-            "schema": {
-              "$ref": "#/components/schemas/Story"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Story"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Story"
+                }
+              }
             }
           },
           "400": {
@@ -99,41 +99,27 @@
           "500": {
             "description": "Internal Server Error."
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "story_title": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     "/insertStory": {
       "post": {
         "description": "Add a new story.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "example": "any"
-                },
-                "family_name": {
-                  "example": "any"
-                },
-                "story_title": {
-                  "example": "any"
-                },
-                "story_image": {
-                  "example": "any"
-                },
-                "story_description": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "201": {
             "description": "Add a story successfully."
@@ -144,41 +130,42 @@
           "500": {
             "description": "Internal Server Error. Could not insert - probably incorrect data!"
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "example": "any"
+                  },
+                  "family_name": {
+                    "example": "any"
+                  },
+                  "story_title": {
+                    "example": "any"
+                  },
+                  "story_image": {
+                    "example": "any"
+                  },
+                  "story_description": {
+                    "example": "any"
+                  },
+                  "date": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     "/updateStory": {
       "post": {
         "description": "@todo.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "story_title": {
-                  "example": "any"
-                },
-                "first_name": {
-                  "example": "any"
-                },
-                "family_name": {
-                  "example": "any"
-                },
-                "story_image": {
-                  "example": "any"
-                },
-                "story_description": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
@@ -192,6 +179,35 @@
           "500": {
             "description": "Internal Server Error. Could not insert - probably incorrect data!"
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "story_title": {
+                    "example": "any"
+                  },
+                  "first_name": {
+                    "example": "any"
+                  },
+                  "family_name": {
+                    "example": "any"
+                  },
+                  "story_image": {
+                    "example": "any"
+                  },
+                  "story_description": {
+                    "example": "any"
+                  },
+                  "date": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -203,16 +219,7 @@
       },
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Verify a user",
-            "schema": {
-              "$ref": "#/components/schemas/User"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Verify a user successfully."
@@ -225,6 +232,23 @@
           },
           "500": {
             "description": "Internal Server Error. Could not verify a user - probably incorrect data."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -244,16 +268,7 @@
       },
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Adding new user",
-            "schema": {
-              "$ref": "#/components/schemas/User"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "201": {
             "description": "Add a user successfully."
@@ -263,6 +278,23 @@
           },
           "500": {
             "description": "Internal Server Error. Could not add a user - probably incorrect data."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -275,11 +307,10 @@
             "name": "title",
             "in": "path",
             "required": true,
-            "type": "string",
-            "description": "Title of a selected story for discussion",
             "schema": {
               "$ref": "#/components/schemas/User"
-            }
+            },
+            "description": "Title of a selected story for discussion"
           }
         ],
         "responses": {
@@ -295,35 +326,107 @@
       "Story": {
         "type": "object",
         "properties": {
-          "first_name": {
-            "example": "any"
+          "type": {
+            "type": "string",
+            "example": "object"
           },
-          "family_name": {
-            "example": "any"
-          },
-          "story_title": {
-            "example": "any"
-          },
-          "story_image": {
-            "example": "any"
-          },
-          "story_description": {
-            "example": "any"
-          },
-          "date": {
-            "example": "any"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "first_name": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "Tom"
+                  }
+                }
+              },
+              "family_name": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "John"
+                  }
+                }
+              },
+              "story_title": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "Visiting the UK."
+                  }
+                }
+              },
+              "story_image": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "picture coded in base64"
+                  }
+                }
+              },
+              "story_description": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "A good trip to the UK."
+                  }
+                }
+              },
+              "date": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "2022-05-17T22:57:02.637Z"
+                  }
+                }
+              }
+            }
           }
+        },
+        "xml": {
+          "name": "Story"
         }
       },
       "User": {
         "type": "object",
         "properties": {
-          "username": {
-            "example": "any"
+          "type": {
+            "type": "string",
+            "example": "object"
           },
-          "password": {
-            "example": "any"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "Glimmer"
+                  }
+                }
+              },
+              "password": {
+                "type": "object",
+                "properties": {
+                  "example": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
           }
+        },
+        "xml": {
+          "name": "User"
         }
       }
     }
