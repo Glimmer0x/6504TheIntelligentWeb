@@ -36,7 +36,7 @@ async function addStory() {
     storyList = removeDuplicates(storyList);
     storyList.push(storytitle);
     localStorage.setItem('stories', JSON.stringify(storyList));
-    await storeCachedData(data.story_title, data)
+    await storeStoryToCachedData(data.story_title, data)
     // console.log(document.getElementById('offline_div').style.display === 'block')
     if (document.getElementById('offline_div').style.display === 'block') {
         loadData(false);
@@ -99,7 +99,7 @@ function loadData(forceReload) {
                     for (let index in stylist) {
                         storyList.push(stylist[index].story_title)
                         addToStoryList(stylist[index], forceReload)
-                        await storeCachedData(stylist[index].story_title, stylist[index])
+                        await storeStoryToCachedData(stylist[index].story_title, stylist[index])
                     }
                 }
             ).then(() => {
@@ -130,7 +130,7 @@ function retrieveAllStoriesData(storyList, forceReload){
                 let storyList = dataR.data
                 for (let index in storyList) {
                     addToStoryList(storyList[index], forceReload)
-                    storeCachedData(storyList[index].story_title, storyList[index])
+                    storeStoryToCachedData(storyList[index].story_title, storyList[index])
                 }
                 }
             )
@@ -151,7 +151,7 @@ function retrieveAllStoriesData(storyList, forceReload){
  * @param forceReload false if the data is to be retrieved from the database
  */
 async function loadStoryData(story_title, forceReload){
-    let cachedData=await getCachedData(story_title);
+    let cachedData=await getStoryFromCachedData(story_title);
 
     // console.log(cachedData);
     if (!forceReload && cachedData && cachedData.length>0) {
@@ -255,7 +255,7 @@ window.addEventListener('online', async function(e) {
     storyList = removeDuplicates(storyList);
     let promiseList = []
     for (let i = 0; i < storyList.length; i++) {
-        let cachedData=await getCachedData(storyList[i]);
+        let cachedData=await getStoryFromCachedData(storyList[i]);
         let data = {
             "story_title": storyList[i],
             'first_name': get_first_name(cachedData[0]),

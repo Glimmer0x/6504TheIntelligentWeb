@@ -26,6 +26,7 @@ function initCanvas(roomNo, img_url, name) {
             'name': name,
             'roomId': room,
             'pixel_pair': [px, py, cx, cy],
+            'canvas': [w, h, c, t],
             'message': '',
             'date': date
         }
@@ -54,6 +55,7 @@ function initCanvas(roomNo, img_url, name) {
                     'name': name,
                     'roomId': roomNo,
                     'pixel_pair': [prevX, prevY, currX, currY],
+                    'canvas': [canvas.width, canvas.height, color, thickness],
                     'message': '',
                     'date': date
                 }
@@ -127,8 +129,9 @@ function initCanvas(roomNo, img_url, name) {
                                 writeOnCommentsHistory('<b>' + who + ':</b> ' + message);
                             } else if (get_message(annotation) === '' && get_pixel_pair(annotation).length !==0) {
                                 let pixel_pair = get_pixel_pair(annotation)
-                                drawOnCanvas(ctx, canvas.width, canvas.height,
-                                    pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], color, thickness);
+                                let canvas = get_canvas(annotation)
+                                drawOnCanvas(ctx, canvas[0], canvas[1],
+                                    pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], canvas[2], canvas[3]);
                             }
                         }
                     })

@@ -8,6 +8,7 @@ import * as idb from './idb/index.js';
  *    this.name= name;
  *    this.roomId= roomId,
  *    this.pixel_pair=pixel_pair;
+ *    this.canvas = canvas;
  *    this.message = message;
  *    this.date= date;
  *  }
@@ -267,5 +268,13 @@ function get_message(dataR) {
     else return dataR.message;
 }
 window.get_message=get_message;
+
+
+function get_canvas(dataR) {
+    if (dataR.canvas == null && dataR.message === undefined)
+        return "unavailable";
+    else return dataR.canvas;
+}
+window.get_canvas=get_canvas;
 
 
