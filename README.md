@@ -1,5 +1,5 @@
 # 6504TheIntelligentWeb
-
+## Github Reop: https://github.com/Kity2023/6504TheIntelligentWeb
 ### RUN locally (without docker)
 1. install MongoDB
 2. enter code folder and run `npm install`
@@ -20,3 +20,7 @@
      1. require: `/code/db_data/mongo_data` is deleted 
      2. `docker compose up --build`
 4. Open browser and enter pages as said before
+
+### Test
+1. Swagger service: run the server and then open URL http://localhost:3000/api-docs
+
