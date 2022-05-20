@@ -21,6 +21,10 @@
      2. `docker compose up --build`
 4. Open browser and enter pages as said before
 
-### Test
-1. Swagger service: run the server and then open URL http://localhost:3000/api-docs
+### Swagger
+Swagger service: run the server and then open URL http://localhost:3000/api-docs
+
+### Warning
+1. Unsolved bug: There is one bug about Knowledge graph history in local client. When a user enter the chat room. He will see all knowledge graph that stored in the indexedDB listed.
+2. Notice: please use different room name for different stories, unless the past annotation of last story in the room will be loaded from cache data.
 
