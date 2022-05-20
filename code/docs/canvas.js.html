@@ -29,17 +29,15 @@
             <pre class="prettyprint source linenums"><code>/**
  * this file contains the functions to control the drawing on the canvas
  */
-let userId;
 let color = 'red', thickness = 4;
 
 /**
  * it inits the image canvas to draw on. It sets up the events to respond to (click, mouse on, etc.)
- * it is also the place where the data should be sent  via socket.io
- * @param skt the open socket to register events on
- * @param imageUrl teh image url to download
+ * it is also the place where the data should be sent via socket.io
+ * @param {number} roomNo the number of chat room
+ * @param {string} name the id of user
  */
-
-function initCanvas(roomNo, img_url, name) {
+function initCanvas(roomNo, name) {
     let flag = false,
         prevX, prevY, currX, currY = 0;
     let canvas = $('#canvas');
@@ -54,6 +52,7 @@ function initCanvas(roomNo, img_url, name) {
             'name': name,
             'roomId': room,
             'pixel_pair': [px, py, cx, cy],
+            'canvas': [w, h, c, t],
             'message': '',
             'date': date
         }
@@ -82,6 +81,7 @@ function initCanvas(roomNo, img_url, name) {
                     'name': name,
                     'roomId': roomNo,
                     'pixel_pair': [prevX, prevY, currX, currY],
+                    'canvas': [canvas.width, canvas.height, color, thickness],
                     'message': '',
                     'date': date
                 }
@@ -103,15 +103,15 @@ function initCanvas(roomNo, img_url, name) {
         drawImageScaled(img, canvas, ctx);
 
     });
-
+    // set color of pen to red
     $('#red-pen').on('click', function (e) {
         color = 'red';
     });
-
+    // set color of pen to green
     $('#green-pen').on('click', function (e) {
         color = 'green';
     });
-
+    // set color of pen to blue
     $('#blue-pen').on('click', function (e) {
         color = 'blue';
     });
@@ -145,23 +145,37 @@ function initCanvas(roomNo, img_url, name) {
                 // get cached data
                 getCachedData(name, roomNo)
                     .then((dataR) => {
-                        let annotationList = dataR
+                        // load history annotations
+                        let annotationList = dataR;
                         for (let index in dataR) {
-                            let annotation = annotationList[index]
+                            let annotation = annotationList[index];
                             if (get_message(annotation) !== '' &amp;&amp; get_pixel_pair(annotation).length ===0) {
-                                let message = get_message(annotation)
-                                let who = get_name(annotation)
+                                let message = get_message(annotation);
+                                let who = get_name(annotation);
                                 if (who === name) who = 'Me';
-                                writeOnCommentsHistory('&lt;b>' + who + ':&lt;/b> ' + message);
+                                writeOnChatHistory('&lt;b>' + who + ':&lt;/b> ' + message);
                             } else if (get_message(annotation) === '' &amp;&amp; get_pixel_pair(annotation).length !==0) {
                                 let pixel_pair = get_pixel_pair(annotation)
-                                drawOnCanvas(ctx, canvas.width, canvas.height,
-                                    pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], color, thickness);
+                                let canvas = get_canvas(annotation)
+                                drawOnCanvas(ctx, canvas[0], canvas[1],
+                                    pixel_pair[0], pixel_pair[1], pixel_pair[2], pixel_pair[3], canvas[2], canvas[3]);
                             }
                         }
                     })
                     .catch(() => {
                         console.log('get cached data error')
+                    })
+
+                getKnowledgeGraphFromCachedData()
+                    .then((dataR)=> {
+                        let knowledgeList = dataR
+                        let borderColor = getRndColor();
+                        for (let i of knowledgeList) {
+                            putItem(i.id, i.name, i.rc, i.qc, borderColor)
+                        }
+                    })
+                    .then(() => {
+                        console.log('get cached knowledge graph error')
                     })
             }
         }, 10);
@@ -171,9 +185,9 @@ function initCanvas(roomNo, img_url, name) {
 /**
  * called when it is required to draw the image on the canvas. We have resized the canvas to the same image size
  * so ti is simpler to draw later
- * @param img
- * @param canvas
- * @param ctx
+ * @param {HTMLElement} img image html element in the html page
+ * @param canvas the canvas element obtained by jquery
+ * @param {HTMLElement} ctx the canvas context
  */
 function drawImageScaled(img, canvas, ctx) {
     // get the scale
@@ -192,15 +206,15 @@ function drawImageScaled(img, canvas, ctx) {
  * this is called when we want to display what we (or any other connected via socket.io) draws on the canvas
  * note that as the remote provider can have a different canvas size (e.g. their browser window is larger)
  * we have to know what their canvas size is so to map the coordinates
- * @param ctx the canvas context
- * @param canvasWidth the originating canvas width
- * @param canvasHeight the originating canvas height
- * @param prevX the starting X coordinate
- * @param prevY the starting Y coordinate
- * @param currX the ending X coordinate
- * @param currY the ending Y coordinate
- * @param color of the line
- * @param thickness of the line
+ * @param {HTMLElement} ctx the canvas context
+ * @param {number} canvasWidth the originating canvas width
+ * @param {number} canvasHeight the originating canvas height
+ * @param {number} prevX the starting X coordinate
+ * @param {number} prevY the starting Y coordinate
+ * @param {number} currX the ending X coordinate
+ * @param {number} currY the ending Y coordinate
+ * @param {string} color color of the line
+ * @param {number} thickness thickness of the line
  */
 function drawOnCanvas(ctx, canvasWidth, canvasHeight, prevX, prevY, currX, currY, color, thickness) {
     //get the ration between the current canvas and the one it has been used to draw on the other comuter
@@ -229,13 +243,13 @@ function drawOnCanvas(ctx, canvasWidth, canvasHeight, prevX, prevY, currX, currY
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnCommentsHistory">writeOnCommentsHistory</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alert.html">Alert</a></li><li><a href="Button.html">Button</a></li><li><a href="Carousel.html">Carousel</a></li><li><a href="Collapse.html">Collapse</a></li><li><a href="Dropdown.html">Dropdown</a></li><li><a href="Modal.html">Modal</a></li><li><a href="Offcanvas.html">Offcanvas</a></li><li><a href="Popover.html">Popover</a></li><li><a href="ScrollSpy.html">ScrollSpy</a></li><li><a href="Tab.html">Tab</a></li><li><a href="Toast.html">Toast</a></li><li><a href="Tooltip.html">Tooltip</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addStory">addStory</a></li><li><a href="global.html#addToStoryList">addToStoryList</a></li><li><a href="global.html#base64">base64</a></li><li><a href="global.html#checkLoginData">checkLoginData</a></li><li><a href="global.html#color">color</a></li><li><a href="global.html#connectToRoom">connectToRoom</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#deleteDB">deleteDB</a></li><li><a href="global.html#drawImageScaled">drawImageScaled</a></li><li><a href="global.html#drawOnCanvas">drawOnCanvas</a></li><li><a href="global.html#get_date">get_date</a></li><li><a href="global.html#get_family_name">get_family_name</a></li><li><a href="global.html#get_first_name">get_first_name</a></li><li><a href="global.html#get_message">get_message</a></li><li><a href="global.html#get_name">get_name</a></li><li><a href="global.html#get_pixel_pair">get_pixel_pair</a></li><li><a href="global.html#get_roomId">get_roomId</a></li><li><a href="global.html#get_story_description">get_story_description</a></li><li><a href="global.html#get_story_image">get_story_image</a></li><li><a href="global.html#get_story_title">get_story_title</a></li><li><a href="global.html#getCachedData">getCachedData</a></li><li><a href="global.html#getKnowledgeGraphFromCachedData">getKnowledgeGraphFromCachedData</a></li><li><a href="global.html#getRndColor">getRndColor</a></li><li><a href="global.html#getStoryFromCachedData">getStoryFromCachedData</a></li><li><a href="global.html#hideLoginInterface">hideLoginInterface</a></li><li><a href="global.html#hideOfflineWarning">hideOfflineWarning</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initCanvas">initCanvas</a></li><li><a href="global.html#initChatSocket">initChatSocket</a></li><li><a href="global.html#initDatabase">initDatabase</a></li><li><a href="global.html#initKG">initKG</a></li><li><a href="global.html#initStories">initStories</a></li><li><a href="global.html#initStory">initStory</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadStoryData">loadStoryData</a></li><li><a href="global.html#onLoadLoginPage">onLoadLoginPage</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#putItem">putItem</a></li><li><a href="global.html#queryMainEntity">queryMainEntity</a></li><li><a href="global.html#refreshStoryList">refreshStoryList</a></li><li><a href="global.html#removeDuplicates">removeDuplicates</a></li><li><a href="global.html#retrieveAllStoriesData">retrieveAllStoriesData</a></li><li><a href="global.html#selectItem">selectItem</a></li><li><a href="global.html#sendChatText">sendChatText</a></li><li><a href="global.html#showOfflineWarning">showOfflineWarning</a></li><li><a href="global.html#signup">signup</a></li><li><a href="global.html#storeCachedData">storeCachedData</a></li><li><a href="global.html#storeKnowledgeGraphToCachedData">storeKnowledgeGraphToCachedData</a></li><li><a href="global.html#storeStoryToCachedData">storeStoryToCachedData</a></li><li><a href="global.html#widgetInit">widgetInit</a></li><li><a href="global.html#writeOnChatHistory">writeOnChatHistory</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 03:45:37 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri May 20 2022 13:28:30 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

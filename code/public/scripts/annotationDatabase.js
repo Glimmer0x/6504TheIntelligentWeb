@@ -53,10 +53,10 @@ window.initDatabase= initDatabase;
 
 /**
  * it saves the annotation in localStorage
- * @param name
- * @param roomId
- * @param AnnotationObject
- * @returns {Promise<void>}
+ * @param {string} name user id in a chat room
+ * @param {string} roomId id of a chat room
+ * @param {object} AnnotationObject object of annotation
+ * @returns {Promise<void>} set item
  */
 async function storeCachedData(name, roomId, AnnotationObject) {
     // console.log('inserting: '+JSON.stringify(storyObject));
@@ -147,9 +147,9 @@ window.getAllAnnotation = getAllAnnotation
 
 /**
  * it retrieves the annotation for the specific roomId from the database
- * @param name
- * @param roomId
- * @returns {Promise<*[]>}
+ * @param {string} name user id in a chat room
+ * @param {string} roomId id of a chat room
+ * @returns {array} using Promise to get a list of cached data
  */
 async function getCachedData(name, roomId) {
     if (!db)
@@ -180,8 +180,13 @@ window.getCachedData= getCachedData;
 
 
 /**
+<<<<<<< HEAD
+ * given the local cached annotation data, it returns the value of the field name
+ * @param {object} dataR the cached annotation object
+ * @returns {string} return 'unavailable' if dataR is null else return the value of the field name
+=======
  * it retrieves all knowledge graph from the database
- * @returns {Promise<*|*[]>}
+ * @returns {array} using Promise to get a list of cached data
  */
 async function getKnowledgeGraphFromCachedData() {
     if (!db)
@@ -210,9 +215,9 @@ async function getKnowledgeGraphFromCachedData() {
 window.getKnowledgeGraphFromCachedData= getKnowledgeGraphFromCachedData;
 
 /**
- * given the server data, it returns the value of the field name
- * @param dataR the data returned by the server
- * @returns {*}
+ * given the local cached annotation data, it returns the value of the field name
+ * @param {object} dataR the cached annotation object
+ * @returns {string} return 'unavailable' if dataR is null else return the value of the field name
  */
 function get_name(dataR) {
     if (dataR.name == null && dataR.name === undefined)
@@ -222,9 +227,9 @@ function get_name(dataR) {
 window.get_name=get_name;
 
 /**
- * given the server data, it returns the value of the field roomId
- * @param dataR the data returned by the server
- * @returns {*}
+ * given the local cached annotation data, it returns the value of the field roomId
+ * @param {object} dataR the cached annotation object
+ * @returns {string} return 'unavailable' if dataR is null else return the value of the field roomId
  */
 function get_roomId(dataR) {
     if (dataR.roomId == null && dataR.roomId === undefined)
@@ -234,9 +239,9 @@ function get_roomId(dataR) {
 window.get_roomId=get_roomId;
 
 /**
- * given the server data, it returns the value of the field pixel_pair
- * @param dataR the data returned by the server
- * @returns {*}
+ * given the local cached annotation data, it returns the value of the field pixel_pair
+ * @param {object} dataR the cached annotation object
+ * @returns {array} return 'unavailable' if dataR is null else return pixel_pair
  */
 function get_pixel_pair(dataR) {
     if (dataR.pixel_pair == null && dataR.pixel_pair === undefined)
@@ -247,9 +252,9 @@ window.get_pixel_pair=get_pixel_pair;
 
 
 /**
- * given the server data, it returns the value of the field date
- * @param dataR the data returned by the server
- * @returns {*}
+ * given the local cached annotation data, it returns the value of the field date
+ * @param {object} dataR the cached annotation object
+ * @returns {string} return 'unavailable' if dataR is null else return the value of the field date
  */
 function get_date(dataR) {
     if (dataR.date == null && dataR.date === undefined)
@@ -259,9 +264,9 @@ function get_date(dataR) {
 window.get_date=get_date;
 
 /**
- * given the server data, it returns the value of the field message
- * @param dataR the data returned by the server
- * @returns {*}
+ * given the local cached annotation data, it returns the value of the field message
+ * @param {object} dataR the cached annotation object
+ * @returns {string} return 'unavailable' if dataR is null else return the message of the object
  */
 function get_message(dataR) {
     if (dataR.message == null && dataR.message === undefined)
