@@ -43,9 +43,11 @@ function initChatSocket() {
     chat.on('chat', function (room, userId, chatText) {
         let who = userId;
         let date = new Date(Date.now()).toISOString()
+        let story_title = document.getElementById('story_title').innerText;
         let data = {
             'name': who,
             'roomId': room,
+            'story_title': story_title,
             'pixel_pair':[],
             'message': chatText,
             'date': date
@@ -63,10 +65,12 @@ function initChatSocket() {
  */
 function sendChatText() {
     let chatText = document.getElementById('chat_input').value;
+    let story_title = document.getElementById('story_title').innerText;
     let date = new Date(Date.now()).toISOString()
     let data = {
         'name': name,
         'roomId': roomNo,
+        'story_title': story_title,
         'pixel_pair':[],
         'message': chatText,
         'date': date
@@ -88,7 +92,7 @@ function connectToRoom() {
     if (!name) name = 'Unknown-' + Math.random();
     chat.emit('create or join', roomNo, name);
     let data = {'story_title': story_title}
-    console.log(roomNo)
+    // console.log(roomNo)
     axios.post('/singleStory', data)
         .then((response) => {
             let instance = response.data

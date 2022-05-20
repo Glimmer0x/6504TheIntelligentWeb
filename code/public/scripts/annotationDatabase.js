@@ -121,6 +121,31 @@ async function storeKnowledgeGraphToCachedData(KnowledgeGraphObject) {
 window.storeKnowledgeGraphToCachedData=storeKnowledgeGraphToCachedData;
 
 /**
+ * it retrieves all annotations
+ * @returns {Promise<*>}
+ */
+async function getAllAnnotation() {
+    if (!db)
+        await initDatabase();
+    if (db) {
+        try {
+            let tx = await db.transaction(ANNOTATION_STORE_NAME, 'readonly');
+            let store = await tx.objectStore(ANNOTATION_STORE_NAME);
+            let index = await store.index('roomId');
+            let readingsList = await index.getAll();
+            await tx.complete;
+            // console.log(readingsList)
+            return readingsList;
+        } catch (error) {
+            console.log(error)
+        }
+    } else {
+        console.log('error')
+    }
+}
+window.getAllAnnotation = getAllAnnotation
+
+/**
  * it retrieves the annotation for the specific roomId from the database
  * @param name
  * @param roomId
@@ -136,33 +161,9 @@ async function getCachedData(name, roomId) {
             let store = await tx.objectStore(ANNOTATION_STORE_NAME);
             let index = await store.index('roomId');
             let readingsList = await index.getAll(IDBKeyRange.only(roomId));
-            // let currentCursor = store.openCursor(IDBKeyRange.upperBound(new Date(Date.now()), true), "prev").onsuccess = e => {
-            //     let cursor = e.target.result;
-            //     if (cursor) {
-            //         // solve(cursor);
-            //         console.log(get_date(cursor))
-            //         cursor.continue(); // 移到下一个位置
-            //     }
-            // }
             await tx.complete;
             // console.log(readingsList)
             return readingsList;
-            // let finalResults=[];
-            // if (readingsList && readingsList.length > 0) {
-            //     let max;
-            //     for (let elem of readingsList)
-            //         if (!max || elem.date > max.date)
-            //             max = elem;
-            //     if (max)
-            //         finalResults.push(max);
-            //     return finalResults;
-            // } else {
-            //     const value = localStorage.getItem(name);
-            //     if (value == null)
-            //         return finalResults;
-            //     else finalResults.push(value);
-            //     return finalResults;
-            // }
         } catch (error) {
             console.log(error);
         }
@@ -277,4 +278,10 @@ function get_canvas(dataR) {
 }
 window.get_canvas=get_canvas;
 
+function get_story(dataR) {
+    if (dataR.story_title == null && dataR.message === undefined)
+        return "unavailable";
+    else return dataR.story_title;
+}
+window.get_story=get_story;
 

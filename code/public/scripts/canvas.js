@@ -147,7 +147,7 @@ function initCanvas(roomNo, img_url, name) {
                             putItem(i.id, i.name, i.rc, i.qc, borderColor)
                         }
                     })
-                    .then(() => {
+                    .catch(() => {
                         console.log('get cached knowledge graph error')
                     })
             }

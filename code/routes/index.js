@@ -22,6 +22,13 @@ router.get('/index', function(req, res, next) {
 router.get('/allStories', story.getStories);
 router.post('/singleStory', story.getSingleStory);
 router.post('/insertStory', story.insert);
-router.post('/updateStory', story.update)
+router.post('/updateStory', story.update);
+
+router.get('/history', function(req, res, next) {
+    /*
+    #swagger.description = 'History page. Display all stories.'
+    */
+    res.render('history', { title: 'Story Club' });
+})
 
 module.exports = router;

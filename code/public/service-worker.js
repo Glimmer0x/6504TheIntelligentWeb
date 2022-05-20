@@ -86,7 +86,9 @@ self.addEventListener('fetch', function (e) {
     var dataUrl = '/allStories';
     let urlList = ['/allStories', '/singleStory', '/insertStory']
     //if the request is '/weather_data', post to the server - do nit try to cache it
-    if (e.request.url.indexOf('/allStories') > -1 || e.request.url.indexOf('/insertStory') > -1 || e.request.url.indexOf('/updateStory') > -1){
+    if (e.request.url.indexOf('/allStories') > -1 || e.request.url.indexOf('/insertStory') > -1 || e.request.url.indexOf('/updateStory') > -1
+    || e.request.url.indexOf('/widget') > -1 || e.request.url.indexOf('/kgsearch') > -1 || e.request.url.indexOf('/encrypted-tbn') > -1
+    ){
         /*
          * When the request URL contains dataUrl, the app is asking for fresh
          * weather data. In this case, the service worker always goes to the
@@ -96,7 +98,7 @@ self.addEventListener('fetch', function (e) {
          */
         return fetch(e.request)
             .then( (response) => {
-                console.log(response)
+                // console.log(response)
                 // note: it the network is down, response will contain the error
                 // that will be passed to Ajax
                 return response;
@@ -114,6 +116,7 @@ self.addEventListener('fetch', function (e) {
          */
         e.respondWith(
             caches.match(e.request).then(function (response) {
+                // console.log(response)
                 return response
                     || fetch(e.request)
                         .then(function (response) {
@@ -123,7 +126,7 @@ self.addEventListener('fetch', function (e) {
                             if (!response.ok ||  response.statusCode>299) {
                                 console.log("error: " + response.error());
                             } else {
-                                console.log(response)
+                                // console.log(response)
                                 // caches.add(response.clone());
                                 return response;
                             }
