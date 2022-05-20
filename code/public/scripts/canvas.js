@@ -19,10 +19,13 @@ function initCanvas(roomNo, name) {
 
     // capture the event on the socket when someone else is drawing on their canvas
     chat.on('draw', function (room, name, w, h, px, py, cx, cy, c, t) {
+
         let date = new Date(Date.now()).toISOString()
+        let story_title = document.getElementById('story_title').innerText;
         let data = {
             'name': name,
             'roomId': room,
+            'story_title': story_title,
             'pixel_pair': [px, py, cx, cy],
             'canvas': [w, h, c, t],
             'message': '',
@@ -38,7 +41,7 @@ function initCanvas(roomNo, name) {
         prevY = currY;
         currX = e.clientX - canvas.position().left - cvx.offsetParent.offsetLeft;
         currY = e.clientY - canvas.position().top -cvx.offsetParent.offsetTop;
-
+        let story_title = document.getElementById('story_title').innerText;
         if (e.type === 'mousedown') {
             flag = true;
         }
@@ -52,6 +55,7 @@ function initCanvas(roomNo, name) {
                 let data = {
                     'name': name,
                     'roomId': roomNo,
+                    'story_title': story_title,
                     'pixel_pair': [prevX, prevY, currX, currY],
                     'canvas': [canvas.width, canvas.height, color, thickness],
                     'message': '',

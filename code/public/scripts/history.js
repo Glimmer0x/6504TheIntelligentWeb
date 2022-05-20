@@ -70,43 +70,39 @@ function initHistory() {
  * @param forceReload true if the data is to be loaded from the server
  */
 function loadData() {
+    let roomList = {}
     getAllAnnotation()
         .then((dataR) => {
             let list = dataR
             for (let instance of list) {
-                console.log(instance)
+                // console.log(instance)
+                let room = get_roomId(instance)
+                if (!(room in roomList)) {
+                    roomList[room] = {
+                        'room': room,
+                        'user': [get_name(instance)],
+                        'story': get_story(instance)
+                    }
+                } else {
+                    let user = get_name(instance)
+                    let userList = roomList[room]['user']
+                    if (userList.indexOf(user) === -1) {
+                        roomList[room]['user'].push(user)
+                    }
+                }
             }
-            // console.log(dataR)
         })
-    // console.log(annotatinoList)
-}
-
-/**
- * it cycles through the list of stories and requests the data from the server for each
- * story
- * @param storyList the list of the cities the user has requested
- * @param forceReload true if the data is to be retrieved from the server
- */
-function retrieveAllStoriesData(storyList, forceReload){
-    refreshStoryList();
-    if (forceReload) {
-        axios.get('/allStories')
-            .then((dataR) => {
-                let storyList = dataR.data
-                for (let index in storyList) {
-                    addToStoryList(storyList[index], forceReload)
-                    storeStoryToCachedData(storyList[index].story_title, storyList[index])
-                }
-                }
-            )
-            .catch(()=> {
-                console.log('get all stories error')
-            })
-    } else {
-        for (let index in storyList)
-            loadStoryData(storyList[index], forceReload);
-    }
-
+        .then(async () => {
+            console.log(roomList)
+            for (let i in roomList) {
+                console.log(roomList[i]['story'])
+                // let cachedData= await getStoryFromCachedData(roomList[i]['story']);
+                // cachedData.then(()=>{})
+                // console.log(cachedData)
+                await loadStoryData(roomList[i]['story'],  roomList[i]['user'], roomList[i]['room']);
+                // console.log(roomList[i])
+            }
+        })
 }
 
 /**
@@ -115,13 +111,13 @@ function retrieveAllStoriesData(storyList, forceReload){
  * @param story_title
  * @param forceReload false if the data is to be retrieved from the database
  */
-async function loadStoryData(story_title, forceReload){
+async function loadStoryData(story_title, userList, roomId){
     let cachedData=await getStoryFromCachedData(story_title);
 
     // console.log(cachedData);
-    if (!forceReload && cachedData && cachedData.length>0) {
+    if (cachedData && cachedData.length>0) {
         for (let res of cachedData)
-            addToStoryList(res, forceReload);
+            addToStoryList(res, userList, roomId);
     } else {
         console.log('nothing in cached data')
     }
@@ -149,7 +145,7 @@ async function loadStoryData(story_title, forceReload){
  *}
  *
  */
-function addToStoryList(dataR, forceReload) {
+function addToStoryList(dataR, userList, roomId) {
     let cardElement = document.createElement('div');
     document.getElementById('story-list').appendChild(cardElement);
     // appending a new column
@@ -158,21 +154,12 @@ function addToStoryList(dataR, forceReload) {
     // the following is far from ideal. we should really create divs using javascript
     // rather than assigning innerHTML
     let _story_title, _first_name, _family_name, _date, _story_description, _story_image;
-    if (!forceReload) {
-        _story_title = get_story_title(dataR);
-        _first_name = get_first_name(dataR);
-        _family_name = get_family_name(dataR);
-        _date = get_date(dataR);
-        _story_description = get_story_description(dataR);
-        _story_image = get_story_image(dataR);
-    } else {
-        _story_title = dataR.story_title;
-        _first_name = dataR.first_name;
-        _family_name = dataR.family_name;
-        _date = dataR.date;
-        _story_description = dataR.story_description;
-        _story_image = dataR.story_image;
-    }
+    _story_title = get_story_title(dataR);
+    _first_name = get_first_name(dataR);
+    _family_name = get_family_name(dataR);
+    _date = get_date(dataR);
+    _story_description = get_story_description(dataR);
+    _story_image = get_story_image(dataR);
 
     cardElement.innerHTML = "<div class=\"card h-100\">" +
         "<img class=\"card-img-top\" src='" + _story_image + "' alt=\"Card image\">" +
@@ -180,85 +167,12 @@ function addToStoryList(dataR, forceReload) {
         "<h5 class=\"card-title\">" + _story_title + "</h5>" +
         "<h6>By " + _first_name + " " + _family_name + "</h6>" +
         "<p class=\"card-text\">" + _story_description + "</p>" +
+        "<p class=\"card-text\">" + "Users who participated: " + userList + "</p>" +
+        "<p class=\"card-text\">" + "room ID: " + roomId + "</p>" +
         "<a href='" + '/chat/story/' + _story_title + "' class=\"btn btn-primary\">Discussion</a>" +
         "</div>" +
         "<div class=\"card-footer\">" +
         "<small class=\"text-muted\"> Created At " + _date + "</small>" +
         "</div>" +
         "</div>";
-}
-
-/**
- * it removes all stories from the story-list div
- */
-function refreshStoryList(){
-    if (document.getElementById('story-list')!=null)
-        document.getElementById('story-list').innerHTML='';
-}
-
-/**
- * When the client gets off-line, it shows an off line warning to the user
- * so that it is clear that the data is stale
- */
-window.addEventListener('offline', function(e) {
-    // Queue up events for server.
-    console.log("You are offline");
-    showOfflineWarning();
-    alert('you are offline')
-}, false);
-
-/**
- * When the client gets online, it hides the off line warning
- */
-window.addEventListener('online', async function(e) {
-    // Resync data with server.
-    console.log("You are online");
-    hideOfflineWarning();
-    // alert('you are online')
-    // loadData(true)
-    let storyList = JSON.parse(localStorage.getItem('stories'));
-    storyList = removeDuplicates(storyList);
-    let promiseList = []
-    for (let i = 0; i < storyList.length; i++) {
-        let cachedData=await getStoryFromCachedData(storyList[i]);
-        let data = {
-            "story_title": storyList[i],
-            'first_name': get_first_name(cachedData[0]),
-            'family_name': get_family_name(cachedData[0]),
-            'story_description': get_story_description(cachedData[0]),
-            'story_image': get_story_image(cachedData[0]),
-            'date': get_date(cachedData[0])
-        }
-        promiseList.push(axios.post('/updateStory', data))
-    }
-    Promise.all(promiseList)
-        .then(()=> {
-            loadData(true)
-        })
-}, false);
-
-
-function showOfflineWarning(){
-    if (document.getElementById('offline_div')!=null)
-        document.getElementById('offline_div').style.display='block';
-
-}
-
-function hideOfflineWarning(){
-    if (document.getElementById('offline_div')!=null)
-        document.getElementById('offline_div').style.display='none';
-}
-
-/**
- * Given a list of stories, it removes any duplicates
- * @param storyList
- * @returns {Array}
- */
-function removeDuplicates(storyList) {
-    // remove any duplicate
-    var uniqueNames=[];
-    $.each(storyList, function(i, el){
-        if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
-    });
-    return uniqueNames;
 }
