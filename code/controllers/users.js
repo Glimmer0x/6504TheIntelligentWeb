@@ -18,8 +18,21 @@ exports.checkUser = function (req, res) {
 }
 
 exports.insert = function (req, res) {
-    // #swagger.tags = ['User']
-    // #swagger.description = 'Endpoint para obter um usuário.'
+    /* #swagger.parameters['body'] = {
+                in: 'body',
+                description: 'Adding new user',
+                schema: { $ref: '#/components/schemas/User' }
+    }
+    #swagger.responses[200] = {
+           description: 'Add a user successfully'
+   }
+   #swagger.responses[403] = {
+           description: 'Forbidden'
+   }
+   #swagger.responses[500] = {
+           description: 'Internal Server Error'
+   }
+   */
     let userData = req.body;
     if (userData == null) {
         res.status(403).send('No data sent!')

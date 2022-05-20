@@ -9,6 +9,44 @@ const doc = {
     schemes: ['http'],
     consumes: ['application/json'],
     produces: ['application/json'],
+    components: {
+        schemas: {
+            Story: {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "example": "any"
+                    },
+                    "family_name": {
+                        "example": "any"
+                    },
+                    "story_title": {
+                        "example": "any"
+                    },
+                    "story_image": {
+                        "example": "any"
+                    },
+                    "story_description": {
+                        "example": "any"
+                    },
+                    "date": {
+                        "example": "any"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "example": "any"
+                    },
+                    "password": {
+                        "example": "any"
+                    }
+                }
+            }
+        }
+    }
 };
 
 const outputFile = './swagger-output.json';

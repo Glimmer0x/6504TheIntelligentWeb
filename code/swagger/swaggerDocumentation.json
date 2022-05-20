@@ -1,20 +1,25 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.2",
   "info": {
-    "title": "My API",
-    "description": "Description",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "title": "StoryClub",
+    "description": "User management API",
+    "termsOfService": "http://api_url/terms/",
+    "contact": {
+      "name": "COM3504/6504",
+      "email": "lliu74@shef.ac.uk",
+      "url": "https://github.com/Kity2023"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
   },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "the only Local server"
+    }
   ],
   "paths": {
     "/": {
@@ -37,7 +42,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Get all stories successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Story"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -80,27 +95,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "first_name": {
-                  "example": "any"
-                },
-                "family_name": {
-                  "example": "any"
-                },
-                "story_title": {
-                  "example": "any"
-                },
-                "story_image": {
-                  "example": "any"
-                },
-                "story_description": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/components/schemas/Story"
             }
           }
         ],
@@ -125,27 +120,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "story_title": {
-                  "example": "any"
-                },
-                "first_name": {
-                  "example": "any"
-                },
-                "family_name": {
-                  "example": "any"
-                },
-                "story_image": {
-                  "example": "any"
-                },
-                "story_description": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/components/schemas/Story"
             }
           }
         ],
@@ -178,15 +153,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/components/schemas/User"
             }
           }
         ],
@@ -207,12 +174,14 @@
         "responses": {}
       },
       "post": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para obter um usuário.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Adding new user",
             "schema": {
               "$ref": "#/components/schemas/User"
             }
@@ -220,7 +189,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Add a user successfully."
+            "description": "OK"
           },
           "403": {
             "description": "Forbidden"
@@ -233,41 +202,41 @@
     }
   },
   "components": {
-    "schemas": {
-      "Story": {
-        "type": "object",
-        "properties": {
-          "first_name": {
-            "example": "any"
-          },
-          "family_name": {
-            "example": "any"
-          },
-          "story_title": {
-            "example": "any"
-          },
-          "story_image": {
-            "example": "any"
-          },
-          "story_description": {
-            "example": "any"
-          },
-          "date": {
-            "example": "any"
+      "schemas": {
+        "Story": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "example": "any"
+            },
+            "family_name": {
+              "example": "any"
+            },
+            "story_title": {
+              "example": "any"
+            },
+            "story_image": {
+              "example": "any"
+            },
+            "story_description": {
+              "example": "any"
+            },
+            "date": {
+              "example": "any"
+            }
           }
-        }
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "example": "any"
-          },
-          "password": {
-            "example": "any"
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "example": "any"
+            },
+            "password": {
+              "example": "any"
+            }
           }
         }
       }
     }
-  }
 }
