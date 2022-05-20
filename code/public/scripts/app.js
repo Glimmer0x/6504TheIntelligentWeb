@@ -74,6 +74,11 @@ function initStories() {
     else {
         console.log('This browser doesn\'t support IndexedDB');
     }
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker
+    //         .register('./service-worker.js')
+    //         .then(function() { console.log('Service Worker Registered'); });
+    // }
     loadData(true);
 }
 
@@ -101,7 +106,9 @@ function loadData(forceReload) {
             localStorage.setItem('stories', JSON.stringify(storyList));
             })
             .catch(() => {
-                console.log('get all stories error')
+                for (let index in storyList)
+                    loadStoryData(storyList[index], false);
+                // console.log('get all stories error')
             })
     } else {
         for (let index in storyList)
@@ -146,7 +153,7 @@ function retrieveAllStoriesData(storyList, forceReload){
 async function loadStoryData(story_title, forceReload){
     let cachedData=await getCachedData(story_title);
 
-    console.log(cachedData);
+    // console.log(cachedData);
     if (!forceReload && cachedData && cachedData.length>0) {
         for (let res of cachedData)
             addToStoryList(res, forceReload);
@@ -232,6 +239,7 @@ window.addEventListener('offline', function(e) {
     // Queue up events for server.
     console.log("You are offline");
     showOfflineWarning();
+    alert('you are offline')
 }, false);
 
 /**
@@ -241,6 +249,7 @@ window.addEventListener('online', async function(e) {
     // Resync data with server.
     console.log("You are online");
     hideOfflineWarning();
+    // alert('you are online')
     // loadData(true)
     let storyList = JSON.parse(localStorage.getItem('stories'));
     storyList = removeDuplicates(storyList);
