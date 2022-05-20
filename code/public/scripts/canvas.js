@@ -135,6 +135,18 @@ function initCanvas(roomNo, img_url, name) {
                     .catch(() => {
                         console.log('get cached data error')
                     })
+
+                getKnowledgeGraphFromCachedData()
+                    .then((dataR)=> {
+                        let knowledgeList = dataR
+                        let borderColor = getRndColor();
+                        for (let i of knowledgeList) {
+                            putItem(i.id, i.name, i.rc, i.qc, borderColor)
+                        }
+                    })
+                    .then(() => {
+                        console.log('get cached knowledge graph error')
+                    })
             }
         }, 10);
     });

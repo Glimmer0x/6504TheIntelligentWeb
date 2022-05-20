@@ -12,11 +12,13 @@ import * as idb from './idb/index.js';
  *    this.date= date;
  *  }
  *}
+ *
  */
 let db;
 
 const ANNOTATION_DB_NAME= 'db_annotation';
 const ANNOTATION_STORE_NAME= 'store_annotation';
+const KNOWLEDGE_GRAPH_STORE_NAME = 'store_knowledge_graph';
 
 /**
  * it inits the database
@@ -32,6 +34,14 @@ async function initDatabase(){
                     });
                     storyDB.createIndex('name', 'name', {unique: false, multiEntry: true});
                     storyDB.createIndex('roomId', 'roomId', {unique: false, multiEntry: true});
+                }
+                if (!upgradeDb.objectStoreNames.contains(KNOWLEDGE_GRAPH_STORE_NAME)) {
+                    let knowledgeGraphDB = upgradeDb.createObjectStore(KNOWLEDGE_GRAPH_STORE_NAME, {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    });
+                    knowledgeGraphDB.createIndex('id', 'id', {unique: true, multiEntry: true});
+                    // knowledgeGraphDB.createIndex('roomId', 'roomId', {unique: false, multiEntry: true});
                 }
             }
         });
@@ -66,6 +76,48 @@ async function storeCachedData(name, roomId, AnnotationObject) {
 }
 
 window.storeCachedData=storeCachedData;
+
+/**
+ * it saves the knowledge graph in localStorage
+ * @param KnowledgeGraphObject
+ * @returns {Promise<void>}
+ */
+async function storeKnowledgeGraphToCachedData(KnowledgeGraphObject) {
+    // console.log('inserting: '+JSON.stringify(storyObject));
+    if (!db)
+        await initDatabase();
+    if (db) {
+        try{
+            let result = await getKnowledgeGraphFromCachedData()
+            let arr = Object.keys(result)
+            if (arr.length !== 0) {
+                for (let i of result) {
+                    if(i.id === KnowledgeGraphObject.id) {
+                        console.log('item already exists')
+                    } else {
+                        let tx = await db.transaction(KNOWLEDGE_GRAPH_STORE_NAME, 'readwrite');
+                        let store = await tx.objectStore(KNOWLEDGE_GRAPH_STORE_NAME);
+                        await store.put(KnowledgeGraphObject);
+                        await  tx.complete;
+                        console.log('add item to the IndexDB! ');
+                    }
+                }
+            } else {
+                let tx = await db.transaction(KNOWLEDGE_GRAPH_STORE_NAME, 'readwrite');
+                let store = await tx.objectStore(KNOWLEDGE_GRAPH_STORE_NAME);
+                await store.put(KnowledgeGraphObject);
+                await  tx.complete;
+                console.log('add item to the IndexDB! ');
+            }
+
+        } catch(error) {
+            localStorage.setItem(name, JSON.stringify(KnowledgeGraphObject));
+        };
+    }
+    else localStorage.setItem(name, JSON.stringify(KnowledgeGraphObject));
+}
+
+window.storeKnowledgeGraphToCachedData=storeKnowledgeGraphToCachedData;
 
 /**
  * it retrieves the annotation for the specific roomId from the database
@@ -124,6 +176,36 @@ async function getCachedData(name, roomId) {
 }
 window.getCachedData= getCachedData;
 
+
+/**
+ * it retrieves all knowledge graph from the database
+ * @returns {Promise<*|*[]>}
+ */
+async function getKnowledgeGraphFromCachedData() {
+    if (!db)
+        await initDatabase();
+    if (db) {
+        try {
+            let tx = await db.transaction(KNOWLEDGE_GRAPH_STORE_NAME, 'readonly');
+            let store = await tx.objectStore(KNOWLEDGE_GRAPH_STORE_NAME);
+            let index = await store.index('id');
+            let readingsList = await index.getAll();
+            await tx.complete;
+            // console.log(readingsList)
+            return readingsList;
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        const value = localStorage.getItem(name);
+        let finalResults=[];
+        if (value == null)
+            return finalResults;
+        else finalResults.push(value);
+        return finalResults;
+    }
+}
+window.getKnowledgeGraphFromCachedData= getKnowledgeGraphFromCachedData;
 
 /**
  * given the server data, it returns the value of the field name
