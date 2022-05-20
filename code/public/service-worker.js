@@ -85,9 +85,9 @@ self.addEventListener('fetch', function (e) {
     console.log('[Service Worker] Fetch', e.request.url);
     var dataUrl = '/allStories';
     let urlList = ['/allStories', '/singleStory', '/insertStory']
-    //if the request is '/weather_data', post to the server - do nit try to cache it
+    //if the request must online, post to the server - do nit try to cache it
     if (e.request.url.indexOf('/allStories') > -1 || e.request.url.indexOf('/insertStory') > -1 || e.request.url.indexOf('/updateStory') > -1
-    || e.request.url.indexOf('/widget') > -1 || e.request.url.indexOf('/kgsearch') > -1 || e.request.url.indexOf('/encrypted-tbn') > -1
+    || e.request.url.indexOf('/widget') > -1 || e.request.url.indexOf('/kgsearch') > -1 || e.request.url.indexOf('/encrypted-tbn') > -1 || e.request.url.indexOf('/api-docs') > -1
     ){
         /*
          * When the request URL contains dataUrl, the app is asking for fresh

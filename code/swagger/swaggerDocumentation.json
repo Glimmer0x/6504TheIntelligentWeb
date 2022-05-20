@@ -164,7 +164,7 @@
     },
     "/updateStory": {
       "post": {
-        "description": "@todo.",
+        "description": "update story. when system goes online from offline, it will check if the story in indexDB exists in mongoDB, if not, insert the story into mongoDB",
         "parameters": [],
         "responses": {
           "200": {
@@ -209,6 +209,13 @@
             }
           }
         }
+      }
+    },
+    "/history": {
+      "get": {
+        "description": "History page. Display all stories.",
+        "parameters": [],
+        "responses": {}
       }
     },
     "/login": {
