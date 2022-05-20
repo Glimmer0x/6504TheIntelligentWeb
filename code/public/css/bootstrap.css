@@ -12011,8 +12011,3 @@ body {
 .modal-content .text-muted {
   color: rgba(255, 255, 255, 0.7) !important;
 }
-
-.resultPanel{
-  border: dotted gray 1px;
-  padding:10px
-}
